@@ -19,9 +19,8 @@ public class Gui extends JPanel {
 	JButton[][] board = new JButton[8][8];
 
 	public JToolBar tools = new JToolBar();
+	int[][] buttonGrid = new int[8][8];
 	
-	
-
 	public Gui(){
 		// menu bar
 		setBorder(new EmptyBorder(15,15,15,15));
@@ -54,7 +53,6 @@ public class Gui extends JPanel {
 				}
 			}
 		}
-		
 	}
 	
 	//Gets the chess board

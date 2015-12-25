@@ -18,10 +18,9 @@ public class Main {
 		Gui gui_button = new Gui();
 		frame.getContentPane().add(gui_button.tools, BorderLayout.PAGE_START);
 		frame.getContentPane().add(gui_button, BorderLayout.CENTER);
-		
 		frame.setVisible(true);
-		
 	}
+	
 	
 	
 	public static void main(String[] args) {
