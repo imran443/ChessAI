@@ -5,15 +5,20 @@ import java.awt.*;
 import javax.swing.*;
 
 public class Gui extends JPanel {
-	
-	
+	//Lower case letter are White and Upper case are Black
+	public static String chessBoard[][]={
+		        {"r","k","b","q","a","b","k","r"},
+		        {"p","p","p","p","p","p","p","p"},
+		        {" "," "," "," "," "," "," "," "},
+		        {" "," "," "," "," "," "," "," "},
+		        {" "," "," "," "," "," "," "," "},
+		        {" "," "," "," "," "," "," "," "},
+		        {"P","P","P","P","P","P","P","P"},
+		        {"R","K","B","Q","A","B","K","R"}};
 	JButton[][] board = new JButton[8][8];
-	
-	
 	public Gui(){
 		setBackground(Color.CYAN);
 		setLayout(new GridLayout(8, 8));
-		
 		
 		for(int i=0; i<board.length; i++){
 			for(int j=0; j<board[i].length; j++){
@@ -32,6 +37,11 @@ public class Gui extends JPanel {
 		}
 		
 	}
+	
+	//Gets the chess board
+		public String[][] returnChessboard(){
+			return chessBoard;
+		}
 	
 	
 	
