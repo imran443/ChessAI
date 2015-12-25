@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.*;
 
 public class ChessGUI {
+
 	public static void main(String[] args){
 		JFrame frame = new JFrame("Chess");
 		frame.setSize(1000, 1000);
@@ -16,4 +17,6 @@ public class ChessGUI {
 		
 		frame.setVisible(true);
 	}
+
+
 }
