@@ -14,7 +14,7 @@ public class Gui extends JPanel implements ActionListener{
 	// board of buttons
 	JButton[][] board = new JButton[8][8];
 	// menubar
-	JToolBar tools = new JToolBar();
+	public JToolBar tools = new JToolBar();
 	//Lower case letter are White and Upper case are Black
 	public static String chessBoard[][]={
 		        {"r","k","b","q","a","b","k","r"},
@@ -35,9 +35,6 @@ public class Gui extends JPanel implements ActionListener{
 	public static final int BLACK = 0, WHITE = 1;
 	public static final int QUEEN = 0, KING = 1,
             ROOK = 2, KNIGHT = 3, BISHOP = 4, PAWN = 5;
-    public static final int[] STARTING_ROW = {
-        ROOK, KNIGHT, BISHOP, KING, QUEEN, BISHOP, KNIGHT, ROOK
-    };
 
 	int[][] buttonGrid = new int[8][8];
 

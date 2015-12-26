@@ -10,6 +10,8 @@ public class Main {
 	String [][] chessBoard;
 	Pawn pawn;
 	
+	int blackPiece = 1;
+	int whitePiece = 0;
 	public Main(){
 		JFrame frame = new JFrame("Chess");
 		frame.setSize(1000, 1000);
@@ -26,7 +28,7 @@ public class Main {
 		chessBoard = gui_button.returnChessboard();
 		switch (chessBoard[a][b]) {
 		case "P":
-			
+			pawn.possibleMoves(a, b,blackPiece);
 			break;
 		case "R":
 			break;
