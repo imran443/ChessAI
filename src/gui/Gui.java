@@ -13,9 +13,10 @@ public class Gui extends JPanel implements ActionListener{
 	
 	// board of buttons
 	JButton[][] board = new JButton[8][8];
+	
 	// menubar
 	public JToolBar tools = new JToolBar();
-	//Lower case letter are White and Upper case are Black
+	//Lower case letter are Black and Upper case are White
 	public static String chessBoard[][]={
 		        {"r","k","b","q","a","b","k","r"},
 		        {"p","p","p","p","p","p","p","p"},
@@ -27,7 +28,7 @@ public class Gui extends JPanel implements ActionListener{
 		        {"R","K","B","Q","A","B","K","R"}};
 
 	
-	// Button for menu bar
+	//Button for menu bar
 	JButton new_game = new JButton("New Game");
 	JButton save = new JButton("Save");
 	JButton reset = new JButton("Reset");
@@ -37,6 +38,7 @@ public class Gui extends JPanel implements ActionListener{
             ROOK = 2, KNIGHT = 3, BISHOP = 4, PAWN = 5;
 
 	int[][] buttonGrid = new int[8][8];
+	
 
 	public Gui(){
 		createImages();
@@ -61,13 +63,14 @@ public class Gui extends JPanel implements ActionListener{
 				if((i%2 == 0 && j % 2 == 0) || (i%2 == 1 && j%2==1)){
 					JButton button = new JButton();
 					button.setBackground(Color.WHITE);
-					button.addActionListener(new MyActionListener(i, j));
+					button.addActionListener(new MyActionListener(i, j, board));
 					
 					add(button);
 					board[i][j] = button;
 				}else{
 					JButton button = new JButton();
 					button.setBackground(Color.BLACK);
+					button.addActionListener(new MyActionListener(i, j, board));
 					
 					add(button);
 					board[i][j] = button;
@@ -101,19 +104,21 @@ public class Gui extends JPanel implements ActionListener{
     }
 
 	//Gets the chess board
-		public String[][] returnChessboard(){
-			return chessBoard;
-		}
+	public String[][] returnChessboard(){
+		return chessBoard;
+	}
 
+	// gets the board
+	public void getBoard(){
+		
+	}
+	
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			
 		}
-	
-	
-	
-	
 	
 	
 }
