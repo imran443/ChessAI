@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.*;
 
-public class Gui extends JPanel implements MouseListener, MouseMotionListener{
+public class Gui extends JPanel implements ActionListener{
 	
 	// board of buttons
 	JButton[][] board = new JButton[8][8];
@@ -26,7 +26,6 @@ public class Gui extends JPanel implements MouseListener, MouseMotionListener{
 		        {"P","P","P","P","P","P","P","P"},
 		        {"R","K","B","Q","A","B","K","R"}};
 
-
 	
 	// Button for menu bar
 	JButton new_game = new JButton("New Game");
@@ -39,6 +38,8 @@ public class Gui extends JPanel implements MouseListener, MouseMotionListener{
     public static final int[] STARTING_ROW = {
         ROOK, KNIGHT, BISHOP, KING, QUEEN, BISHOP, KNIGHT, ROOK
     };
+
+	int[][] buttonGrid = new int[8][8];
 
 	public Gui(){
 		createImages();
@@ -63,7 +64,7 @@ public class Gui extends JPanel implements MouseListener, MouseMotionListener{
 				if((i%2 == 0 && j % 2 == 0) || (i%2 == 1 && j%2==1)){
 					JButton button = new JButton();
 					button.setBackground(Color.WHITE);
-					
+					button.addActionListener(new MyActionListener(i, j));
 					
 					add(button);
 					board[i][j] = button;
@@ -102,53 +103,15 @@ public class Gui extends JPanel implements MouseListener, MouseMotionListener{
         }
     }
 
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		int x = e.getX();
-		int y = e.getY();
-		System.out.println(x + " y:" + y);
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	//Gets the chess board
 		public String[][] returnChessboard(){
 			return chessBoard;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 	
 	
