@@ -27,7 +27,7 @@ public class Gui extends JPanel {
 		tools.setFloatable(false);
 		tools.add(new JButton("New Game"));
 		tools.addSeparator();
-		tools.add(new JButton("Save"));
+		tools.add(new JButton("Resign"));
 		tools.addSeparator();
 		tools.add(new JButton("Reset"));
 		
