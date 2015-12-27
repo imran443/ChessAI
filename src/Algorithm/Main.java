@@ -1,6 +1,8 @@
 package Algorithm;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
+
 import gui.Gui;
 import javax.swing.JFrame;
 
@@ -8,6 +10,7 @@ public class Main {
 	Gui gui;
 	//Chess board from GUI
 	String [][] chessBoard;
+	ArrayList<String> moves;
 	Pawn pawn;
 	
 	public Main(){
@@ -21,12 +24,12 @@ public class Main {
 	}
 	
 	//Used to check what piece is grabbed by mouse
-	public String permittedMoves(int a, int b){
+	public void permittedMoves(int a, int b){
 		//Gets the current chess board
 		chessBoard = gui.returnChessboard();
 		switch (chessBoard[a][b]) {
 		case "P":
-			pawn.possibleMoves(a, b,gui.WHITE,chessBoard);
+			moves = pawn.possibleMoves(a, b,Gui.WHITE,chessBoard);
 			break;
 		case "R":
 			break;
@@ -54,8 +57,12 @@ public class Main {
 			System.out.println("Not a real piece");
 			break;
 		}
-		return null;
 		
+	}
+	
+	//Gets the move list
+	public ArrayList<String> getMoveList(){
+		return moves;
 	}
 	
 	

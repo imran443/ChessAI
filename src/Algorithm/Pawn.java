@@ -2,19 +2,22 @@ package Algorithm;
 
 import java.util.ArrayList;
 
+import gui.Gui;
+
 public class Pawn extends Piece{
 	ArrayList<String> moves = new ArrayList<String>();
 	
-	public void possibleMoves(int sourceX, int sourceY, int PieceColor, String[][] chessBoard){
+	public ArrayList<String> possibleMoves(int sourceX, int sourceY, int pieceColor, String[][] chessBoard){
 		//The possible moves 
 		String pMove="";
 		//The new X coordinate for the piece
 		int newX;
+		int newY;
 		
 		//tells you if pawn is in original placement, For white pieces
 		if(chessBoard[sourceX+1][sourceY].equals(" ")){
 			newX = sourceX + 1;
-			pMove = newX + " "+ sourceY;
+			pMove = newX + " " + sourceY;
 			moves.add(pMove);
 		}
 		//If the two spots in front of it are empty and it is in the original position it can jump two spots
@@ -23,9 +26,28 @@ public class Pawn extends Piece{
 			pMove = newX + " " + sourceY;
 			moves.add(pMove);
 		}
+		//Can capture a black piece if itself is white piece in the diagonal
+		if(chessBoard[sourceX+1][sourceY+1].equals("p") && pieceColor == Gui.WHITE){
+			newX = sourceX + 1;
+			newY = sourceY + 1;
+			pMove = newX + " " + newY;
+			moves.add(pMove);
+		}
+		if(chessBoard[sourceX+1][sourceY-1].equals("p") && pieceColor == Gui.WHITE){
+			newX = sourceX + 1;
+			newY = sourceY - 1;
+			pMove = newX + " " + newY;
+			moves.add(pMove);
+		}
+		return moves;
 	}
 	
-	public boolean isValid(){
+	public boolean isValid(int sourceX, int sourceY, ArrayList<String> moves){
+		//If the Array List is empty then no possible moves have been calculated
+		if(moves.isEmpty()){
+			return true;
+		}
+		
 		return false;
 		
 	}
