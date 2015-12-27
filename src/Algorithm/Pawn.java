@@ -14,7 +14,7 @@ public class Pawn extends Piece{
 		int newX;
 		int newY;
 		
-		//tells you if pawn is in original placement, For white pieces
+		
 		if(chessBoard[sourceX+1][sourceY].equals(" ")){
 			newX = sourceX + 1;
 			pMove = newX + " " + sourceY;

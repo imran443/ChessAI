@@ -118,7 +118,7 @@ public class Gui extends JPanel implements ActionListener{
 		
 	}
 	
-	JButton click= null;
+	JButton firstClick = null;
 	ImageIcon mc = null;
 	public class ChessListener implements ActionListener {
 		
@@ -134,14 +134,14 @@ public class Gui extends JPanel implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			JButton clickButton = (JButton)e.getSource();
-			if(click == null){
-				click = clickButton;
-				mc = (ImageIcon) click.getIcon();
+			if(firstClick == null){
+				firstClick = clickButton;
+				mc = (ImageIcon) firstClick.getIcon();
 			}else{
 				if(clickButton.getIcon() == null){
 					clickButton.setIcon(mc);
-					click.setIcon(null);
-					click = null;
+					firstClick.setIcon(null);
+					firstClick = null;
 				}			
 			}
 			System.out.println("index in the array: " + row + " : " + column);
