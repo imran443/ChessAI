@@ -179,12 +179,23 @@ public class Gui extends JPanel implements ActionListener{
 			if(firstClick == null){
 				firstClick = clickButton;
 				mc = (ImageIcon) firstClick.getIcon();
+				// this method is used for updating chessBoard
 				storeSource(row, column);
-			}else{
+			}else if(firstClick != null && clickButton.getIcon() != null){
+				firstClick = clickButton;
+				mc = (ImageIcon) firstClick.getIcon();
+				// this method is used for updating chessBoard
+				storeSource(row, column);
+			}
+			else{
 				if(clickButton.getIcon() == null){
+					// updates the icon on the board
 					clickButton.setIcon(mc);
+					// sets the icon of first click position to null
 					firstClick.setIcon(null);
 					firstClick = null;
+					
+					// this method is used for updating chessBoard
 					UpdateChessBoard(row, column);
 					print(chessBoard);
 				}			

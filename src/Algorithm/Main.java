@@ -10,7 +10,7 @@ public class Main {
 	
 	public Main(){
 		JFrame frame = new JFrame("Chess");
-		frame.setSize(1000, 1000);
+		frame.setSize(800, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gui = new Gui();
 		frame.getContentPane().add(gui.tools, BorderLayout.PAGE_START);
