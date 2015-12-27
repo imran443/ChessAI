@@ -32,8 +32,8 @@ public class Gui extends JPanel implements ActionListener{
 	JButton reset = new JButton("Reset");
 	private Image[][] chessPieceImages = new Image[2][6];
 	public static final int BLACK = 0, WHITE = 1;
-	public static final int QUEEN = 0, KING = 1,
-            ROOK = 2, KNIGHT = 3, BISHOP = 4, PAWN = 5;
+	public static final int QUEEN = 0, KING = 1, ROOK = 2, KNIGHT = 3, BISHOP = 4, PAWN = 5;
+	public static final int[] STARTING_ROW = { ROOK, KNIGHT, BISHOP, KING, QUEEN, BISHOP, KNIGHT, ROOK};
 
 	int[][] buttonGrid = new int[8][8];
 	
@@ -77,11 +77,23 @@ public class Gui extends JPanel implements ActionListener{
 		}
 		
 		
-		// places pawns on chess board
-		 for (int i = 0; i < 8; i++) {
-		 	board[1][i].setIcon((new ImageIcon(
-                    chessPieceImages[BLACK][PAWN])));
-        }
+	// places black pawn pieces
+	 for (int i = 0; i < 8; i++) {
+	 	board[1][i].setIcon((new ImageIcon(chessPieceImages[BLACK][PAWN])));
+    }
+	// places black actual pieces
+	 for(int i=0; i<8; i++){
+		 board[0][i].setIcon((new ImageIcon(chessPieceImages[BLACK][STARTING_ROW[i]])));
+	 }
+		 
+	 // places the white pawn pieces
+	 for (int i = 0; i < 8; i++) {
+		 board[6][i].setIcon((new ImageIcon(chessPieceImages[WHITE][PAWN])));
+     }
+	 // places white actual pieces
+	 for(int i=0; i<8; i++){
+		 board[7][i].setIcon((new ImageIcon(chessPieceImages[WHITE][STARTING_ROW[i]])));
+	 }
 		
 	}
 	
