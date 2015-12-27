@@ -16,7 +16,7 @@ public class Gui extends JPanel implements ActionListener{
 	
 	// menubar
 	public JToolBar tools = new JToolBar();
-	//Lower case letter are White and Upper case are Black
+	//Lower case letter are Black and Upper case are White
 	public static String chessBoard[][]={
 		        {"r","k","b","q","a","b","k","r"},
 		        {"p","p","p","p","p","p","p","p"},
@@ -27,7 +27,6 @@ public class Gui extends JPanel implements ActionListener{
 		        {"P","P","P","P","P","P","P","P"},
 		        {"R","K","B","Q","A","B","K","R"}};
 
-	// Button for menu bar
 	JButton new_game = new JButton("New Game");
 	JButton save = new JButton("Save");
 	JButton reset = new JButton("Reset");
@@ -35,7 +34,6 @@ public class Gui extends JPanel implements ActionListener{
 	public static final int BLACK = 0, WHITE = 1;
 	public static final int QUEEN = 0, KING = 1,
             ROOK = 2, KNIGHT = 3, BISHOP = 4, PAWN = 5;
-   
 
 	int[][] buttonGrid = new int[8][8];
 	

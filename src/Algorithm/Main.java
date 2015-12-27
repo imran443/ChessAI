@@ -26,7 +26,7 @@ public class Main {
 		chessBoard = gui.returnChessboard();
 		switch (chessBoard[a][b]) {
 		case "P":
-			
+			pawn.possibleMoves(a, b,gui.WHITE,chessBoard);
 			break;
 		case "R":
 			break;
