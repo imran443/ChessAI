@@ -77,23 +77,25 @@ public class Gui extends JPanel implements ActionListener{
 		}
 		
 		
-	// places black pawn pieces
-	 for (int i = 0; i < 8; i++) {
-	 	board[1][i].setIcon((new ImageIcon(chessPieceImages[BLACK][PAWN])));
-    }
-	// places black actual pieces
-	 for(int i=0; i<8; i++){
-		 board[0][i].setIcon((new ImageIcon(chessPieceImages[BLACK][STARTING_ROW[i]])));
-	 }
+		// places black pawn pieces
+		 for (int i = 0; i < 8; i++) {
+		 	board[1][i].setIcon((new ImageIcon(chessPieceImages[BLACK][PAWN])));
+	    }
+		// places black actual pieces
+		 for(int i=0; i<8; i++){
+			 board[0][i].setIcon((new ImageIcon(chessPieceImages[BLACK][STARTING_ROW[i]])));
+		 }
+			 
+		 // places the white pawn pieces
+		 for (int i = 0; i < 8; i++) {
+			 board[6][i].setIcon((new ImageIcon(chessPieceImages[WHITE][PAWN])));
+	     }
+		 // places white actual pieces
+		 for(int i=0; i<8; i++){
+			 board[7][i].setIcon((new ImageIcon(chessPieceImages[WHITE][STARTING_ROW[i]])));
+		 }
 		 
-	 // places the white pawn pieces
-	 for (int i = 0; i < 8; i++) {
-		 board[6][i].setIcon((new ImageIcon(chessPieceImages[WHITE][PAWN])));
-     }
-	 // places white actual pieces
-	 for(int i=0; i<8; i++){
-		 board[7][i].setIcon((new ImageIcon(chessPieceImages[WHITE][STARTING_ROW[i]])));
-	 }
+		 
 		
 	}
 	
@@ -118,17 +120,45 @@ public class Gui extends JPanel implements ActionListener{
 		return chessBoard;
 	}
 
-	// gets the board
-	public void getBoard(){
-		
+	public void print(String[][] chessboard){
+		for(int i=0; i<chessboard.length; i++){
+			for(int j=0; j<chessboard[i].length; j++){
+				System.out.print(chessboard[i][j]);
+			}
+			System.out.println();
+		}
 	}
 	
-		
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
+	
+	// stores sourceX, sourceY and the piece at that position
+	String[] sourceArray = new String[3];
+	
+	// the clicked x,y and piece on the board
+	public void storeSource(int sourceX, int sourceY){
+		String row = "" + sourceX;
+		String column = "" + sourceY;
+		String temp = chessBoard[sourceX][sourceY];
+		
+		sourceArray[0] = row;
+		sourceArray[1] = column;
+		sourceArray[2] = temp;
+	}
+	
+	// updates the chessboard array according GUI moves
+	public void UpdateChessBoard(int newX, int newY){
+		// updates the position of the piece on the chessboard
+		chessBoard[newX][newY] = sourceArray[2];
+		chessBoard[Integer.parseInt(sourceArray[0])][Integer.parseInt(sourceArray[1])] = " ";
+		// resets it for the next move
+		sourceArray[0] = "";
+		sourceArray[1] = "";
+		sourceArray[2] = "";
+	}
+	
 	
 	JButton firstClick = null;
 	ImageIcon mc = null;
@@ -149,16 +179,20 @@ public class Gui extends JPanel implements ActionListener{
 			if(firstClick == null){
 				firstClick = clickButton;
 				mc = (ImageIcon) firstClick.getIcon();
+				storeSource(row, column);
 			}else{
 				if(clickButton.getIcon() == null){
 					clickButton.setIcon(mc);
 					firstClick.setIcon(null);
 					firstClick = null;
+					UpdateChessBoard(row, column);
+					print(chessBoard);
 				}			
 			}
 			System.out.println("index in the array: " + row + " : " + column);
 		}
 
 	}
+	
 	
 }
