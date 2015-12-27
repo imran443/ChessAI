@@ -27,8 +27,6 @@ public class Gui extends JPanel implements ActionListener{
 		        {"P","P","P","P","P","P","P","P"},
 		        {"R","K","B","Q","A","B","K","R"}};
 
-	
-	//Button for menu bar
 	JButton new_game = new JButton("New Game");
 	JButton save = new JButton("Save");
 	JButton reset = new JButton("Reset");
@@ -63,14 +61,14 @@ public class Gui extends JPanel implements ActionListener{
 				if((i%2 == 0 && j % 2 == 0) || (i%2 == 1 && j%2==1)){
 					JButton button = new JButton();
 					button.setBackground(Color.WHITE);
-					button.addActionListener(new MyActionListener(i, j, board));
+					button.addActionListener(new ChessListener(i, j));
 					
 					add(button);
 					board[i][j] = button;
 				}else{
 					JButton button = new JButton();
 					button.setBackground(Color.BLACK);
-					button.addActionListener(new MyActionListener(i, j, board));
+					button.addActionListener(new ChessListener(i, j));
 					
 					add(button);
 					board[i][j] = button;
@@ -114,11 +112,41 @@ public class Gui extends JPanel implements ActionListener{
 	}
 	
 		
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	JButton click= null;
+	ImageIcon mc = null;
+	public class ChessListener implements ActionListener {
+		
+		int row, column;
+		
+		public ChessListener(int i, int j){
+			this.row = i;
+			this.column = j;
+		}
+		
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			
+			JButton clickButton = (JButton)e.getSource();
+			if(click == null){
+				click = clickButton;
+				mc = (ImageIcon) click.getIcon();
+			}else{
+				if(clickButton.getIcon() == null){
+					clickButton.setIcon(mc);
+					click.setIcon(null);
+					click = null;
+				}			
+			}
+			System.out.println("index in the array: " + row + " : " + column);
 		}
-	
+
+	}
 	
 }
