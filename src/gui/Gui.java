@@ -17,6 +17,9 @@ public class Gui extends JPanel implements ActionListener{
 	// board of buttons
 	JButton[][] board = new JButton[8][8];
 	
+	ValidateMoves vm = new ValidateMoves();
+	String[][] chessBoard;
+	
 	// menubar
 	public JToolBar tools = new JToolBar();
 	
@@ -88,7 +91,7 @@ public class Gui extends JPanel implements ActionListener{
 		 for(int i=0; i<8; i++){
 			 board[7][i].setIcon((new ImageIcon(chessPieceImages[WHITE][STARTING_ROW[i]])));
 		 }
-		 String chessBoard[][] = moves.chessBoard;
+		 chessBoard = vm.chessBoard;
 	}
 	
 	private final void createImages() {
@@ -108,9 +111,9 @@ public class Gui extends JPanel implements ActionListener{
     }
 
 	//Gets the chess board
-	public String[][] returnChessboard(){
-		return chessBoard;
-	}
+//	public String[][] returnChessboard(){
+//		return chessBoard;
+//	}
 
 	public void print(String[][] chessboard){
 		for(int i=0; i<chessboard.length; i++){

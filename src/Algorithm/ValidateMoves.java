@@ -25,7 +25,7 @@ public class ValidateMoves {
 	//Used to check what piece is grabbed by mouse
 	public ArrayList<String> permittedMoves(int sourceX, int sourceY){
 		//Gets the current chess board
-		switch (chessBoard[sourceX][sourceX]) {
+		switch (chessBoard[sourceX][sourceY]) {
 			case "P":
 				moves = pawn.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard);
 				break;
