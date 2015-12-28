@@ -16,7 +16,7 @@ public class ValidateMoves {
 	}
 	
 	//Used to check what piece is grabbed by mouse
-	public void permittedMoves(int sourceX, int sourceY){
+	public ArrayList<String> permittedMoves(int sourceX, int sourceY){
 		//Gets the current chess board
 		chessBoard = gui.returnChessboard();
 		switch (chessBoard[sourceX][sourceX]) {
@@ -49,6 +49,8 @@ public class ValidateMoves {
 				System.out.println("Not a real piece");
 				break;
 			}
+			//Return array list with all moves  
+			return moves;
 			
 		}
 		

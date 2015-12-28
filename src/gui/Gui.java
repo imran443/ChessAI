@@ -4,10 +4,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.*;
+
+import Algorithm.ValidateMoves;
 
 public class Gui extends JPanel implements ActionListener{
 	
@@ -117,30 +120,32 @@ public class Gui extends JPanel implements ActionListener{
 	public String[][] returnChessboard(){
 		return chessBoard;
 	}
-
-	// gets the board
-	public void getBoard(){
-		
+	//Used to update the internal representation of chess board
+	public void storeSource (int sourceX,int sourceY){
+		//Used to store chess board value
+		String temp="";
+		temp = chessBoard[sourceX][sourceY];
 	}
-	
 		
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
-	
+	//Used in the class below
 	JButton firstClick = null;
 	ImageIcon mc = null;
+	ArrayList<String> list = new ArrayList<>();
+	ValidateMoves moves = new ValidateMoves();
+	
 	public class ChessListener implements ActionListener {
-		
+		//Remembers its own position
 		int row, column;
 		
 		public ChessListener(int i, int j){
 			this.row = i;
 			this.column = j;
 		}
-		
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -149,6 +154,8 @@ public class Gui extends JPanel implements ActionListener{
 			if(firstClick == null){
 				firstClick = clickButton;
 				mc = (ImageIcon) firstClick.getIcon();
+				
+				//list = moves.permittedMoves(row, column);
 			}else{
 				if(clickButton.getIcon() == null){
 					clickButton.setIcon(mc);

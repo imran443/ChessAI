@@ -6,7 +6,7 @@ import gui.Gui;
 
 public class Pawn extends Piece{
 	ArrayList<String> moves = new ArrayList<String>();
-	
+	//Checks all possible moves for the pawn
 	public ArrayList<String> possibleMoves(int sourceX, int sourceY, int pieceColor, String[][] chessBoard){
 		//The possible moves 
 		String pMove="";
@@ -14,7 +14,7 @@ public class Pawn extends Piece{
 		int newX;
 		int newY;
 		
-		if(pieceColor == Gui.WHITE){
+		if(pieceColor == Gui.BLACK){
 			if(chessBoard[sourceX+1][sourceY].equals(" ")){
 				newX = sourceX + 1;
 				pMove = newX + " " + sourceY;
@@ -26,21 +26,21 @@ public class Pawn extends Piece{
 				pMove = newX + " " + sourceY;
 				moves.add(pMove);
 			}
-			//Can capture a black piece if itself is white piece in the diagonal
-			if(chessBoard[sourceX+1][sourceY+1].equals("p") && pieceColor == Gui.WHITE){
+			//Can capture a White piece if itself is black piece in the diagonal
+			if(chessBoard[sourceX+1][sourceY+1].equals("P") && pieceColor == Gui.BLACK){
 				newX = sourceX + 1;
 				newY = sourceY + 1;
 				pMove = newX + " " + newY;
 				moves.add(pMove);
 			}
-			if(chessBoard[sourceX+1][sourceY-1].equals("p") && pieceColor == Gui.WHITE){
+			if(chessBoard[sourceX+1][sourceY-1].equals("P") && pieceColor == Gui.BLACK){
 				newX = sourceX + 1;
 				newY = sourceY - 1;
 				pMove = newX + " " + newY;
 				moves.add(pMove);
 			}
 		}
-		if(pieceColor == Gui.BLACK){
+		if(pieceColor == Gui.WHITE){
 			if(chessBoard[sourceX-1][sourceY].equals(" ")){
 				newX = sourceX - 1;
 				pMove = newX + " " + sourceY;
@@ -53,13 +53,13 @@ public class Pawn extends Piece{
 				moves.add(pMove);
 			}
 			//Can capture a white piece if itself is black piece in the diagonal
-			if(chessBoard[sourceX - 1][sourceY - 1].equals("P") && pieceColor == Gui.BLACK){
+			if(chessBoard[sourceX - 1][sourceY - 1].equals("p") && pieceColor == Gui.WHITE){
 				newX = sourceX - 1;
 				newY = sourceY - 1;
 				pMove = newX + " " + newY;
 				moves.add(pMove);
 			}
-			if(chessBoard[sourceX - 1][sourceY + 1].equals("P") && pieceColor == Gui.BLACK){
+			if(chessBoard[sourceX - 1][sourceY + 1].equals("P") && pieceColor == Gui.WHITE){
 				newX = sourceX - 1;
 				newY = sourceY + 1;
 				pMove = newX + " " + newY;
