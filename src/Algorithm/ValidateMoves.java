@@ -5,27 +5,18 @@ import java.util.ArrayList;
 import gui.Gui;
 
 public class ValidateMoves {
-	//Lower case letter are Black and Upper case are White
-	public static String chessBoard[][]={
-			       {"r","k","b","q","a","b","k","r"},
-			       {"p","p","p","p","p","p","p","p"},
-			       {" "," "," "," "," "," "," "," "},
-			       {" "," "," "," "," "," "," "," "},
-			       {" "," "," "," "," "," "," "," "},
-			       {" "," "," "," "," "," "," "," "},
-			       {"P","P","P","P","P","P","P","P"},
-			       {"R","K","B","Q","A","B","K","R"}};
-	ArrayList<String> moves;
+	
+	ArrayList<String> moves = new ArrayList<String>();
 	Pawn pawn;
 	
 	public ValidateMoves(){
-		
+		pawn = new Pawn();
 	}
 	
 	//Used to check what piece is grabbed by mouse
-	public ArrayList<String> permittedMoves(int sourceX, int sourceY){
+	public ArrayList<String> permittedMoves(int sourceX, int sourceY, String[][] chessBoard){
 		//Gets the current chess board
-		switch (chessBoard[sourceX][sourceX]) {
+		switch (chessBoard[sourceX][sourceY]) {
 			case "P":
 				moves = pawn.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard);
 				break;
@@ -40,6 +31,7 @@ public class ValidateMoves {
 			case "A":
 				break;
 			case "p":
+				moves = pawn.possibleMoves(sourceX, sourceY,Gui.BLACK,chessBoard);
 				break;
 			case "r":
 				break;
