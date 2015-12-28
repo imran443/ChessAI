@@ -192,6 +192,7 @@ public class Gui extends JPanel implements ActionListener{
 						// sets the icon of first click position to null
 						firstClick.setIcon(null);
 						firstClick = null;
+						list.clear();
 						// this method is used for updating chessBoard
 						UpdateChessBoard(row, column);
 						print(chessBoard);

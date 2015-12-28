@@ -56,6 +56,7 @@ public class ValidateMoves {
 		String currentPos = newX + " " + newY;
 		//If the Array List is empty then no possible moves have been calculated
 		if(moves.contains(currentPos)){
+			moves.clear();
 			return true;
 		}
 		return false;
