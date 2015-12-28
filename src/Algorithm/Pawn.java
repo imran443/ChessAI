@@ -68,13 +68,4 @@ public class Pawn extends Piece{
 		}
 		return moves;
 	}
-	
-	public boolean isValid(int sourceX, int sourceY, ArrayList<String> moves){
-		String currentPos =""+ sourceX + " " + sourceY;
-		//If the Array List is empty then no possible moves have been calculated
-		if(moves.contains(currentPos)){
-			return true;
-		}
-		return false;
-	}
 }

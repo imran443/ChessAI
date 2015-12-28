@@ -19,17 +19,7 @@ public class Gui extends JPanel implements ActionListener{
 	
 	// menubar
 	public JToolBar tools = new JToolBar();
-	//Lower case letter are Black and Upper case are White
-	public static String chessBoard[][]={
-		        {"r","k","b","q","a","b","k","r"},
-		        {"p","p","p","p","p","p","p","p"},
-		        {" "," "," "," "," "," "," "," "},
-		        {" "," "," "," "," "," "," "," "},
-		        {" "," "," "," "," "," "," "," "},
-		        {" "," "," "," "," "," "," "," "},
-		        {"P","P","P","P","P","P","P","P"},
-		        {"R","K","B","Q","A","B","K","R"}};
-
+	
 	JButton new_game = new JButton("New Game");
 	JButton save = new JButton("Save");
 	JButton reset = new JButton("Reset");
@@ -39,7 +29,8 @@ public class Gui extends JPanel implements ActionListener{
 	public static final int[] STARTING_ROW = { ROOK, KNIGHT, BISHOP, KING, QUEEN, BISHOP, KNIGHT, ROOK};
 
 	int[][] buttonGrid = new int[8][8];
-	
+	//Used to validate moves
+	ValidateMoves moves = new ValidateMoves();
 
 	public Gui(){
 		createImages();
@@ -97,9 +88,7 @@ public class Gui extends JPanel implements ActionListener{
 		 for(int i=0; i<8; i++){
 			 board[7][i].setIcon((new ImageIcon(chessPieceImages[WHITE][STARTING_ROW[i]])));
 		 }
-		 
-		 
-		
+		 String chessBoard[][] = moves.chessBoard;
 	}
 	
 	private final void createImages() {
@@ -163,7 +152,7 @@ public class Gui extends JPanel implements ActionListener{
 	}
 	
 	
-
+	//This is a nested class
 	JButton firstClick = null;
 	ImageIcon mc = null;
 	ArrayList<String> list = new ArrayList<>();
@@ -186,24 +175,29 @@ public class Gui extends JPanel implements ActionListener{
 				mc = (ImageIcon) firstClick.getIcon();
 				// this method is used for updating chessBoard
 				storeSource(row, column);
-				
+				//Checks for the possible moves and returns them in a array list
+				list = moves.permittedMoves(row, column);
 			}else if(firstClick != null && clickButton.getIcon() != null){
 				firstClick = clickButton;
 				mc = (ImageIcon) firstClick.getIcon();
 				// this method is used for updating chessBoard
 				storeSource(row, column);
+				list = moves.permittedMoves(row, column);
 			}
 			else{
-				if(clickButton.getIcon() == null){
-					// updates the icon on the board
-					clickButton.setIcon(mc);
-					// sets the icon of first click position to null
-					firstClick.setIcon(null);
-					firstClick = null;
-					// this method is used for updating chessBoard
-					UpdateChessBoard(row, column);
-					print(chessBoard);
-				}			
+				//Checks in the array list if the move that is being made is valid 
+				if(moves.isValid(row, column, list)==true){
+					if(clickButton.getIcon() == null){
+						// updates the icon on the board
+						clickButton.setIcon(mc);
+						// sets the icon of first click position to null
+						firstClick.setIcon(null);
+						firstClick = null;
+						// this method is used for updating chessBoard
+						UpdateChessBoard(row, column);
+						print(chessBoard);
+					}			
+				}
 			}
 			System.out.println("index in the array: " + row + " : " + column);
 		}

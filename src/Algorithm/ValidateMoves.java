@@ -5,20 +5,26 @@ import java.util.ArrayList;
 import gui.Gui;
 
 public class ValidateMoves {
-	Gui gui;
-	//Chess board from GUI
-	String [][] chessBoard;
+	//Lower case letter are Black and Upper case are White
+	public static String chessBoard[][]={
+			       {"r","k","b","q","a","b","k","r"},
+			       {"p","p","p","p","p","p","p","p"},
+			       {" "," "," "," "," "," "," "," "},
+			       {" "," "," "," "," "," "," "," "},
+			       {" "," "," "," "," "," "," "," "},
+			       {" "," "," "," "," "," "," "," "},
+			       {"P","P","P","P","P","P","P","P"},
+			       {"R","K","B","Q","A","B","K","R"}};
 	ArrayList<String> moves;
 	Pawn pawn;
 	
 	public ValidateMoves(){
-		gui = new Gui();
+		
 	}
 	
 	//Used to check what piece is grabbed by mouse
 	public ArrayList<String> permittedMoves(int sourceX, int sourceY){
 		//Gets the current chess board
-		chessBoard = gui.returnChessboard();
 		switch (chessBoard[sourceX][sourceX]) {
 			case "P":
 				moves = pawn.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard);
@@ -53,9 +59,13 @@ public class ValidateMoves {
 			return moves;
 			
 		}
-		
-		//Gets the move list
-		public ArrayList<String> getMoveList(){
-			return moves;
+	//Checks if the move is allowed
+	public boolean isValid(int newX, int newY, ArrayList<String> moves){
+		String currentPos = newX + " " + newY;
+		//If the Array List is empty then no possible moves have been calculated
+		if(moves.contains(currentPos)){
+			return true;
 		}
+		return false;
+	}
 }
