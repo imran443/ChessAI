@@ -63,7 +63,7 @@ public class Pawn extends Piece{
 				moves.add(pMove);
 			}
 			if(sourceY+1 <8){
-				if(chessBoard[sourceX - 1][sourceY + 1].equals("P") && pieceColor == Gui.WHITE){
+				if(chessBoard[sourceX - 1][sourceY + 1].equals("p") && pieceColor == Gui.WHITE){
 					newX = sourceX - 1;
 					newY = sourceY + 1;
 					pMove = newX + " " + newY;
