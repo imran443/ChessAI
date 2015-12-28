@@ -80,23 +80,25 @@ public class Gui extends JPanel implements ActionListener{
 		}
 		
 		
-	// places black pawn pieces
-	 for (int i = 0; i < 8; i++) {
-	 	board[1][i].setIcon((new ImageIcon(chessPieceImages[BLACK][PAWN])));
-    }
-	// places black actual pieces
-	 for(int i=0; i<8; i++){
-		 board[0][i].setIcon((new ImageIcon(chessPieceImages[BLACK][STARTING_ROW[i]])));
-	 }
+		// places black pawn pieces
+		 for (int i = 0; i < 8; i++) {
+		 	board[1][i].setIcon((new ImageIcon(chessPieceImages[BLACK][PAWN])));
+	    }
+		// places black actual pieces
+		 for(int i=0; i<8; i++){
+			 board[0][i].setIcon((new ImageIcon(chessPieceImages[BLACK][STARTING_ROW[i]])));
+		 }
+			 
+		 // places the white pawn pieces
+		 for (int i = 0; i < 8; i++) {
+			 board[6][i].setIcon((new ImageIcon(chessPieceImages[WHITE][PAWN])));
+	     }
+		 // places white actual pieces
+		 for(int i=0; i<8; i++){
+			 board[7][i].setIcon((new ImageIcon(chessPieceImages[WHITE][STARTING_ROW[i]])));
+		 }
 		 
-	 // places the white pawn pieces
-	 for (int i = 0; i < 8; i++) {
-		 board[6][i].setIcon((new ImageIcon(chessPieceImages[WHITE][PAWN])));
-     }
-	 // places white actual pieces
-	 for(int i=0; i<8; i++){
-		 board[7][i].setIcon((new ImageIcon(chessPieceImages[WHITE][STARTING_ROW[i]])));
-	 }
+		 
 		
 	}
 	
@@ -120,23 +122,51 @@ public class Gui extends JPanel implements ActionListener{
 	public String[][] returnChessboard(){
 		return chessBoard;
 	}
-	//Used to update the internal representation of chess board
-	public void storeSource (int sourceX,int sourceY){
-		//Used to store chess board value
-		String temp="";
-		temp = chessBoard[sourceX][sourceY];
+
+	public void print(String[][] chessboard){
+		for(int i=0; i<chessboard.length; i++){
+			for(int j=0; j<chessboard[i].length; j++){
+				System.out.print(chessboard[i][j]);
+			}
+			System.out.println();
+		}
 	}
-		
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
-	//Used in the class below
+	
+	// stores sourceX, sourceY and the piece at that position
+	String[] sourceArray = new String[3];
+	
+	// the clicked x,y and piece on the board
+	public void storeSource(int sourceX, int sourceY){
+		String row = "" + sourceX;
+		String column = "" + sourceY;
+		String temp = chessBoard[sourceX][sourceY];
+		
+		sourceArray[0] = row;
+		sourceArray[1] = column;
+		sourceArray[2] = temp;
+	}
+	
+	// updates the chess board array according GUI moves
+	public void UpdateChessBoard(int newX, int newY){
+		// updates the position of the piece on the chess board
+		chessBoard[newX][newY] = sourceArray[2];
+		chessBoard[Integer.parseInt(sourceArray[0])][Integer.parseInt(sourceArray[1])] = " ";
+		// resets it for the next move
+		sourceArray[0] = "";
+		sourceArray[1] = "";
+		sourceArray[2] = "";
+	}
+	
+	
+
 	JButton firstClick = null;
 	ImageIcon mc = null;
 	ArrayList<String> list = new ArrayList<>();
-	ValidateMoves moves = new ValidateMoves();
 	
 	public class ChessListener implements ActionListener {
 		//Remembers its own position
@@ -154,18 +184,31 @@ public class Gui extends JPanel implements ActionListener{
 			if(firstClick == null){
 				firstClick = clickButton;
 				mc = (ImageIcon) firstClick.getIcon();
+				// this method is used for updating chessBoard
+				storeSource(row, column);
 				
-				//list = moves.permittedMoves(row, column);
-			}else{
+			}else if(firstClick != null && clickButton.getIcon() != null){
+				firstClick = clickButton;
+				mc = (ImageIcon) firstClick.getIcon();
+				// this method is used for updating chessBoard
+				storeSource(row, column);
+			}
+			else{
 				if(clickButton.getIcon() == null){
+					// updates the icon on the board
 					clickButton.setIcon(mc);
+					// sets the icon of first click position to null
 					firstClick.setIcon(null);
 					firstClick = null;
+					// this method is used for updating chessBoard
+					UpdateChessBoard(row, column);
+					print(chessBoard);
 				}			
 			}
 			System.out.println("index in the array: " + row + " : " + column);
 		}
 
 	}
+	
 	
 }
