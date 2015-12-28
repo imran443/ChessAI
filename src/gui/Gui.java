@@ -13,14 +13,19 @@ import javax.swing.border.*;
 import Algorithm.ValidateMoves;
 
 public class Gui extends JPanel implements ActionListener{
-	
+	//Lower case letter are Black and Upper case are White
+	public static String chessBoard[][]={
+				       {"r","k","b","q","a","b","k","r"},
+				       {"p","p","p","p","p","p","p","p"},
+				       {" "," "," "," "," "," "," "," "},
+				       {" "," "," "," "," "," "," "," "},
+				       {" "," "," "," "," "," "," "," "},
+				       {" "," "," "," "," "," "," "," "},
+				       {"P","P","P","P","P","P","P","P"},
+				       {"R","K","B","Q","A","B","K","R"}};
 	// board of buttons
 	JButton[][] board = new JButton[8][8];
-	
-	ValidateMoves vm = new ValidateMoves();
-	String[][] chessBoard;
-	
-	// menubar
+
 	public JToolBar tools = new JToolBar();
 	
 	JButton new_game = new JButton("New Game");
@@ -72,8 +77,6 @@ public class Gui extends JPanel implements ActionListener{
 				}
 			}
 		}
-		
-		
 		// places black pawn pieces
 		 for (int i = 0; i < 8; i++) {
 		 	board[1][i].setIcon((new ImageIcon(chessPieceImages[BLACK][PAWN])));
@@ -91,7 +94,6 @@ public class Gui extends JPanel implements ActionListener{
 		 for(int i=0; i<8; i++){
 			 board[7][i].setIcon((new ImageIcon(chessPieceImages[WHITE][STARTING_ROW[i]])));
 		 }
-		 chessBoard = vm.chessBoard;
 	}
 	
 	private final void createImages() {
@@ -109,11 +111,6 @@ public class Gui extends JPanel implements ActionListener{
             System.exit(1);
         }
     }
-
-	//Gets the chess board
-//	public String[][] returnChessboard(){
-//		return chessBoard;
-//	}
 
 	public void print(String[][] chessboard){
 		for(int i=0; i<chessboard.length; i++){
@@ -171,7 +168,6 @@ public class Gui extends JPanel implements ActionListener{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			JButton clickButton = (JButton)e.getSource();
 			if(firstClick == null){
 				firstClick = clickButton;
@@ -179,13 +175,13 @@ public class Gui extends JPanel implements ActionListener{
 				// this method is used for updating chessBoard
 				storeSource(row, column);
 				//Checks for the possible moves and returns them in a array list
-				list = moves.permittedMoves(row, column);
+				list = moves.permittedMoves(row, column,chessBoard);
 			}else if(firstClick != null && clickButton.getIcon() != null){
 				firstClick = clickButton;
 				mc = (ImageIcon) firstClick.getIcon();
 				// this method is used for updating chessBoard
 				storeSource(row, column);
-				list = moves.permittedMoves(row, column);
+				list = moves.permittedMoves(row, column,chessBoard);
 			}
 			else{
 				//Checks in the array list if the move that is being made is valid 
