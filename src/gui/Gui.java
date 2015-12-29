@@ -177,6 +177,8 @@ public class Gui extends JPanel implements ActionListener{
 				//Checks for the possible moves and returns them in a array list
 				list = moves.permittedMoves(row, column,chessBoard);
 			}else if(firstClick != null && clickButton.getIcon() != null){
+				//Clear the list from earlier from first click as this is a new piece selected
+				list.clear();
 				firstClick = clickButton;
 				mc = (ImageIcon) firstClick.getIcon();
 				// this method is used for updating chessBoard

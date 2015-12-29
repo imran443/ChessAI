@@ -27,21 +27,23 @@ public class Pawn extends Piece{
 				moves.add(pMove);
 			}
 			//Can capture a White piece if itself is black piece in the diagonal
-			if(sourceY+1 < 8)
-			if(chessBoard[sourceX+1][sourceY+1].equals("P") && pieceColor == Gui.BLACK){
-				newX = sourceX + 1;
-				newY = sourceY + 1;
-				pMove = newX + " " + newY;
-				moves.add(pMove);
+			if(sourceY+1 < 8){
+				if(chessBoard[sourceX+1][sourceY+1].equals("P") && pieceColor == Gui.BLACK){
+					newX = sourceX + 1;
+					newY = sourceY + 1;
+					pMove = newX + " " + newY;
+					moves.add(pMove);
+				}
 			}
 			//Checks to keep the pawn in bound
-			if(sourceY-1 >=0)
+			if(sourceY-1 >=0){
 				if(chessBoard[sourceX+1][sourceY-1].equals("P") && pieceColor == Gui.BLACK){
 					newX = sourceX + 1;
 					newY = sourceY - 1;
 					pMove = newX + " " + newY;
 					moves.add(pMove);
 				}
+			}
 		}
 		if(pieceColor == Gui.WHITE){
 			if(chessBoard[sourceX-1][sourceY].equals(" ")){
@@ -56,22 +58,22 @@ public class Pawn extends Piece{
 				moves.add(pMove);
 			}
 			//Can capture a white piece if itself is black piece in the diagonal
-			if(sourceY-1 >= 0)
-			if(chessBoard[sourceX - 1][sourceY - 1].equals("p") && pieceColor == Gui.WHITE){
-				newX = sourceX - 1;
-				newY = sourceY - 1;
-				pMove = newX + " " + newY;
-				moves.add(pMove);
+			if(sourceY-1 >= 0){
+				if(Character.isLowerCase((chessBoard[sourceX - 1][sourceY - 1].charAt(0))) && pieceColor == Gui.WHITE){
+					newX = sourceX - 1;
+					newY = sourceY - 1;
+					pMove = newX + " " + newY;
+					moves.add(pMove);
+				}
 			}
 			if(sourceY+1 <8){
-				if(chessBoard[sourceX - 1][sourceY + 1].equals("P") && pieceColor == Gui.WHITE){
+				if(chessBoard[sourceX - 1][sourceY + 1].equals("p") && pieceColor == Gui.WHITE){
 					newX = sourceX - 1;
 					newY = sourceY + 1;
 					pMove = newX + " " + newY;
 					moves.add(pMove);
 				}
 			}
-			
 		}
 		return moves;
 	}
