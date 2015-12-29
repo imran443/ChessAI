@@ -79,7 +79,9 @@ public class Gui extends JPanel implements ActionListener{
 		}
 		// places black pawn pieces
 		 for (int i = 0; i < 8; i++) {
-		 	board[1][i].setIcon((new ImageIcon(chessPieceImages[BLACK][PAWN])));
+			 ImageIcon icon = new ImageIcon(chessPieceImages[BLACK][PAWN]);
+			 icon.setDescription("" + BLACK);
+		 	board[1][i].setIcon(icon);
 	    }
 		// places black actual pieces
 		 for(int i=0; i<8; i++){
@@ -88,7 +90,9 @@ public class Gui extends JPanel implements ActionListener{
 			 
 		 // places the white pawn pieces
 		 for (int i = 0; i < 8; i++) {
-			 board[6][i].setIcon((new ImageIcon(chessPieceImages[WHITE][PAWN])));
+			 ImageIcon icon = new ImageIcon(chessPieceImages[WHITE][PAWN]);
+			 icon.setDescription("" + WHITE);
+			 board[6][i].setIcon(icon);
 	     }
 		 // places white actual pieces
 		 for(int i=0; i<8; i++){
@@ -177,13 +181,25 @@ public class Gui extends JPanel implements ActionListener{
 				//Checks for the possible moves and returns them in a array list
 				list = moves.permittedMoves(row, column,chessBoard);
 			}else if(firstClick != null && clickButton.getIcon() != null){
-				//Clear the list from earlier from first click as this is a new piece selected
-				list.clear();
-				firstClick = clickButton;
-				mc = (ImageIcon) firstClick.getIcon();
-				// this method is used for updating chessBoard
-				storeSource(row, column);
-				list = moves.permittedMoves(row, column,chessBoard);
+				// trying to capture a piece
+				if(moves.isValid(row, column, list)==true){
+					clickButton.setIcon(mc);
+					firstClick.setIcon(null);
+					firstClick = null;
+					list.clear();
+					// this method is used for updating chessBoard
+					UpdateChessBoard(row, column);
+					print(chessBoard);
+				}else{
+					list.clear();
+					firstClick = clickButton;
+					mc = (ImageIcon) firstClick.getIcon();
+					// this method is used for updating chessBoard
+					storeSource(row, column);
+					list = moves.permittedMoves(row, column,chessBoard);
+				}
+				
+
 			}
 			else{
 				//Checks in the array list if the move that is being made is valid 
@@ -198,9 +214,10 @@ public class Gui extends JPanel implements ActionListener{
 						// this method is used for updating chessBoard
 						UpdateChessBoard(row, column);
 						print(chessBoard);
-					}			
+					}
 				}
 			}
+			
 			System.out.println("index in the array: " + row + " : " + column);
 		}
 
