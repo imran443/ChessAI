@@ -3,7 +3,6 @@ package Algorithm;
 import java.util.ArrayList;
 
 import gui.Gui;
-import gui.Gui.ChessListener;
 
 public class King extends Piece {
 	ArrayList<String> moves = new ArrayList<String>();
@@ -25,19 +24,23 @@ public class King extends Piece {
 				pMove = newX + " " + newY;
 				moves.add(pMove);
 			}
+			if(sourceY - 1 >= 0){
 			// Top left
-			if (chessBoard[sourceX - 1][sourceY - 1].equals(" ") || checkPiece(sourceX-1, sourceY-1, pieceColor, chessBoard)) {
-				newX = sourceX - 1;
-				newY = sourceY - 1;
-				pMove = newX + " " + newY;
-				moves.add(pMove);
+				if (chessBoard[sourceX - 1][sourceY - 1].equals(" ") || checkPiece(sourceX-1, sourceY-1, pieceColor, chessBoard)) {
+					newX = sourceX - 1;
+					newY = sourceY - 1;
+					pMove = newX + " " + newY;
+					moves.add(pMove);
+				}
 			}
+			if(sourceY + 1 <= 7){
 			// Top right
-			if (chessBoard[sourceX + 1][sourceY - 1].equals(" ") || checkPiece(sourceX+1, sourceY-1, pieceColor, chessBoard)) {
-				newX = sourceX + 1;
-				newY = sourceY - 1;
-				pMove = newX + " " + newY;
-				moves.add(pMove);
+				if (chessBoard[sourceX - 1][sourceY + 1].equals(" ") || checkPiece(sourceX - 1, sourceY + 1, pieceColor, chessBoard)) {
+					newX = sourceX - 1;
+					newY = sourceY + 1;
+					pMove = newX + " " + newY;
+					moves.add(pMove);
+				}
 			}
 		}
 		// Stop from checking out of bounds
@@ -50,22 +53,26 @@ public class King extends Piece {
 				moves.add(pMove);
 			}
 			// Bottom right
-			if (chessBoard[sourceX + 1][sourceY + 1].equals(" ") || checkPiece(sourceX + 1, sourceY +1, pieceColor, chessBoard)) {
-				newX = sourceX + 1;
-				newY = sourceY + 1;
-				pMove = newX + " " + newY;
-				moves.add(pMove);
+			if(sourceY + 1 <= 7){
+				if (chessBoard[sourceX + 1][sourceY + 1].equals(" ") || checkPiece(sourceX + 1, sourceY +1, pieceColor, chessBoard)) {
+					newX = sourceX + 1;
+					newY = sourceY + 1;
+					pMove = newX + " " + newY;
+					moves.add(pMove);
+				}
 			}
+			if(sourceY - 1 >= 0){
 			// Bottom left
-			if (chessBoard[sourceX + 1][sourceY - 1].equals(" ") || checkPiece(sourceX + 1, sourceY-1, pieceColor, chessBoard)) {
-				newX = sourceX + 1;
-				newY = sourceY - 1;
-				pMove = newX + " " + newY;
-				moves.add(pMove);
+				if (chessBoard[sourceX + 1][sourceY - 1].equals(" ") || checkPiece(sourceX + 1, sourceY-1, pieceColor, chessBoard)) {
+					newX = sourceX + 1;
+					newY = sourceY - 1;
+					pMove = newX + " " + newY;
+					moves.add(pMove);
+				}
 			}
 		}
 		// Left check
-		if (sourceY >= 0) {
+		if (sourceY - 1 >= 0) {
 			if (chessBoard[sourceX][sourceY - 1].equals(" ") || checkPiece(sourceX, sourceY - 1, pieceColor, chessBoard) ) {
 				newX = sourceX;
 				newY = sourceY - 1;
@@ -74,7 +81,7 @@ public class King extends Piece {
 			}
 		}
 		// Right check
-		if (sourceY <= 7) {
+		if (sourceY + 1 <= 7) {
 			if (chessBoard[sourceX][sourceY + 1].equals(" ") || checkPiece(sourceX, sourceY + 1, pieceColor, chessBoard)) {
 				newX = sourceX;
 				newY = sourceY + 1;

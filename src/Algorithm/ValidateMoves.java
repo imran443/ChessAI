@@ -8,9 +8,11 @@ public class ValidateMoves {
 	
 	ArrayList<String> moves = new ArrayList<String>();
 	Pawn pawn;
+	King king;
 	
 	public ValidateMoves(){
 		pawn = new Pawn();
+		king = new King();
 	}
 	
 	//Used to check what piece is grabbed by mouse
@@ -29,6 +31,7 @@ public class ValidateMoves {
 			case "Q":
 				break;
 			case "A":
+				moves = king.possibleMoves(sourceX,sourceY, Gui.WHITE, chessBoard);
 				break;
 			case "p":
 				moves = pawn.possibleMoves(sourceX, sourceY,Gui.BLACK,chessBoard);
@@ -42,6 +45,7 @@ public class ValidateMoves {
 			case "q":
 				break;
 			case "a":
+				moves = king.possibleMoves(sourceX,sourceY, Gui.BLACK, chessBoard);
 				break;
 			default:
 				System.out.println("Not a real piece");
