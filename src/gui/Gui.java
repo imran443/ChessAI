@@ -44,11 +44,6 @@ public class Gui extends JPanel implements ActionListener{
 	boolean checkTurn = true;
 
 	public Gui(){
-		
-		
-		
-		
-		
 		createImages();
 		// menu bar
 		setBorder(new EmptyBorder(15,15,15,15));
@@ -234,6 +229,7 @@ public class Gui extends JPanel implements ActionListener{
 					list = moves.permittedMoves(row, column,chessBoard);
 				}
 				
+
 			}
 			else{
 				//Checks in the array list if the move that is being made is valid 
