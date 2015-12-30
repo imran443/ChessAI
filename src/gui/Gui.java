@@ -39,8 +39,16 @@ public class Gui extends JPanel implements ActionListener{
 	int[][] buttonGrid = new int[8][8];
 	//Used to validate moves
 	ValidateMoves moves = new ValidateMoves();
+	boolean humanPlayer = false;
+	boolean computerPlayer = true;
+	boolean checkTurn = true;
 
 	public Gui(){
+		
+		
+		
+		
+		
 		createImages();
 		// menu bar
 		setBorder(new EmptyBorder(15,15,15,15));
@@ -80,12 +88,15 @@ public class Gui extends JPanel implements ActionListener{
 		// places black pawn pieces
 		 for (int i = 0; i < 8; i++) {
 			 ImageIcon icon = new ImageIcon(chessPieceImages[BLACK][PAWN]);
+			 // labels the piece to black
 			 icon.setDescription("" + BLACK);
 		 	board[1][i].setIcon(icon);
 	    }
 		// places black actual pieces
 		 for(int i=0; i<8; i++){
-			 board[0][i].setIcon((new ImageIcon(chessPieceImages[BLACK][STARTING_ROW[i]])));
+			 ImageIcon icon = new ImageIcon(chessPieceImages[BLACK][STARTING_ROW[i]]);
+			 icon.setDescription("" + BLACK);
+			 board[0][i].setIcon(icon);
 		 }
 			 
 		 // places the white pawn pieces
@@ -96,7 +107,9 @@ public class Gui extends JPanel implements ActionListener{
 	     }
 		 // places white actual pieces
 		 for(int i=0; i<8; i++){
-			 board[7][i].setIcon((new ImageIcon(chessPieceImages[WHITE][STARTING_ROW[i]])));
+			 ImageIcon icon = new ImageIcon(chessPieceImages[WHITE][STARTING_ROW[i]]);
+			 icon.setDescription("" + WHITE);
+			 board[7][i].setIcon(icon);
 		 }
 	}
 	
@@ -170,9 +183,22 @@ public class Gui extends JPanel implements ActionListener{
 			this.column = j;
 		}
 		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JButton clickButton = (JButton)e.getSource();
+		
+		public void placing_piece(JButton clickButton){
+			// updates the icon on the board
+			clickButton.setIcon(mc);
+			// sets the icon of first click position to null
+			firstClick.setIcon(null);
+			firstClick = null;
+			list.clear();
+			// this method is used for updating chessBoard
+			UpdateChessBoard(row, column);
+			print(chessBoard);
+		}
+		
+		// this method selects the piece user wants to place or ai wants to place
+		public boolean selecting_piece(JButton clickButton){
+			
 			if(firstClick == null){
 				firstClick = clickButton;
 				mc = (ImageIcon) firstClick.getIcon();
@@ -180,17 +206,26 @@ public class Gui extends JPanel implements ActionListener{
 				storeSource(row, column);
 				//Checks for the possible moves and returns them in a array list
 				list = moves.permittedMoves(row, column,chessBoard);
+				// checks if some other piece is selected 
 			}else if(firstClick != null && clickButton.getIcon() != null){
-				// trying to capture a piece
+				// capture a piece
 				if(moves.isValid(row, column, list)==true){
-					clickButton.setIcon(mc);
-					firstClick.setIcon(null);
-					firstClick = null;
-					list.clear();
-					// this method is used for updating chessBoard
-					UpdateChessBoard(row, column);
-					print(chessBoard);
+					// checks whose turn it is
+					// computer players turn
+					if(mc.getDescription().equals(String.valueOf(1)) && computerPlayer == true){
+						placing_piece(clickButton);
+						computerPlayer = false;
+						return true;
+						// human player turn
+					}else if(mc.getDescription().equals(String.valueOf(0)) && humanPlayer == true){
+						placing_piece(clickButton);
+						humanPlayer = false;
+						return true;
+					}
+					
 				}else{
+					// if something else is selected, deselected from the original piece
+					// if nothing is selected the original piece is selected
 					list.clear();
 					firstClick = clickButton;
 					mc = (ImageIcon) firstClick.getIcon();
@@ -204,17 +239,41 @@ public class Gui extends JPanel implements ActionListener{
 				//Checks in the array list if the move that is being made is valid 
 				if(moves.isValid(row, column, list)==true){
 					if(clickButton.getIcon() == null){
-						// updates the icon on the board
-						clickButton.setIcon(mc);
-						// sets the icon of first click position to null
-						firstClick.setIcon(null);
-						firstClick = null;
-						list.clear();
-						// this method is used for updating chessBoard
-						UpdateChessBoard(row, column);
-						print(chessBoard);
+						// checks whose turn it is
+						// if computer player turns
+						if(mc.getDescription().equals(String.valueOf(1)) && computerPlayer == true){
+							placing_piece(clickButton);
+							computerPlayer = false;
+							return true;
+							// human players turn
+						}else if(mc.getDescription().equals(String.valueOf(0)) && humanPlayer == true){
+							placing_piece(clickButton);
+							humanPlayer = false;
+							return true;
+						}
+						
 					}
 				}
+			}
+			return false;
+		}
+		
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			JButton clickButton = (JButton)e.getSource();
+			// turn systems, white always goes first. White is computer
+			if(computerPlayer == true){
+				if(selecting_piece(clickButton)){
+					humanPlayer = true;
+				}
+				// human player is black or (golden in this case)
+			}else if(humanPlayer==true){
+				if(selecting_piece(clickButton)){
+					computerPlayer = true;
+				}
+				
 			}
 			
 			System.out.println("index in the array: " + row + " : " + column);
