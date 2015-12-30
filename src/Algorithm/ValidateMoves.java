@@ -8,13 +8,16 @@ public class ValidateMoves {
 	
 	ArrayList<String> moves = new ArrayList<String>();
 	Pawn pawn;
+
 	King king;
 	Bishop bishop;
+	Knight knight;
 	
 	public ValidateMoves(){
 		pawn = new Pawn();
 		king = new King();
 		bishop = new Bishop();
+		knight = new Knight();
 	}
 	
 	//Used to check what piece is grabbed by mouse
@@ -27,6 +30,7 @@ public class ValidateMoves {
 			case "R":
 				break;
 			case "K":
+				moves = knight.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
 				break;
 			case "B":
 				moves = bishop.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
@@ -42,6 +46,7 @@ public class ValidateMoves {
 			case "r":
 				break;
 			case "k":
+				moves = knight.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
 				break;
 			case "b":
 				moves = bishop.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
