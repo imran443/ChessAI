@@ -1,7 +1,8 @@
-package Algorithm;
+package pieces;
 
 import java.util.ArrayList;
 
+import Algorithm.Piece;
 import gui.Gui;
 
 public class Bishop extends Piece {

@@ -26,11 +26,14 @@ public class Gui extends JPanel implements ActionListener{
 	// board of buttons
 	JButton[][] board = new JButton[8][8];
 
-	public JToolBar tools = new JToolBar();
+	public JToolBar tools;
 	
 	JButton new_game = new JButton("New Game");
 	JButton save = new JButton("Save");
 	JButton reset = new JButton("Reset");
+	JButton reset2 = new JButton("Reset");
+	JLabel white_turn= new JLabel("WHITE's Turn");
+	JLabel black_turn = new JLabel("BLACK's Turn");
 	private Image[][] chessPieceImages = new Image[2][6];
 	public static final int BLACK = 0, WHITE = 1;
 	public static final int QUEEN = 0, KING = 1, ROOK = 2, KNIGHT = 3, BISHOP = 4, PAWN = 5;
@@ -43,6 +46,14 @@ public class Gui extends JPanel implements ActionListener{
 	boolean computerPlayer = true;
 
 	public Gui(){
+		tools = new JToolBar();
+		
+		
+		white_turn.setBackground(Color.GREEN);
+		black_turn.setBackground(Color.YELLOW);
+		
+		white_turn.setOpaque(true);
+		black_turn.setOpaque(true);
 		createImages();
 		// menu bar
 		setBorder(new EmptyBorder(15,15,15,15));
@@ -52,6 +63,9 @@ public class Gui extends JPanel implements ActionListener{
 		tools.add(save);
 		tools.addSeparator();
 		tools.add(reset);
+		tools.addSeparator();
+		tools.add(white_turn);
+		
 		
 		// background
 		setBackground(Color.GRAY);
@@ -105,6 +119,8 @@ public class Gui extends JPanel implements ActionListener{
 			 icon.setDescription("" + WHITE);
 			 board[7][i].setIcon(icon);
 		 }
+		 
+		
 	}
 	
 	private final void createImages() {
@@ -162,7 +178,6 @@ public class Gui extends JPanel implements ActionListener{
 		sourceArray[2] = "";
 	}
 	
-	
 	//This is a nested class
 	JButton firstClick = null;
 	ImageIcon mc = null;
@@ -173,6 +188,7 @@ public class Gui extends JPanel implements ActionListener{
 		int row, column;
 		
 		public ChessListener(int i, int j){
+			
 			this.row = i;
 			this.column = j;
 		}
@@ -261,14 +277,31 @@ public class Gui extends JPanel implements ActionListener{
 			
 			JButton clickButton = (JButton)e.getSource();
 			// turn systems, white always goes first. White is computer
+			
 			if(computerPlayer == true){
+				
 				if(selecting_piece(clickButton)){
 					humanPlayer = true;
+					//tools.add(black_turn);
+					
+					tools.remove(white_turn);
+					tools.add(black_turn);
+					
+					tools.revalidate();
+					tools.repaint();
 				}
 				// human player is black or (golden in this case)
 			}else if(humanPlayer==true){
+				
 				if(selecting_piece(clickButton)){
+					
 					computerPlayer = true;
+					
+					tools.remove(black_turn);
+					tools.add(white_turn);
+					
+					tools.revalidate();
+					tools.repaint();
 				}
 				
 			}

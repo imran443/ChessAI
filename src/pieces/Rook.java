@@ -1,10 +1,11 @@
-package Algorithm;
+package pieces;
 
 import java.util.ArrayList;
 
+import Algorithm.Piece;
 import gui.Gui;
 
-public class Queen extends Piece{
+public class Rook extends Piece{
 
 	ArrayList<String> moves = new ArrayList<String>();
 	
@@ -13,14 +14,9 @@ public class Queen extends Piece{
 	boolean enemyDown;
 	boolean enemyRight;
 	boolean enemyLeft;
-	boolean enemyTopRightSearch = true;
-	boolean enemyTopLeftSearch = true;
-	boolean enemyBottomRightSearch = true;
-	boolean enemyBottomLeftSearch = true;
 	
 	@Override
 	public ArrayList<String> possibleMoves(int sourceX, int sourceY, int pieceColor, String[][] chessBoard) {
-		// TODO Auto-generated method stub
 		
 		String pMove = "";
 		// The new X coordinate for the piece
@@ -31,10 +27,6 @@ public class Queen extends Piece{
 		boolean searchBottom = true;
 		boolean searchRight = true;
 		boolean searchLeft = true;
-		boolean searchBottomRight = true;
-		boolean searchBottomLeft = true;
-		boolean searchTopRight = true;
-		boolean searchTopLeft = true;
 		
 		// Vertical
 		for(int i=1; i<=7; i++){
@@ -102,73 +94,6 @@ public class Queen extends Piece{
 				}
 			}
 			
-			
-			//Top right
-			if(sourceX - i >= 0 && sourceY + i <= 7){
-				if(checkForSamePiece(sourceX - i, sourceY + i, pieceColor, chessBoard) == false && searchTopRight == true){
-					if(enemyTopRightSearch == true){
-						if(chessBoard[sourceX - i][sourceY + i].equals(" ") || checkPiece(sourceX-i, sourceY + i, pieceColor, chessBoard, 5)){
-							newX = sourceX - i;
-							newY = sourceY + i;
-							pMove = newX + " " + newY;
-							moves.add(pMove);
-						}
-					}
-				}
-				else{
-					searchTopRight = false;
-				}
-			}
-			//Top left 
-			if(sourceX - i >= 0 && sourceY - i >=0){
-				if(checkForSamePiece(sourceX - i, sourceY - i, pieceColor, chessBoard) == false && searchTopLeft == true){
-					if(enemyTopLeftSearch == true){
-						if(chessBoard[sourceX - i][sourceY - i].equals(" ") || checkPiece(sourceX - i, sourceY - i, pieceColor, chessBoard, 6)){
-							newX = sourceX - i;
-							newY = sourceY - i;
-							pMove = newX + " " + newY;
-							moves.add(pMove);
-						}
-					}
-				}else{
-					searchTopLeft = false;
-				}
-			}
-			//Bottom left
-			if(sourceX + i <=7 && sourceY - i >= 0){
-				if(checkForSamePiece(sourceX + i, sourceY - i, pieceColor, chessBoard) == false && searchBottomLeft == true){
-					if(enemyBottomLeftSearch == true){
-						if(chessBoard[sourceX + i][sourceY - i].equals(" ") || checkPiece(sourceX + i, sourceY - i, pieceColor, chessBoard,7)){
-							newX = sourceX + i;
-							newY = sourceY - i;
-							pMove = newX + " " + newY;
-							moves.add(pMove);
-						}
-					}
-				}
-				else{
-					searchBottomLeft = false;
-				}
-			}
-			//Bottom Right
-			if(sourceX + i <= 7 && sourceY + i <=7){
-				//Stops the search if a same color piece is found in the bishops path
-				if(checkForSamePiece(sourceX + i, sourceY + i, pieceColor, chessBoard) == false && searchBottomRight == true){
-					if(enemyBottomRightSearch == true){
-						if(chessBoard[sourceX + i][sourceY + i].equals(" ") || checkPiece(sourceX + i, sourceY + i, pieceColor, chessBoard, 8)){
-							newX = sourceX + i;
-							newY = sourceY + i;
-							pMove = newX + " " + newY;
-							moves.add(pMove);
-						}
-					}
-				}else{
-					//Permanently stops the search 
-					searchBottomRight = false;
-				}
-			}
-			
-			
 		}
 		
 		//Resets the values for use next time 
@@ -176,14 +101,10 @@ public class Queen extends Piece{
 		enemyDown = true;
 		enemyRight = true;
 		enemyLeft = true;
-		enemyTopRightSearch = true;
-		enemyTopLeftSearch = true;
-		enemyBottomRightSearch = true;
-		enemyBottomLeftSearch = true;
 		
 		return moves;
 	}
-	
+	//Checks to see if enemy is found for the corresponding piece
 	public boolean checkPiece(int sourceX, int sourceY,int pieceColor, String[][] chessBoard,int whichSearch){
 		if(Character.isLowerCase(chessBoard[sourceX][sourceY].charAt(0)) && pieceColor == Gui.WHITE){
 			//Stops the corresponding with respect to the number that represents it 
@@ -199,7 +120,7 @@ public class Queen extends Piece{
 			return false;
 	}
 	
-	//This method is to help determine if the same color piece is present as the bishop.
+	//This method is to help determine if the same color piece is present as the rook.
 	public boolean checkForSamePiece(int sourceX, int sourceY,int pieceColor, String[][] chessBoard){
 		if(Character.isUpperCase(chessBoard[sourceX][sourceY].charAt(0)) && pieceColor == Gui.WHITE){
 			return true;
@@ -225,18 +146,6 @@ public class Queen extends Piece{
 				break;
 			case 4:
 				enemyRight = false;
-				break;
-			case 5: 
-				enemyTopRightSearch = false;
-				break;
-			case 6:
-				enemyTopLeftSearch = false;
-				break;
-			case 7:
-				enemyBottomLeftSearch = false;
-				break;
-			case 8:
-				enemyBottomRightSearch = false;
 				break;
 		default:
 			break;
