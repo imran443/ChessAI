@@ -86,6 +86,8 @@ public class Bishop extends Piece {
 		}
 		return moves;
 	}
+	
+	
 	//Method used to reduce redundant coding, will return true only if it finds the corresponding piece to capture based on color
 	public boolean checkPiece(int sourceX, int sourceY,int pieceColor, String[][] chessBoard){
 		if(Character.isLowerCase(chessBoard[sourceX][sourceY].charAt(0)) && pieceColor == Gui.WHITE){
