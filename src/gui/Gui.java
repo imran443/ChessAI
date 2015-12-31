@@ -41,7 +41,6 @@ public class Gui extends JPanel implements ActionListener{
 	ValidateMoves moves = new ValidateMoves();
 	boolean humanPlayer = false;
 	boolean computerPlayer = true;
-	boolean checkTurn = true;
 
 	public Gui(){
 		createImages();
@@ -153,7 +152,7 @@ public class Gui extends JPanel implements ActionListener{
 	}
 	
 	// updates the chess board array according GUI moves
-	public void UpdateChessBoard(int newX, int newY){
+	public void UpdateChessBoard(int newX, int newY, String[][] chessBoard){
 		// updates the position of the piece on the chess board
 		chessBoard[newX][newY] = sourceArray[2];
 		chessBoard[Integer.parseInt(sourceArray[0])][Integer.parseInt(sourceArray[1])] = " ";
@@ -180,6 +179,7 @@ public class Gui extends JPanel implements ActionListener{
 		
 		
 		public void placing_piece(JButton clickButton){
+			
 			// updates the icon on the board
 			clickButton.setIcon(mc);
 			// sets the icon of first click position to null
@@ -187,7 +187,8 @@ public class Gui extends JPanel implements ActionListener{
 			firstClick = null;
 			list.clear();
 			// this method is used for updating chessBoard
-			UpdateChessBoard(row, column);
+			UpdateChessBoard(row, column, chessBoard);
+			
 			print(chessBoard);
 		}
 		
