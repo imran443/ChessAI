@@ -102,6 +102,73 @@ public class Queen extends Piece{
 				}
 			}
 			
+			
+			//Top right
+			if(sourceX - i >= 0 && sourceY + i <= 7){
+				if(checkForSamePiece(sourceX - i, sourceY + i, pieceColor, chessBoard) == false && searchTopRight == true){
+					if(enemyTopRightSearch == true){
+						if(chessBoard[sourceX - i][sourceY + i].equals(" ") || checkPiece(sourceX-i, sourceY + i, pieceColor, chessBoard, 5)){
+							newX = sourceX - i;
+							newY = sourceY + i;
+							pMove = newX + " " + newY;
+							moves.add(pMove);
+						}
+					}
+				}
+				else{
+					searchTopRight = false;
+				}
+			}
+			//Top left 
+			if(sourceX - i >= 0 && sourceY - i >=0){
+				if(checkForSamePiece(sourceX - i, sourceY - i, pieceColor, chessBoard) == false && searchTopLeft == true){
+					if(enemyTopLeftSearch == true){
+						if(chessBoard[sourceX - i][sourceY - i].equals(" ") || checkPiece(sourceX - i, sourceY - i, pieceColor, chessBoard, 6)){
+							newX = sourceX - i;
+							newY = sourceY - i;
+							pMove = newX + " " + newY;
+							moves.add(pMove);
+						}
+					}
+				}else{
+					searchTopLeft = false;
+				}
+			}
+			//Bottom left
+			if(sourceX + i <=7 && sourceY - i >= 0){
+				if(checkForSamePiece(sourceX + i, sourceY - i, pieceColor, chessBoard) == false && searchBottomLeft == true){
+					if(enemyBottomLeftSearch == true){
+						if(chessBoard[sourceX + i][sourceY - i].equals(" ") || checkPiece(sourceX + i, sourceY - i, pieceColor, chessBoard,7)){
+							newX = sourceX + i;
+							newY = sourceY - i;
+							pMove = newX + " " + newY;
+							moves.add(pMove);
+						}
+					}
+				}
+				else{
+					searchBottomLeft = false;
+				}
+			}
+			//Bottom Right
+			if(sourceX + i <= 7 && sourceY + i <=7){
+				//Stops the search if a same color piece is found in the bishops path
+				if(checkForSamePiece(sourceX + i, sourceY + i, pieceColor, chessBoard) == false && searchBottomRight == true){
+					if(enemyBottomRightSearch == true){
+						if(chessBoard[sourceX + i][sourceY + i].equals(" ") || checkPiece(sourceX + i, sourceY + i, pieceColor, chessBoard, 8)){
+							newX = sourceX + i;
+							newY = sourceY + i;
+							pMove = newX + " " + newY;
+							moves.add(pMove);
+						}
+					}
+				}else{
+					//Permanently stops the search 
+					searchBottomRight = false;
+				}
+			}
+			
+			
 		}
 		
 		//Resets the values for use next time 
@@ -158,6 +225,18 @@ public class Queen extends Piece{
 				break;
 			case 4:
 				enemyRight = false;
+				break;
+			case 5: 
+				enemyTopRightSearch = false;
+				break;
+			case 6:
+				enemyTopLeftSearch = false;
+				break;
+			case 7:
+				enemyBottomLeftSearch = false;
+				break;
+			case 8:
+				enemyBottomRightSearch = false;
 				break;
 		default:
 			break;
