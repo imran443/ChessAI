@@ -16,7 +16,6 @@ public class Knight extends Piece{
 		int newX;
 		int newY;
 		
-		
 		// HEAD AND BACK
 		if(sourceX+2 <= 7){
 			// 2 head and 1 right

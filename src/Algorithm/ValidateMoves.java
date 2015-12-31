@@ -12,12 +12,14 @@ public class ValidateMoves {
 	King king;
 	Bishop bishop;
 	Knight knight;
+	Queen queen;
 	
 	public ValidateMoves(){
 		pawn = new Pawn();
 		king = new King();
 		bishop = new Bishop();
 		knight = new Knight();
+		queen = new Queen();
 	}
 	
 	//Used to check what piece is grabbed by mouse
@@ -36,6 +38,7 @@ public class ValidateMoves {
 				moves = bishop.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
 				break;
 			case "Q":
+				moves = queen.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
 				break;
 			case "A":
 				moves = king.possibleMoves(sourceX,sourceY, Gui.WHITE, chessBoard);
@@ -52,6 +55,7 @@ public class ValidateMoves {
 				moves = bishop.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
 				break;
 			case "q":
+				moves = queen.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
 				break;
 			case "a":
 				moves = king.possibleMoves(sourceX,sourceY, Gui.BLACK, chessBoard);
