@@ -12,6 +12,7 @@ public class Bishop extends Piece {
 	boolean enemyTopLeftSearch = true;
 	boolean enemyBottomRightSearch = true;
 	boolean enemyBottomLeftSearch = true;
+			
 	
 	@Override
 	public ArrayList<String> possibleMoves(int sourceX, int sourceY, int pieceColor, String[][] chessBoard) {
@@ -30,11 +31,13 @@ public class Bishop extends Piece {
 			//Top right
 			if(sourceX - i >= 0 && sourceY + i <= 7){
 				if(checkPieceForBishop(sourceX - i, sourceY + i, pieceColor, chessBoard) == false && searchTopRight == true){
-					if(chessBoard[sourceX - i][sourceY + i].equals(" ") || checkPiece(sourceX-i, sourceY + i, pieceColor, chessBoard) && enemyTopRightSearch == true){
-						newX = sourceX - i;
-						newY = sourceY + i;
-						pMove = newX + " " + newY;
-						moves.add(pMove);
+					if(enemyTopRightSearch == true){
+						if(chessBoard[sourceX - i][sourceY + i].equals(" ") || checkPiece(sourceX-i, sourceY + i, pieceColor, chessBoard, 1)){
+							newX = sourceX - i;
+							newY = sourceY + i;
+							pMove = newX + " " + newY;
+							moves.add(pMove);
+						}
 					}
 				}
 				else{
@@ -44,11 +47,13 @@ public class Bishop extends Piece {
 			//Top left 
 			if(sourceX - i >= 0 && sourceY - i >=0){
 				if(checkPieceForBishop(sourceX - i, sourceY - i, pieceColor, chessBoard) == false && searchTopLeft == true){
-					if(chessBoard[sourceX - i][sourceY - i].equals(" ") || checkPiece(sourceX - i, sourceY - i, pieceColor, chessBoard) && enemyTopLeftSearch == true){
-						newX = sourceX - i;
-						newY = sourceY - i;
-						pMove = newX + " " + newY;
-						moves.add(pMove);
+					if(enemyTopLeftSearch == true){
+						if(chessBoard[sourceX - i][sourceY - i].equals(" ") || checkPiece(sourceX - i, sourceY - i, pieceColor, chessBoard, 2)){
+							newX = sourceX - i;
+							newY = sourceY - i;
+							pMove = newX + " " + newY;
+							moves.add(pMove);
+						}
 					}
 				}else{
 					searchTopLeft = false;
@@ -57,11 +62,13 @@ public class Bishop extends Piece {
 			//Bottom left
 			if(sourceX + i <=7 && sourceY - i >= 0){
 				if(checkPieceForBishop(sourceX + i, sourceY - i, pieceColor, chessBoard) == false && searchBottomLeft == true){
-					if(chessBoard[sourceX + i][sourceY - i].equals(" ") || checkPiece(sourceX + i, sourceY - i, pieceColor, chessBoard) && enemyBottomLeftSearch == true){
-						newX = sourceX + i;
-						newY = sourceY - i;
-						pMove = newX + " " + newY;
-						moves.add(pMove);
+					if(enemyBottomLeftSearch == true){
+						if(chessBoard[sourceX + i][sourceY - i].equals(" ") || checkPiece(sourceX + i, sourceY - i, pieceColor, chessBoard,3)){
+							newX = sourceX + i;
+							newY = sourceY - i;
+							pMove = newX + " " + newY;
+							moves.add(pMove);
+						}
 					}
 				}
 				else{
@@ -71,12 +78,14 @@ public class Bishop extends Piece {
 			//Bottom Right
 			if(sourceX + i <= 7 && sourceY + i <=7){
 				//Stops the search if a same color piece is found in the bishops path
-				if(checkPieceForBishop(sourceX + i, sourceY + i, pieceColor, chessBoard)==false && searchBottomRight == true){
-					if(chessBoard[sourceX + i][sourceY + i].equals(" ") || checkPiece(sourceX + i, sourceY + i, pieceColor, chessBoard) && enemyBottomRightSearch == true){
-						newX = sourceX + i;
-						newY = sourceY + i;
-						pMove = newX + " " + newY;
-						moves.add(pMove);
+				if(checkPieceForBishop(sourceX + i, sourceY + i, pieceColor, chessBoard) == false && searchBottomRight == true){
+					if(enemyBottomRightSearch == true){
+						if(chessBoard[sourceX + i][sourceY + i].equals(" ") || checkPiece(sourceX + i, sourceY + i, pieceColor, chessBoard, 4)){
+							newX = sourceX + i;
+							newY = sourceY + i;
+							pMove = newX + " " + newY;
+							moves.add(pMove);
+						}
 					}
 				}else{
 					//Permanently stops the search 
@@ -84,14 +93,25 @@ public class Bishop extends Piece {
 				}
 			}
 		}
+		//Resets the values for use next time 
+		enemyTopRightSearch = true;
+		enemyTopLeftSearch = true;
+		enemyBottomRightSearch = true;
+		enemyBottomLeftSearch = true;
+		
 		return moves;
 	}
 	//Method used to reduce redundant coding, will return true only if it finds the corresponding piece to capture based on color
-	public boolean checkPiece(int sourceX, int sourceY,int pieceColor, String[][] chessBoard){
+	public boolean checkPiece(int sourceX, int sourceY,int pieceColor, String[][] chessBoard,int whichSearch){
 		if(Character.isLowerCase(chessBoard[sourceX][sourceY].charAt(0)) && pieceColor == Gui.WHITE){
+			//Stops the corresponding with respect to the number that represents it 
+			stopEnemySearch(whichSearch);
+			System.out.println("Enemy search set to false for WHITE");
 			return true;
 		}
 		else if(Character.isUpperCase(chessBoard[sourceX][sourceY].charAt(0)) && pieceColor == Gui.BLACK){
+			stopEnemySearch(whichSearch);
+			System.out.println("Enemy search set to false for BLACK");
 			return true;
 		}
 			return false;
@@ -106,6 +126,25 @@ public class Bishop extends Piece {
 			return true;
 		}
 			return false;
+	}
+	//Used to tell which search to stop
+	public void stopEnemySearch(int i){
+		switch (i) {
+			case 1:
+				enemyTopRightSearch = false;
+				break;
+			case 2:
+				enemyTopLeftSearch = false;
+				break;
+			case 3: 
+				enemyBottomLeftSearch = false;
+				break;
+			case 4:
+				enemyBottomRightSearch = false;
+				break;
+		default:
+			break;
+		}
 	}
 
 }
