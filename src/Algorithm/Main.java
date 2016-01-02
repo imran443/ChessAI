@@ -20,7 +20,6 @@ public class Main {
 	
 	public void Initialize(){
 		initGame = new InitializeGame();
-		
 	}
 
 	public static void main(String[] args) {

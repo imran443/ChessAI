@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import Algorithm.ValidateMoves;
+import ai.AiAlgorithm;
 
 public class Gui extends JPanel implements ActionListener{
 	//Lower case letter are Black and Upper case are White
@@ -42,9 +43,14 @@ public class Gui extends JPanel implements ActionListener{
 	int[][] buttonGrid = new int[8][8];
 	//Used to validate moves
 	ValidateMoves moves = new ValidateMoves();
+	
+	// checks for who turn it is 
 	boolean humanPlayer = false;
 	boolean computerPlayer = true;
-	boolean checkTurn = true;
+	
+	// AI
+	AiAlgorithm ai = new AiAlgorithm();
+	
 
 	public Gui(){
 		tools = new JToolBar();
@@ -121,6 +127,20 @@ public class Gui extends JPanel implements ActionListener{
 			 board[7][i].setIcon(icon);
 		 }
 		 
+		 if(computerPlayer == true){
+			 computerPlayer = false;
+			 humanPlayer = true;
+
+				
+			tools.remove(white_turn);
+			tools.add(black_turn);
+			
+			tools.revalidate();
+			tools.repaint();
+			 
+			 
+			 ai.Moves(chessBoard);
+		 }
 		
 	}
 	
@@ -261,6 +281,7 @@ public class Gui extends JPanel implements ActionListener{
 						}else if(mc.getDescription().equals(String.valueOf(0)) && humanPlayer == true){
 							placing_piece(clickButton);
 							humanPlayer = false;
+							
 							return true;
 						}
 						
@@ -281,7 +302,7 @@ public class Gui extends JPanel implements ActionListener{
 				
 				if(selecting_piece(clickButton)){
 					humanPlayer = true;
-					//tools.add(black_turn);
+
 					
 					tools.remove(white_turn);
 					tools.add(black_turn);
@@ -301,6 +322,7 @@ public class Gui extends JPanel implements ActionListener{
 					
 					tools.revalidate();
 					tools.repaint();
+					
 				}
 				
 			}

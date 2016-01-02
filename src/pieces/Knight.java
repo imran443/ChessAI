@@ -17,9 +17,9 @@ public class Knight extends Piece{
 		int newX;
 		int newY;
 		
-		// HEAD AND BACK
+		// UP AND BACK
 		if(sourceX+2 <= 7){
-			// 2 head and 1 right
+			// 2 up and 1 right
 			if(sourceY+1 <= 7){
 				if(chessBoard[sourceX+2][sourceY+1].equals(" ") || checkPiece(sourceX+2, sourceY+1, pieceColor, chessBoard)){
 					newX = sourceX+2;
@@ -30,7 +30,7 @@ public class Knight extends Piece{
 			}
 			
 			
-			// 2 head and 1 left
+			// 2 up and 1 left
 			if(sourceY-1 >= 0){
 				if(chessBoard[sourceX+2][sourceY-1].equals(" ") || checkPiece(sourceX+2, sourceY-1, pieceColor, chessBoard)){
 					newX = sourceX+2;
@@ -66,7 +66,7 @@ public class Knight extends Piece{
 		
 		//RIGHT AND LEFT
 		if(sourceY+2 <= 7){
-			// 2 rights and 1 head
+			// 2 rights and 1 up
 			if(sourceX+1 <= 7){
 				if(chessBoard[sourceX+1][sourceY+2].equals(" ") || checkPiece(sourceX+1, sourceY+2, pieceColor, chessBoard)){
 					newX = sourceX+1;
