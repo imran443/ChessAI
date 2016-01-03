@@ -1,11 +1,8 @@
 package Algorithm;
 
-import java.awt.BorderLayout;
-
-import gui.Gui;
 import gui.InitializeGame;
 
-import javax.swing.JFrame;
+
 
 public class Main {
 
@@ -13,7 +10,6 @@ public class Main {
 	
 	
 	public Main(){
-		
 		Initialize();
 	}
 	

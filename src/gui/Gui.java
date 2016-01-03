@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.*;
 
+import Algorithm.KingSafety;
 import Algorithm.ValidateMoves;
 import ai.AiAlgorithm;
 
@@ -24,6 +25,8 @@ public class Gui extends JPanel implements ActionListener{
 				       {" "," "," "," "," "," "," "," "},
 				       {"P","P","P","P","P","P","P","P"},
 				       {"R","K","B","Q","A","B","K","R"}};
+	//This is a secondary copy of the board used for checking if the king is in check
+	String[][] chessBoardCopy = new String[8][8];
 	// board of buttons
 	JButton[][] board = new JButton[8][8];
 
@@ -33,8 +36,8 @@ public class Gui extends JPanel implements ActionListener{
 	JButton save = new JButton("Save");
 	JButton reset = new JButton("Reset");
 	JButton reset2 = new JButton("Reset");
-	JLabel white_turn= new JLabel("WHITE turns");
-	JLabel black_turn = new JLabel("BLACK turns");
+	JLabel white_turn= new JLabel("WHITE's Turn");
+	JLabel black_turn = new JLabel("BLACK's Turn");
 	private Image[][] chessPieceImages = new Image[2][6];
 	public static final int BLACK = 0, WHITE = 1;
 	public static final int QUEEN = 0, KING = 1, ROOK = 2, KNIGHT = 3, BISHOP = 4, PAWN = 5;
@@ -51,6 +54,10 @@ public class Gui extends JPanel implements ActionListener{
 	// AI
 	AiAlgorithm ai = new AiAlgorithm();
 	
+
+	//Used to see if the king is safe and not in check
+	KingSafety kingSafety = new KingSafety();
+
 
 	public Gui(){
 		tools = new JToolBar();
@@ -139,7 +146,7 @@ public class Gui extends JPanel implements ActionListener{
 			tools.repaint();
 			 
 			 
-			 ai.Moves(chessBoard);
+			 ai.chessBoard(chessBoard);
 		 }
 		
 	}
@@ -170,9 +177,7 @@ public class Gui extends JPanel implements ActionListener{
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-	}
+	public void actionPerformed(ActionEvent e) {}
 	
 	// stores sourceX, sourceY and the piece at that position
 	String[] sourceArray = new String[3];
@@ -189,7 +194,7 @@ public class Gui extends JPanel implements ActionListener{
 	}
 	
 	// updates the chess board array according GUI moves
-	public void UpdateChessBoard(int newX, int newY){
+	public void UpdateChessBoard(int newX, int newY, String[][] chessBoard){
 		// updates the position of the piece on the chess board
 		chessBoard[newX][newY] = sourceArray[2];
 		chessBoard[Integer.parseInt(sourceArray[0])][Integer.parseInt(sourceArray[1])] = " ";
@@ -197,6 +202,21 @@ public class Gui extends JPanel implements ActionListener{
 		sourceArray[0] = "";
 		sourceArray[1] = "";
 		sourceArray[2] = "";
+	}
+	// updates the chess board array according GUI moves
+		public void updateChessBoardCopy(int newX, int newY, String[][] chessBoard){
+			// updates the position of the piece on the chess board
+			chessBoard[newX][newY] = sourceArray[2];
+			chessBoard[Integer.parseInt(sourceArray[0])][Integer.parseInt(sourceArray[1])] = " ";
+		}
+	
+	//Copies chessBoard array to chessBoardCopy 
+	public void copyArray(){
+		for(int i = 0; i<chessBoard.length;i++){
+			for (int j = 0; j < chessBoard.length; j++) {
+				chessBoardCopy[i][j] = chessBoard[i][j];
+			}
+		}
 	}
 	
 	//This is a nested class
@@ -215,19 +235,37 @@ public class Gui extends JPanel implements ActionListener{
 		}
 		
 		
-		public void placing_piece(JButton clickButton){
-			// updates the icon on the board
-			clickButton.setIcon(mc);
-			// sets the icon of first click position to null
-			firstClick.setIcon(null);
-			firstClick = null;
-			list.clear();
-			// this method is used for updating chessBoard
-			UpdateChessBoard(row, column);
+		public boolean placing_piece(JButton clickButton){
+			int pieceColor = 0;
+			copyArray();
+			//Decides what color to send into the kingSafety based on opposite color
+			if(Integer.parseInt(mc.getDescription())==Gui.WHITE){
+				pieceColor = Gui.WHITE;
+			}else {
+				pieceColor = Gui.BLACK;
+			}
+			//Do the move for the copy chessBoard 
+			updateChessBoardCopy(row, column, chessBoardCopy);
+			//Check on the copy chess board if king is in check, if it is then don't do move on real chessBoard
+			if(kingSafety.kingInCheck(chessBoardCopy, pieceColor)==false){
+				// updates the icon on the board
+				clickButton.setIcon(mc);
+				// sets the icon of first click position to null
+				firstClick.setIcon(null);
+				firstClick = null;
+				list.clear();
+				// this method is used for updating chessBoard
+				UpdateChessBoard(row, column, chessBoard);
+				//Return if board is updated successfully and piece has been placed.
+				return true;
+			}
+			
 			print(chessBoard);
+			//Failed to make move 
+			return false;
 		}
 		
-		// this method selects the piece user wants to place or ai wants to place
+		// this method selects the piece user wants to place or AI wants to place
 		public boolean selecting_piece(JButton clickButton){
 			
 			if(firstClick == null){
@@ -244,14 +282,23 @@ public class Gui extends JPanel implements ActionListener{
 					// checks whose turn it is
 					// computer players turn
 					if(mc.getDescription().equals(String.valueOf(1)) && computerPlayer == true){
-						placing_piece(clickButton);
-						computerPlayer = false;
-						return true;
+						//If placing piece is done then end turn and return true, else false
+						if(placing_piece(clickButton)){
+							computerPlayer = false;
+							return true;
+						}else {
+							System.out.println("In Check");
+							return false;
+						}
 						// human player turn
 					}else if(mc.getDescription().equals(String.valueOf(0)) && humanPlayer == true){
-						placing_piece(clickButton);
-						humanPlayer = false;
-						return true;
+						if(placing_piece(clickButton)){
+							humanPlayer = false;
+							return true;
+						}else{
+							System.out.println("In Check");
+							return false;
+						}
 					}
 					
 				}else{
@@ -274,15 +321,22 @@ public class Gui extends JPanel implements ActionListener{
 						// checks whose turn it is
 						// if computer player turns
 						if(mc.getDescription().equals(String.valueOf(1)) && computerPlayer == true){
-							placing_piece(clickButton);
-							computerPlayer = false;
-							return true;
+							if(placing_piece(clickButton)){
+								computerPlayer = false;
+								return true;
+							}else {
+								System.out.println("In Check");
+								return false;
+							}
 							// human players turn
 						}else if(mc.getDescription().equals(String.valueOf(0)) && humanPlayer == true){
-							placing_piece(clickButton);
-							humanPlayer = false;
-							
-							return true;
+							if(placing_piece(clickButton)){
+								humanPlayer = false;
+								return true;
+							}else{
+								System.out.println("In Check");
+								return false;
+							}
 						}
 						
 					}
@@ -296,13 +350,12 @@ public class Gui extends JPanel implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			
 			JButton clickButton = (JButton)e.getSource();
-			// turn systems, white always goes first. White is computer
+			// turn systems, white always goes first. 
 			
 			if(computerPlayer == true){
 				
 				if(selecting_piece(clickButton)){
 					humanPlayer = true;
-
 					
 					tools.remove(white_turn);
 					tools.add(black_turn);
@@ -310,7 +363,7 @@ public class Gui extends JPanel implements ActionListener{
 					tools.revalidate();
 					tools.repaint();
 				}
-				// human player is black or (golden in this case)
+			// human player is black or (golden in this case)
 			}else if(humanPlayer==true){
 				
 				if(selecting_piece(clickButton)){

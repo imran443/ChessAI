@@ -9,7 +9,7 @@ public class Queen extends Piece{
 
 	ArrayList<String> moves = new ArrayList<String>();
 	
-	//Used to stop searching when first enemy is found for bishop so it does not jump over it to cap others behind it
+	//Used to stop searching when first enemy is found for Queen so it does not jump over it to cap others behind it
 	boolean enemyTop = true;
 	boolean enemyDown = true;
 	boolean enemyRight = true;
@@ -21,7 +21,6 @@ public class Queen extends Piece{
 	
 	@Override
 	public ArrayList<String> possibleMoves(int sourceX, int sourceY, int pieceColor, String[][] chessBoard) {
-		// TODO Auto-generated method stub
 		
 		String pMove = "";
 		// The new X coordinate for the piece
@@ -153,7 +152,7 @@ public class Queen extends Piece{
 			}
 			//Bottom Right
 			if(sourceX + i <= 7 && sourceY + i <=7){
-				//Stops the search if a same color piece is found in the bishops path
+				//Stops the search if a same color piece is found in the Queens path
 				if(checkForSamePiece(sourceX + i, sourceY + i, pieceColor, chessBoard) == false && searchBottomRight == true){
 					if(enemyBottomRightSearch == true){
 						if(chessBoard[sourceX + i][sourceY + i].equals(" ") || checkPiece(sourceX + i, sourceY + i, pieceColor, chessBoard, 8)){
@@ -189,18 +188,16 @@ public class Queen extends Piece{
 		if(Character.isLowerCase(chessBoard[sourceX][sourceY].charAt(0)) && pieceColor == Gui.WHITE){
 			//Stops the corresponding with respect to the number that represents it 
 			stopEnemySearch(whichSearch);
-			System.out.println("Enemy search set to false for WHITE");
 			return true;
 		}
 		else if(Character.isUpperCase(chessBoard[sourceX][sourceY].charAt(0)) && pieceColor == Gui.BLACK){
 			stopEnemySearch(whichSearch);
-			System.out.println("Enemy search set to false for BLACK");
 			return true;
 		}
 			return false;
 	}
 	
-	//This method is to help determine if the same color piece is present as the bishop.
+	//This method is to help determine if the same color piece is present as the Queen.
 	public boolean checkForSamePiece(int sourceX, int sourceY,int pieceColor, String[][] chessBoard){
 		if(Character.isUpperCase(chessBoard[sourceX][sourceY].charAt(0)) && pieceColor == Gui.WHITE){
 			return true;

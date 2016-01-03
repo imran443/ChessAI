@@ -78,7 +78,6 @@ public class InitializeGame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				ply_num = plyInput.getText();
 				secondPlayer = horcInput.getText();
 				
@@ -91,7 +90,7 @@ public class InitializeGame {
 		});
 	}
 	
-	// methods calls the gui class that holds the game board 
+	// methods calls the GUI class that holds the game board 
 	public void Gui(){
 		JFrame frame = new JFrame("Chess");
 		frame.setSize(800, 800);

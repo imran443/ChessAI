@@ -13,6 +13,8 @@ import pieces.Rook;
 public class ValidateMoves {
 	
 	ArrayList<String> moves = new ArrayList<String>();
+	ArrayList<String> whiteMoves = new ArrayList<String>();
+	ArrayList<String> blackMoves = new ArrayList<String>();
 	Pawn pawn;
 
 	King king;
@@ -36,39 +38,51 @@ public class ValidateMoves {
 		switch (chessBoard[sourceX][sourceY]) {
 			case "P":
 				moves = pawn.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard);
+				whiteMoves.addAll(pawn.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard));
 				break;
 			case "R":
 				moves = rook.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
+				whiteMoves.addAll(rook.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard));
 				break;
 			case "K":
 				moves = knight.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
+				whiteMoves.addAll(knight.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard));
 				break;
 			case "B":
 				moves = bishop.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
+				whiteMoves.addAll(bishop.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard));
 				break;
 			case "Q":
 				moves = queen.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
+				whiteMoves.addAll(queen.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard));
 				break;
 			case "A":
 				moves = king.possibleMoves(sourceX,sourceY, Gui.WHITE, chessBoard);
+				whiteMoves.addAll(king.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard));
 				break;
 			case "p":
 				moves = pawn.possibleMoves(sourceX, sourceY,Gui.BLACK,chessBoard);
+				blackMoves.addAll(pawn.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard));
 				break;
 			case "r":
 				moves = rook.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
+				blackMoves.addAll(rook.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard));
 				break;
 			case "k":
 				moves = knight.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
+				blackMoves.addAll(knight.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard));
 				break;
 			case "b":
 				moves = bishop.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
+				blackMoves.addAll(bishop.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard));
 				break;
 			case "q":
 				moves = queen.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
+				blackMoves.addAll(queen.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard));
 				break;
 			case "a":
 				moves = king.possibleMoves(sourceX,sourceY, Gui.BLACK, chessBoard);
+				blackMoves.addAll(king.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard));
 				break;
 			default:
 				System.out.println("Not a real piece");
@@ -88,4 +102,15 @@ public class ValidateMoves {
 		}
 		return false;
 	}
+	
+	
+	public ArrayList<String> possibleWhiteMoves(){
+		return whiteMoves;
+	}
+	
+	public ArrayList<String> possibleBlackMoves(){
+		return blackMoves;
+	}
+	
+	
 }

@@ -10,16 +10,15 @@ public class Knight extends Piece{
 	
 	@Override
 	public ArrayList<String> possibleMoves(int sourceX, int sourceY, int pieceColor, String[][] chessBoard) {
-		// TODO Auto-generated method stub
 		//The possible moves 
 		String pMove="";
 		//The new X coordinate for the piece
 		int newX;
 		int newY;
 		
-		// UP AND BACK
+		//Keeps the search in bounds
 		if(sourceX+2 <= 7){
-			// 2 up and 1 right
+			// 2 down and 1 right
 			if(sourceY+1 <= 7){
 				if(chessBoard[sourceX+2][sourceY+1].equals(" ") || checkPiece(sourceX+2, sourceY+1, pieceColor, chessBoard)){
 					newX = sourceX+2;
@@ -29,8 +28,6 @@ public class Knight extends Piece{
 				}
 			}
 			
-			
-			// 2 up and 1 left
 			if(sourceY-1 >= 0){
 				if(chessBoard[sourceX+2][sourceY-1].equals(" ") || checkPiece(sourceX+2, sourceY-1, pieceColor, chessBoard)){
 					newX = sourceX+2;
@@ -42,7 +39,7 @@ public class Knight extends Piece{
 		}
 		
 		if(sourceX-2 >= 0 ){
-			// 2 back and 1 right and left
+			// 2 up and 1 right
 			if(sourceY+1 <= 7){
 				if(chessBoard[sourceX-2][sourceY+1].equals(" ") || checkPiece(sourceX-2, sourceY+1, pieceColor, chessBoard)){
 					newX = sourceX-2;
@@ -54,6 +51,7 @@ public class Knight extends Piece{
 			
 			
 			if(sourceY-1 >= 0){
+				//2 up and 1 left
 				if(chessBoard[sourceX-2][sourceY-1].equals(" ") || checkPiece(sourceX-2, sourceY-1, pieceColor, chessBoard)){
 					newX = sourceX-2;
 					newY = sourceY-1;
@@ -64,9 +62,8 @@ public class Knight extends Piece{
 			
 		}
 		
-		//RIGHT AND LEFT
 		if(sourceY+2 <= 7){
-			// 2 rights and 1 up
+			// 2 right and 1 up
 			if(sourceX+1 <= 7){
 				if(chessBoard[sourceX+1][sourceY+2].equals(" ") || checkPiece(sourceX+1, sourceY+2, pieceColor, chessBoard)){
 					newX = sourceX+1;
@@ -76,7 +73,7 @@ public class Knight extends Piece{
 				}
 			}
 			
-			// 2 rights and 1 back
+			// 2 right and 1 down
 			if(sourceX-1 >= 0){
 				if(chessBoard[sourceX-1][sourceY+2].equals(" ") || checkPiece(sourceX-1, sourceY+2, pieceColor, chessBoard)){
 					newX = sourceX-1;
@@ -89,7 +86,7 @@ public class Knight extends Piece{
 		}
 		
 		if(sourceY-2 >= 0){
-			// lefts
+			// 1 down and 2 left
 			if(sourceX+1 <= 7){
 				if(chessBoard[sourceX+1][sourceY-2].equals(" ") || checkPiece(sourceX+1, sourceY-2, pieceColor, chessBoard)){
 					newX = sourceX+1;
@@ -100,6 +97,7 @@ public class Knight extends Piece{
 			}
 			
 			if(sourceX-1 >= 0){
+				//1 up and 2 left
 				if(chessBoard[sourceX-1][sourceY-2].equals(" ") || checkPiece(sourceX-1, sourceY-2, pieceColor, chessBoard)){
 					newX = sourceX-1;
 					newY = sourceY-2;
