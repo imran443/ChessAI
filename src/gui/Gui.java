@@ -52,17 +52,15 @@ public class Gui extends JPanel implements ActionListener{
 	boolean computerPlayer = true;
 	
 	// AI
-	AiAlgorithm ai = new AiAlgorithm();
+	AiAlgorithm ai ;
 	
-
-	//Used to see if the king is safe and not in check
+	//Used to see if the king is safe and not in check or checkmate
 	KingSafety kingSafety = new KingSafety();
 
 
 	public Gui(){
 		tools = new JToolBar();
-		
-		
+	
 		white_turn.setBackground(Color.GREEN);
 		black_turn.setBackground(Color.YELLOW);
 		
@@ -144,11 +142,11 @@ public class Gui extends JPanel implements ActionListener{
 			
 			tools.revalidate();
 			tools.repaint();
-			 
-			 
-			 ai.chessBoard(chessBoard);
+			
+			ai = new AiAlgorithm(chessBoard);
+			
+			System.out.println(ai.alphabeta(4, Integer.MIN_VALUE, Integer.MAX_VALUE, chessBoard, BLACK));
 		 }
-		
 	}
 	
 	private final void createImages() {
@@ -203,12 +201,12 @@ public class Gui extends JPanel implements ActionListener{
 		sourceArray[1] = "";
 		sourceArray[2] = "";
 	}
-	// updates the chess board array according GUI moves
-		public void updateChessBoardCopy(int newX, int newY, String[][] chessBoard){
-			// updates the position of the piece on the chess board
-			chessBoard[newX][newY] = sourceArray[2];
-			chessBoard[Integer.parseInt(sourceArray[0])][Integer.parseInt(sourceArray[1])] = " ";
-		}
+	// updates the chess board copy array according GUI moves
+	public void updateChessBoardCopy(int newX, int newY, String[][] chessBoard){
+		// updates the position of the piece on the chess board
+		chessBoard[newX][newY] = sourceArray[2];
+		chessBoard[Integer.parseInt(sourceArray[0])][Integer.parseInt(sourceArray[1])] = " ";
+	}
 	
 	//Copies chessBoard array to chessBoardCopy 
 	public void copyArray(){
@@ -229,7 +227,6 @@ public class Gui extends JPanel implements ActionListener{
 		int row, column;
 		
 		public ChessListener(int i, int j){
-			
 			this.row = i;
 			this.column = j;
 		}
@@ -238,8 +235,8 @@ public class Gui extends JPanel implements ActionListener{
 		public boolean placing_piece(JButton clickButton){
 			int pieceColor = 0;
 			copyArray();
-			//Decides what color to send into the kingSafety based on opposite color
-			if(Integer.parseInt(mc.getDescription())==Gui.WHITE){
+			//Decides what color to send into the kingSafety, based on opposite color
+			if(Integer.parseInt(mc.getDescription()) == Gui.WHITE){
 				pieceColor = Gui.WHITE;
 			}else {
 				pieceColor = Gui.BLACK;
@@ -256,13 +253,16 @@ public class Gui extends JPanel implements ActionListener{
 				list.clear();
 				// this method is used for updating chessBoard
 				UpdateChessBoard(row, column, chessBoard);
+				print(chessBoard);
 				//Return if board is updated successfully and piece has been placed.
 				return true;
+			}else{
+				//Verifies if the king is in a check mate and will say it
+				kingSafety.kingCheckMate(chessBoard, pieceColor);
+				print(chessBoard);
+				//Failed to make move 
+				return false;
 			}
-			
-			print(chessBoard);
-			//Failed to make move 
-			return false;
 		}
 		
 		// this method selects the piece user wants to place or AI wants to place

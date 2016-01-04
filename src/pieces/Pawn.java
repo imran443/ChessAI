@@ -21,6 +21,7 @@ public class Pawn extends Piece{
 				pMove = newX + " " + sourceY;
 				moves.add(pMove);
 			}
+			
 			//If the two spots in front of it are empty and it is in the original position it can jump two spots
 			if(sourceX == 1)
 				if(chessBoard[sourceX+2][sourceY].equals(" ") && chessBoard[sourceX+1][sourceY].equals(" ")){
@@ -36,7 +37,7 @@ public class Pawn extends Piece{
 					pMove = newX + " " + newY;
 					moves.add(pMove);
 				}
-			if(sourceY-1 >=0)
+			if(sourceY-1 >= 0)
 				if(Character.isUpperCase(chessBoard[sourceX+1][sourceY-1].charAt(0)) && pieceColor == Gui.BLACK){
 					newX = sourceX + 1;
 					newY = sourceY - 1;
