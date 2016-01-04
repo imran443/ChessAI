@@ -34,7 +34,7 @@ public class AiAlgorithm {
 				System.out.println(s);
 				// apply the move 
 				makeMove(s);
-				// do the max( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
+				// do the max(alphabeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
 				alpha = Math.max(alpha, alphabeta(depth-1, beta, alpha, board, player*2-1));
 
 				// revert back
@@ -53,7 +53,7 @@ public class AiAlgorithm {
 				System.out.println(s);
 				// apply the move
 				makeMove(s);
-				// do the max( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
+				// do the max( alphabeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
 				beta = Math.min(beta, alphabeta(depth-1, beta, alpha, board, player*2-1));
 
 				// revert back
