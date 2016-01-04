@@ -16,55 +16,79 @@ public class AiAlgorithm {
 	
 	// doMove for getting evalutionBoard score
 	
-	public int alphabeta(int depth, int beta, int alpha, String[][] board, int player){
+	public int alphabeta(int depth, int alpha, int beta, String[][] board, int player, String move){
 		//Gets the moves loaded in the possibleWhiteMoves and possibleBlackMoves
 		getAllMoves();
 		
 		if(depth == 0){
 			int evaluateScore = evalutionBoard(board);
+			// score + " " + move
+			//return  move + ":"+ evaluateScore ;
 			return evaluateScore;
 		}
 		
 		if(player == 0){
 			// black maxs
 			list = possibleMoves.possibleWhiteMoves();
-			
 			// for every possible move
+			int newAlpha = Integer.MIN_VALUE;
 			for(String s : list){
 				System.out.println(s);
 				// apply the move 
 				makeMove(s);
 				// do the max( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
-				alpha = Math.max(alpha, alphabeta(depth-1, beta, alpha, board, player*2-1));
+				// x1 y1 x2 y2
+				print(board);
+				String[][] newBoard = board;
+				//String returnString = alphabeta(depth-1, beta, alpha, board, 1-player, s);
+				//newValue = Math.max(newValue, Integer.valueOf(returnString.substring(8)));
+				//if(returnString.length() >9){
+				newAlpha = Math.max(newAlpha, alphabeta(depth-1, alpha, beta, newBoard, 1-player, s));
+				alpha = Math.max(alpha, newAlpha);
+				System.out.println(newAlpha + " : real: " + alpha);
+				//}
+					
 
 				// revert back
 				revert(s);
 				// cut off points if beta is still less then alpha
-				if(beta <= alpha){
+				if(beta <= newAlpha){
 					break; 
 				}
 			}
-			return alpha;
+			//return move+":"+alpha;
+			return newAlpha;
 		}else{
 			//white mini
 			list = possibleMoves.possibleBlackMoves();
 			// for every possible move
+			int newBeta = Integer.MAX_VALUE;
 			for(String s : list){
 				System.out.println(s);
 				// apply the move
 				makeMove(s);
-				// do the max( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
-				beta = Math.min(beta, alphabeta(depth-1, beta, alpha, board, player*2-1));
-
+				// do the min( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value
+				//String returnString = alphabeta(depth-1, beta, alpha, board, 1-player, s);
+				print(board);
+				String[][] newBoard = board;
+//				if(returnString.length() > 9){
+//					beta = Math.min(beta, Integer.valueOf(returnString.substring(8)));
+//					System.out.println(beta);
+//				}
+				newBeta = Math.min(newBeta, alphabeta(depth-1,  alpha, beta, newBoard, 1-player, s));
+				beta = Math.min(beta, newBeta);
+				System.out.println(newBeta + " : real: " + beta);
+				//System.out.println(alphabeta(depth-1,  alpha, beta, board, 1-player, s));
 				// revert back
 				revert(s);
 				// cut off points if beta is still less then alpha
-				if(beta <= alpha){
+				if(newBeta <= alpha){
 					break; 
 				}
 				
 			}
-			return beta;
+			//return move+":"+beta;
+			return newBeta;
 		}
 	}
 	
