@@ -109,13 +109,11 @@ public class Bishop extends Piece {
 		if(Character.isLowerCase(chessBoard[sourceX][sourceY].charAt(0)) && pieceColor == Gui.WHITE){
 			//Stops the corresponding with respect to the number that represents it 
 			stopEnemySearch(whichSearch);
-			System.out.println("Enemy search set to false for WHITE");
 			return true;
 		}
 		else if(Character.isUpperCase(chessBoard[sourceX][sourceY].charAt(0)) && pieceColor == Gui.BLACK){
 			//Stops the corresponding with respect to the number that represents it 
 			stopEnemySearch(whichSearch);
-			System.out.println("Enemy search set to false for BLACK");
 			return true;
 		}
 			return false;
