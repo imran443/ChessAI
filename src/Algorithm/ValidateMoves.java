@@ -38,111 +38,39 @@ public class ValidateMoves {
 		switch (chessBoard[sourceX][sourceY]) {
 			case "P":
 				moves = pawn.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard);
-				whiteMoves.addAll(pawn.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard));
-				//Adds the source of the piece to the possible move to make it easy for the AI
-				for (int i = 0; i < moves.size(); i++) {
-					String temp = sourceX + " " + sourceY + " " + moves.get(i);
-					whiteMoves.set(i, temp);
-				}
 				break;
 			case "R":
 				moves = rook.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
-				whiteMoves.addAll(rook.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard));
-				//Adds the source of the piece to the possible move to make it easy for the AI
-				for (int i = 0; i < moves.size(); i++) {
-					String temp = sourceX + " " + sourceY + " " + moves.get(i);
-					whiteMoves.set(i, temp);
-				}
 				break;
 			case "K":
 				moves = knight.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
-				whiteMoves.addAll(knight.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard));
-				//Adds the source of the piece to the possible move to make it easy for the AI
-				for (int i = 0; i < moves.size(); i++) {
-					String temp = sourceX + " " + sourceY + " " + moves.get(i);
-					whiteMoves.set(i, temp);
-				}
 				break;
 			case "B":
 				moves = bishop.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
-				whiteMoves.addAll(bishop.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard));
-				//Adds the source of the piece to the possible move to make it easy for the AI
-				for (int i = 0; i < moves.size(); i++) {
-					String temp = sourceX + " " + sourceY + " " + moves.get(i);
-					whiteMoves.set(i, temp);
-				}
 				break;
 			case "Q":
 				moves = queen.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
-				whiteMoves.addAll(queen.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard));
-				//Adds the source of the piece to the possible move to make it easy for the AI
-				for (int i = 0; i < moves.size(); i++) {
-					String temp = sourceX + " " + sourceY + " " + moves.get(i);
-					whiteMoves.set(i, temp);
-				}
 				break;
 			case "A":
 				moves = king.possibleMoves(sourceX,sourceY, Gui.WHITE, chessBoard);
-				whiteMoves.addAll(king.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard));
-				//Adds the source of the piece to the possible move to make it easy for the AI
-				for (int i = 0; i < moves.size(); i++) {
-					String temp = sourceX + " " + sourceY + " " + moves.get(i);
-					whiteMoves.set(i, temp);
-				}
 				break;
 			case "p":
 				moves = pawn.possibleMoves(sourceX, sourceY,Gui.BLACK,chessBoard);
-				blackMoves.addAll(pawn.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard));
-				//Adds the source of the piece to the possible move to make it easy for the AI
-				for (int i = 0; i < moves.size(); i++) {
-					String temp = sourceX + " " + sourceY + " " + moves.get(i);
-					blackMoves.set(i, temp);
-				}
 				break;
 			case "r":
 				moves = rook.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
-				blackMoves.addAll(rook.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard));
-				//Adds the source of the piece to the possible move to make it easy for the AI
-				for (int i = 0; i < moves.size(); i++) {
-					String temp = sourceX + " " + sourceY + " " + moves.get(i);
-					blackMoves.set(i, temp);
-				}
 				break;
 			case "k":
 				moves = knight.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
-				blackMoves.addAll(knight.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard));
-				//Adds the source of the piece to the possible move to make it easy for the AI
-				for (int i = 0; i < moves.size(); i++) {
-					String temp = sourceX + " " + sourceY + " " + moves.get(i);
-					blackMoves.set(i, temp);
-				}
 				break;
 			case "b":
 				moves = bishop.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
-				blackMoves.addAll(bishop.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard));
-				//Adds the source of the piece to the possible move to make it easy for the AI
-				for (int i = 0; i < moves.size(); i++) {
-					String temp = sourceX + " " + sourceY + " " + moves.get(i);
-					blackMoves.set(i, temp);
-				}
 				break;
 			case "q":
 				moves = queen.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
-				blackMoves.addAll(queen.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard));
-				//Adds the source of the piece to the possible move to make it easy for the AI
-				for (int i = 0; i < moves.size(); i++) {
-					String temp = sourceX + " " + sourceY + " " + moves.get(i);
-					blackMoves.set(i, temp);
-				}
 				break;
 			case "a":
 				moves = king.possibleMoves(sourceX,sourceY, Gui.BLACK, chessBoard);
-				blackMoves.addAll(king.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard));
-				//Adds the source of the piece to the possible move to make it easy for the AI
-				for (int i = 0; i < moves.size(); i++) {
-					String temp = sourceX + " " + sourceY + " " + moves.get(i);
-					blackMoves.set(i, temp);
-				}
 				break;
 			default:
 				System.out.println("Not a real piece");
