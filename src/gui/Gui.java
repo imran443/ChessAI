@@ -52,7 +52,7 @@ public class Gui extends JPanel implements ActionListener{
 	boolean computerPlayer = true;
 	
 	// AI
-	AiAlgorithm ai = new AiAlgorithm();
+	AiAlgorithm ai ;
 	
 	//Used to see if the king is safe and not in check or checkmate
 	KingSafety kingSafety = new KingSafety();
@@ -132,20 +132,21 @@ public class Gui extends JPanel implements ActionListener{
 			 board[7][i].setIcon(icon);
 		 }
 		 
-//		 if(computerPlayer == true){
-//			 computerPlayer = false;
-//			 humanPlayer = true;
-//
-//				
-//			tools.remove(white_turn);
-//			tools.add(black_turn);
-//			
-//			tools.revalidate();
-//			tools.repaint();
-//			 
-//			ai.chessBoard(chessBoard);
-//		 }
-		
+		 if(computerPlayer == true){
+			 computerPlayer = false;
+			 humanPlayer = true;
+
+				
+			tools.remove(white_turn);
+			tools.add(black_turn);
+			
+			tools.revalidate();
+			tools.repaint();
+			
+			ai = new AiAlgorithm(chessBoard);
+			
+			System.out.println(ai.alphabeta(4, Integer.MIN_VALUE, Integer.MAX_VALUE, chessBoard, BLACK));
+		 }
 	}
 	
 	private final void createImages() {

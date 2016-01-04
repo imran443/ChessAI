@@ -10,12 +10,8 @@ public class AiAlgorithm {
 	String[][] board;
 	ArrayList<String> list = new ArrayList<String>();
 	
-	public AiAlgorithm(){
-		
-	}
-	
-	public void chessBoard(String[][] chessBoard){
-		board = chessBoard;
+	public AiAlgorithm(String[][] chessBoard){
+		this.board = chessBoard;
 	}
 	
 	// doMove for getting evalutionBoard score
@@ -35,10 +31,12 @@ public class AiAlgorithm {
 			
 			// for every possible move
 			for(String s : list){
+				System.out.println(s);
 				// apply the move 
 				makeMove(s);
-				// do the max(alphabeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
-				alpha = Math.max(alpha, alphabeta(depth-1, beta, alpha, board, 1-player));
+				// do the max( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
+				alpha = Math.max(alpha, alphabeta(depth-1, beta, alpha, board, player*2-1));
+
 				// revert back
 				revert(s);
 				// cut off points if beta is still less then alpha
@@ -52,10 +50,12 @@ public class AiAlgorithm {
 			list = possibleMoves.possibleBlackMoves();
 			// for every possible move
 			for(String s : list){
-				// apply the move 
+				System.out.println(s);
+				// apply the move
 				makeMove(s);
-				// do the max(alphabeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
-				beta = Math.min(beta, alphabeta(depth-1, beta, alpha, board, 1-player));
+				// do the max( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
+				beta = Math.min(beta, alphabeta(depth-1, beta, alpha, board, player*2-1));
+
 				// revert back
 				revert(s);
 				// cut off points if beta is still less then alpha
@@ -69,20 +69,23 @@ public class AiAlgorithm {
 	}
 	
 	// going to send coordinates to move on the board x,y of prev and x,y of new coords with space between it
-	// x1,y1 x2,y2
-	// 1,1 2,2
+	// x1 y1 x2 y2
+	// 1 1 2 2
 	public void makeMove(String move){
-		if(move.length() != 0){
-			board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] = board[Character.getNumericValue(move.charAt(1))][Character.getNumericValue(move.charAt(3))];
-			board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] = " ";
+		if(move.length() != 0 ){
+			board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] = board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))];
+			board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))] = " ";
+			print(board);
+		}else{
+			System.out.println("Stop a Douchbag");
 		}
 	}
 		
 	// put the board back into original position after finishing up the move
 	public void revert(String move){
 		if(move.length() != 0){
-			board[Character.getNumericValue(move.charAt(1))][Character.getNumericValue(move.charAt(3))] = board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))];
-			board[Character.getNumericValue(move.charAt(1))][Character.getNumericValue(move.charAt(3))] = " ";
+			board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))] = board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))];
+			board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] = " ";
 		}
 	}
 	
@@ -90,7 +93,8 @@ public class AiAlgorithm {
 	public void getAllMoves(){
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board.length; j++) {
-				possibleMoves.permittedMoves(i, j, board);
+				ArrayList<String> tempList = possibleMoves.permittedMoves(i, j, board);
+				tempList.clear();
 			}
 		}
 	}
@@ -135,4 +139,13 @@ public class AiAlgorithm {
 		return boardScore;
 	}
 	
+	
+	public void print(String[][] chessboard){
+		for(int i=0; i<chessboard.length; i++){
+			for(int j=0; j<chessboard[i].length; j++){
+				System.out.print(chessboard[i][j]);
+			}
+			System.out.println();
+		}
+	}
 }

@@ -38,44 +38,81 @@ public class ValidateMoves {
 		switch (chessBoard[sourceX][sourceY]) {
 			case "P":
 				moves = pawn.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard);
+				copyArrayList(moves, whiteMoves);
+				//Adds the source of the piece to the possible move to make it easy for the AI
+				addSources(whiteMoves, sourceX, sourceY);
 				break;
 			case "R":
 				moves = rook.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
+				copyArrayList(moves, whiteMoves);
+				//Adds the source of the piece to the possible move to make it easy for the AI
+				addSources(whiteMoves, sourceX, sourceY);
 				break;
 			case "K":
 				moves = knight.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
+				copyArrayList(moves, whiteMoves);
+				//Adds the source of the piece to the possible move to make it easy for the AI
+				addSources(whiteMoves, sourceX, sourceY);
 				break;
 			case "B":
 				moves = bishop.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
+				copyArrayList(moves, whiteMoves);
+				//Adds the source of the piece to the possible move to make it easy for the AI
+				addSources(whiteMoves, sourceX, sourceY);
 				break;
 			case "Q":
 				moves = queen.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
+				copyArrayList(moves, whiteMoves);
+				//Adds the source of the piece to the possible move to make it easy for the AI
+				addSources(whiteMoves, sourceX, sourceY);
 				break;
 			case "A":
 				moves = king.possibleMoves(sourceX,sourceY, Gui.WHITE, chessBoard);
+				copyArrayList(moves, whiteMoves);
+				//Adds the source of the piece to the possible move to make it easy for the AI
+				addSources(whiteMoves, sourceX, sourceY);
 				break;
 			case "p":
 				moves = pawn.possibleMoves(sourceX, sourceY,Gui.BLACK,chessBoard);
+				copyArrayList(moves, blackMoves);
+				//Adds the source of the piece to the possible move to make it easy for the AI
+				addSources(blackMoves, sourceX, sourceY);
 				break;
 			case "r":
 				moves = rook.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
+				copyArrayList(moves, blackMoves);
+				//Adds the source of the piece to the possible move to make it easy for the AI
+				addSources(blackMoves, sourceX, sourceY);
 				break;
 			case "k":
 				moves = knight.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
+				copyArrayList(moves, blackMoves);
+				//Adds the source of the piece to the possible move to make it easy for the AI
+				addSources(blackMoves, sourceX, sourceY);
 				break;
 			case "b":
 				moves = bishop.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
+				copyArrayList(moves, blackMoves);
+				//Adds the source of the piece to the possible move to make it easy for the AI
+				addSources(blackMoves, sourceX, sourceY);
 				break;
 			case "q":
 				moves = queen.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
+				copyArrayList(moves, blackMoves);
+				//Adds the source of the piece to the possible move to make it easy for the AI
+				addSources(blackMoves, sourceX, sourceY);
 				break;
 			case "a":
 				moves = king.possibleMoves(sourceX,sourceY, Gui.BLACK, chessBoard);
+				copyArrayList(moves, blackMoves);
+				//Adds the source of the piece to the possible move to make it easy for the AI
+				addSources(blackMoves, sourceX, sourceY);
 				break;
 			default:
 				System.out.println("Not a real piece");
 				break;
 			}
+		
 			//Return array list with all moves  
 			return moves;
 			
@@ -91,8 +128,18 @@ public class ValidateMoves {
 		return false;
 	}
 	
-	public void copyArrayList(){
-		
+	
+	public void addSources(ArrayList<String> tempList, int sourceX, int sourceY){
+		for (int i = 0; i < moves.size(); i++) {
+			String temp = sourceX + " " + sourceY + " " + moves.get(i);
+			tempList.set(i, temp);
+		}
+	}
+	
+	public void copyArrayList(ArrayList<String> list, ArrayList<String> tempList){
+		for(String s : list){
+			tempList.add(s);
+		}
 	}
 	
 	public ArrayList<String> possibleWhiteMoves(){
