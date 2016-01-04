@@ -12,6 +12,7 @@ import javax.swing.border.*;
 
 import Algorithm.KingSafety;
 import Algorithm.ValidateMoves;
+import ai.AiAlgorithm;
 
 public class Gui extends JPanel implements ActionListener{
 	//Lower case letter are Black and Upper case are White
@@ -45,15 +46,21 @@ public class Gui extends JPanel implements ActionListener{
 	int[][] buttonGrid = new int[8][8];
 	//Used to validate moves
 	ValidateMoves moves = new ValidateMoves();
-	//Used to see if the king is safe and not in check
-	KingSafety kingSafety = new KingSafety();
+	
+	// checks for who turn it is 
 	boolean humanPlayer = false;
 	boolean computerPlayer = true;
+	
+	// AI
+	AiAlgorithm ai = new AiAlgorithm();
+	
+	//Used to see if the king is safe and not in check or checkmate
+	KingSafety kingSafety = new KingSafety();
+
 
 	public Gui(){
 		tools = new JToolBar();
-		
-		
+	
 		white_turn.setBackground(Color.GREEN);
 		black_turn.setBackground(Color.YELLOW);
 		
@@ -125,6 +132,19 @@ public class Gui extends JPanel implements ActionListener{
 			 board[7][i].setIcon(icon);
 		 }
 		 
+//		 if(computerPlayer == true){
+//			 computerPlayer = false;
+//			 humanPlayer = true;
+//
+//				
+//			tools.remove(white_turn);
+//			tools.add(black_turn);
+//			
+//			tools.revalidate();
+//			tools.repaint();
+//			 
+//			ai.chessBoard(chessBoard);
+//		 }
 		
 	}
 	
@@ -206,7 +226,6 @@ public class Gui extends JPanel implements ActionListener{
 		int row, column;
 		
 		public ChessListener(int i, int j){
-			
 			this.row = i;
 			this.column = j;
 		}
@@ -237,6 +256,7 @@ public class Gui extends JPanel implements ActionListener{
 				//Return if board is updated successfully and piece has been placed.
 				return true;
 			}else{
+				//Verifies if the king is in a check mate and will say it
 				kingSafety.kingCheckMate(chessBoard, pieceColor);
 				print(chessBoard);
 				//Failed to make move 
@@ -354,6 +374,7 @@ public class Gui extends JPanel implements ActionListener{
 					
 					tools.revalidate();
 					tools.repaint();
+					
 				}
 				
 			}

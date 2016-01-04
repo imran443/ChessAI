@@ -28,8 +28,6 @@ public class Knight extends Piece{
 				}
 			}
 			
-			
-			// 2 down and 1 left
 			if(sourceY-1 >= 0){
 				if(chessBoard[sourceX+2][sourceY-1].equals(" ") || checkPiece(sourceX+2, sourceY-1, pieceColor, chessBoard)){
 					newX = sourceX+2;
