@@ -56,7 +56,7 @@ public class AiAlgorithm {
 				// apply the move 
 				makeMove(s);
 				// do the max( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
-				alpha = Math.max(alpha, alphatbeta(depth-1, beta, alpha, board, 1-player));
+				alpha = Math.max(alpha, alphatbeta(depth-1, beta, alpha, board, player*2-1));
 				// revert back
 				revert(s);
 				// cut off points if beta is still less then alpha
@@ -73,7 +73,7 @@ public class AiAlgorithm {
 				// apply the move 
 				makeMove(s);
 				// do the max( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
-				beta = Math.min(beta, alphatbeta(depth-1, beta, alpha, board, 1-player));
+				beta = Math.min(beta, alphatbeta(depth-1, beta, alpha, board, player*2-1));
 				// revert back
 				revert(s);
 				// cut off points if beta is still less then alpha
