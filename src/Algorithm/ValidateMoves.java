@@ -114,7 +114,6 @@ public class ValidateMoves {
 		for (int i = 0; i < newList.size(); i++) {
 			String temp = sourceX + " " + sourceY + " " + newList.get(i);
 			tempList.add(temp);
-			tempList.set(i, temp);
 		}
 	}
 	

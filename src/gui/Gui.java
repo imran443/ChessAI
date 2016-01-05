@@ -28,6 +28,7 @@ public class Gui extends JPanel implements ActionListener{
 	//This is a secondary copy of the board used for checking if the king is in check
 	
 	String[][] chessBoardCopy = new String[8][8];
+	String[][] aiChessBoard = new String[8][8];
 	// board of buttons
 	JButton[][] board = new JButton[8][8];
 
@@ -40,10 +41,15 @@ public class Gui extends JPanel implements ActionListener{
 	JLabel white_turn= new JLabel("WHITE's Turn");
 	JLabel black_turn = new JLabel("BLACK's Turn");
 	private Image[][] chessPieceImages = new Image[2][6];
+	
 	public static final int BLACK = 0, WHITE = 1;
+	
+	
 	public static final int QUEEN = 0, KING = 1, ROOK = 2, KNIGHT = 3, BISHOP = 4, PAWN = 5;
 	public static final int[] STARTING_ROW = { ROOK, KNIGHT, BISHOP, KING, QUEEN, BISHOP, KNIGHT, ROOK};
-
+	
+	int ply;
+	String playerId;
 	int[][] buttonGrid = new int[8][8];
 	//Used to validate moves
 	ValidateMoves moves = new ValidateMoves();
@@ -59,7 +65,11 @@ public class Gui extends JPanel implements ActionListener{
 	KingSafety kingSafety = new KingSafety();
 
 
-	public Gui(){
+	public Gui(String Ply, String Player){
+		this.ply = Integer.parseInt(Ply);
+		this.playerId = Player;
+		
+		
 		tools = new JToolBar();
 	
 		white_turn.setBackground(Color.GREEN);
@@ -133,18 +143,9 @@ public class Gui extends JPanel implements ActionListener{
 			 board[7][i].setIcon(icon);
 		 }
 		 
-				
-			tools.remove(white_turn);
-			tools.add(black_turn);
-			
-			tools.revalidate();
-			tools.repaint();
-			
-			ai = new AiAlgorithm(chessBoard);
-			
-			
+		copyAiArray();
+		 ai = new AiAlgorithm(aiChessBoard, ply);
 
-			System.out.println(ai.alphabeta(4, Integer.MIN_VALUE, Integer.MAX_VALUE, BLACK, ""));
 	}
 	
 	private final void createImages() {
@@ -215,6 +216,16 @@ public class Gui extends JPanel implements ActionListener{
 		}
 	}
 	
+	public void copyAiArray(){
+		for(int i = 0; i<chessBoard.length;i++){
+			for (int j = 0; j < chessBoard.length; j++) {
+				aiChessBoard[i][j] = chessBoard[i][j];
+			}
+		}
+	}
+	
+	
+	
 	//This is a nested class
 	JButton firstClick = null;
 	ImageIcon mc = null;
@@ -230,7 +241,7 @@ public class Gui extends JPanel implements ActionListener{
 		}
 		
 		
-		public boolean placing_piece(JButton clickButton){
+		public boolean placingPiece(JButton clickButton){
 			int pieceColor = 0;
 			copyArray();
 			//Decides what color to send into the kingSafety, based on opposite color
@@ -251,12 +262,20 @@ public class Gui extends JPanel implements ActionListener{
 				list.clear();
 				// this method is used for updating chessBoard
 				UpdateChessBoard(row, column, chessBoard);
+				//Verifies if the other king is in a check mate and will say it
+				if(pieceColor == WHITE){
+					pieceColor = BLACK;
+					kingSafety.kingCheckMate(chessBoard, pieceColor);
+				}else{
+					pieceColor = WHITE;
+					kingSafety.kingCheckMate(chessBoard, pieceColor);
+				}
+				copyAiArray();
 				print(chessBoard);
 				//Return if board is updated successfully and piece has been placed.
 				return true;
 			}else{
-				//Verifies if the king is in a check mate and will say it
-				kingSafety.kingCheckMate(chessBoard, pieceColor);
+
 				print(chessBoard);
 				//Failed to make move 
 				return false;
@@ -264,7 +283,7 @@ public class Gui extends JPanel implements ActionListener{
 		}
 		
 		// this method selects the piece user wants to place or AI wants to place
-		public boolean selecting_piece(JButton clickButton){
+		public boolean selectingPiece(JButton clickButton){
 			
 			if(firstClick == null){
 				firstClick = clickButton;
@@ -275,13 +294,13 @@ public class Gui extends JPanel implements ActionListener{
 				list = moves.permittedMoves(row, column,chessBoard);
 				// checks if some other piece is selected 
 			}else if(firstClick != null && clickButton.getIcon() != null){
-				// capture a piece
+				// capture a piece if valid position
 				if(moves.isValid(row, column, list)==true){
 					// checks whose turn it is
 					// computer players turn
 					if(mc.getDescription().equals(String.valueOf(1)) && computerPlayer == true){
 						//If placing piece is done then end turn and return true, else false
-						if(placing_piece(clickButton)){
+						if(placingPiece(clickButton)){
 							computerPlayer = false;
 							return true;
 						}else {
@@ -290,7 +309,7 @@ public class Gui extends JPanel implements ActionListener{
 						}
 						// human player turn
 					}else if(mc.getDescription().equals(String.valueOf(0)) && humanPlayer == true){
-						if(placing_piece(clickButton)){
+						if(placingPiece(clickButton)){
 							humanPlayer = false;
 							return true;
 						}else{
@@ -319,7 +338,7 @@ public class Gui extends JPanel implements ActionListener{
 						// checks whose turn it is
 						// if computer player turns
 						if(mc.getDescription().equals(String.valueOf(1)) && computerPlayer == true){
-							if(placing_piece(clickButton)){
+							if(placingPiece(clickButton)){
 								computerPlayer = false;
 								return true;
 							}else {
@@ -328,7 +347,7 @@ public class Gui extends JPanel implements ActionListener{
 							}
 							// human players turn
 						}else if(mc.getDescription().equals(String.valueOf(0)) && humanPlayer == true){
-							if(placing_piece(clickButton)){
+							if(placingPiece(clickButton)){
 								humanPlayer = false;
 								return true;
 							}else{
@@ -352,7 +371,7 @@ public class Gui extends JPanel implements ActionListener{
 			
 			if(computerPlayer == true){
 				
-				if(selecting_piece(clickButton)){
+				if(selectingPiece(clickButton)){
 					humanPlayer = true;
 					
 					tools.remove(white_turn);
@@ -360,11 +379,15 @@ public class Gui extends JPanel implements ActionListener{
 					
 					tools.revalidate();
 					tools.repaint();
+					
+					System.out.println(ai.alphabeta(ply, Integer.MIN_VALUE, Integer.MAX_VALUE, BLACK, ""));
+					System.out.println("Ai chess board");
+					print(aiChessBoard);
 				}
 			// human player is black or (golden in this case)
 			}else if(humanPlayer==true){
 				
-				if(selecting_piece(clickButton)){
+				if(selectingPiece(clickButton)){
 					
 					computerPlayer = true;
 					

@@ -8,6 +8,7 @@ public class PieceSafety {
 	// The move of the enemy piece
 	ArrayList<String> pieceMove = new ArrayList<String>();
 	ValidateMoves validateMoves = new ValidateMoves();
+	//Gets loaded with the enemy pieces position when it is found
 	int attackingPieceX;
 	int attackingPieceY;
 	
@@ -21,7 +22,7 @@ public class PieceSafety {
 	private boolean enemyBottomRightSearch = true;
 	
 	
-
+	//used to check if a specific piece can be captured
 	public boolean pieceInDanger(String[][] chessBoard, int pieceColor, int sourceX,int sourceY) {
 		String pieceCoords=sourceX + " " + sourceY;
 		boolean searchTop = true;

@@ -6,7 +6,7 @@ import Algorithm.Piece;
 import gui.Gui;
 
 public class Bishop extends Piece {
-	ArrayList<String> moves = new ArrayList<String>();
+	
 	
 	//Used to stop searching when first enemy is found for bishop so it does not jump over it to cap others behind it
 	boolean enemyTopRightSearch = true;
@@ -17,6 +17,7 @@ public class Bishop extends Piece {
 	
 	@Override
 	public ArrayList<String> possibleMoves(int sourceX, int sourceY, int pieceColor, String[][] chessBoard) {
+		ArrayList<String> moves = new ArrayList<String>();
 		// The possible moves
 		String pMove = "";
 		// The new X coordinate for the piece

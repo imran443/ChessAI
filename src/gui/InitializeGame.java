@@ -82,7 +82,7 @@ public class InitializeGame {
 				secondPlayer = horcInput.getText();
 				
 				if(ply_num.length() != 0){
-					Gui();
+					Gui(ply_num, secondPlayer);
 					frame.dispose();
 				}
 			}
@@ -91,11 +91,11 @@ public class InitializeGame {
 	}
 	
 	// methods calls the GUI class that holds the game board 
-	public void Gui(){
+	public void Gui(String ply_num2, String secondPlayer2){
 		JFrame frame = new JFrame("Chess");
 		frame.setSize(800, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		gui = new Gui();
+		gui = new Gui(ply_num2, secondPlayer2);
 		frame.getContentPane().add(gui.tools, BorderLayout.PAGE_START);
 		frame.getContentPane().add(gui, BorderLayout.CENTER);
 		frame.setVisible(true);		
