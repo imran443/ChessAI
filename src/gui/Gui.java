@@ -133,22 +133,22 @@ public class Gui extends JPanel implements ActionListener{
 			 board[7][i].setIcon(icon);
 		 }
 		 
-		 if(computerPlayer == true){
-			 computerPlayer = false;
-			 humanPlayer = true;
-
-				
-			tools.remove(white_turn);
-			tools.add(black_turn);
-			
-			tools.revalidate();
-			tools.repaint();
-			
-			ai = new AiAlgorithm(chessBoard);
-			System.out.println(ai.evalutionBoard(chessBoard));
-			
-			System.out.println(ai.alphabeta(3, Integer.MIN_VALUE, Integer.MAX_VALUE, BLACK, ""));
-		 }
+//		 if(computerPlayer == true){
+//			 computerPlayer = false;
+//			 humanPlayer = true;
+//
+//				
+//			tools.remove(white_turn);
+//			tools.add(black_turn);
+//			
+//			tools.revalidate();
+//			tools.repaint();
+//			
+//			ai = new AiAlgorithm(chessBoard);
+//			System.out.println(ai.evalutionBoard(chessBoard));
+//			
+//			System.out.println(ai.alphabeta(3, Integer.MIN_VALUE, Integer.MAX_VALUE, BLACK, ""));
+//		 }
 	}
 	
 	private final void createImages() {
