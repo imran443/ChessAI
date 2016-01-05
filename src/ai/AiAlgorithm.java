@@ -16,18 +16,20 @@ public class AiAlgorithm {
 	
 	// doMove for getting evalutionBoard score
 	
-	public int alphabeta(int depth, int alpha, int beta, int player, String move){
+	public String alphabeta(int depth, int alpha, int beta, int player, String move){
 	
 		if(depth == 0){
 			int evaluateScore = evalutionBoard(board);
 			// score + " " + move
 			//return  move + ":"+ evaluateScore ;
-			return evaluateScore;
+			System.out.println("if depth 0 move");
+			return move + ":" +evaluateScore;
 		}
 		//Black
 		if(player == 0){
 			//Gets the moves loaded in the possibleWhiteMoves and possibleBlackMoves
 			getAllMoves();
+
 			list = possibleMoves.possibleBlackMoves();
 			// for every possible move
 			int value = Integer.MIN_VALUE;
@@ -38,13 +40,16 @@ public class AiAlgorithm {
 				System.out.println(s);
 				// apply the move 
 				makeMove(s);
+
 				//Holds move for revert when recursion back up
 				String temp = s;
 				list.clear();
 				// do the max( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
 				// x1 y1 x2 y2
 				print(board);
-				value = Math.max(value, alphabeta(depth-1, alpha, beta, 1-player, s));
+				String returnValue = alphabeta(depth-1, alpha, beta, 1-player, s);
+				int newValue = Integer.valueOf(returnValue.substring(8));
+				value = Math.max(value, newValue);
 				alpha = Math.max(alpha,value);
 				// revert back
 				revert(temp);
@@ -54,7 +59,8 @@ public class AiAlgorithm {
 					break; 
 				}
 			}
-			return value;
+			System.out.println("black move");
+			return move + ":" +value;
 		}else{
 			//White 
 			list = possibleMoves.possibleWhiteMoves();
@@ -71,10 +77,14 @@ public class AiAlgorithm {
 				// apply the move
 				makeMove(s);
 				String temp = s;
+				
 				list.clear();
 				// do the min( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value
 				print(board);
-				value = Math.min(value, alphabeta(depth-1,  alpha, beta, 1-player, s));
+				String returnValue = alphabeta(depth-1,  alpha, beta, 1-player, s);
+				// 1 2 3 4:value
+				int newValue = Integer.valueOf(returnValue.substring(8));
+				value = Math.min(value, newValue);
 				beta = Math.min(beta, value);
 				// revert back
 				revert(temp);
@@ -90,7 +100,8 @@ public class AiAlgorithm {
 				}
 				
 			}
-			return value;
+			System.out.println("white move4");
+			return move+":"+value;
 		}
 	}
 	
