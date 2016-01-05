@@ -26,6 +26,7 @@ public class Gui extends JPanel implements ActionListener{
 				       {"P","P","P","P","P","P","P","P"},
 				       {"R","K","B","Q","A","B","K","R"}};
 	//This is a secondary copy of the board used for checking if the king is in check
+	
 	String[][] chessBoardCopy = new String[8][8];
 	// board of buttons
 	JButton[][] board = new JButton[8][8];
@@ -144,8 +145,9 @@ public class Gui extends JPanel implements ActionListener{
 			tools.repaint();
 			
 			ai = new AiAlgorithm(chessBoard);
+			System.out.println(ai.evalutionBoard(chessBoard));
 			
-			System.out.println(ai.alphabeta(4, Integer.MIN_VALUE, Integer.MAX_VALUE, chessBoard, BLACK));
+			System.out.println(ai.alphabeta(3, Integer.MIN_VALUE, Integer.MAX_VALUE, BLACK, ""));
 		 }
 	}
 	
@@ -375,7 +377,7 @@ public class Gui extends JPanel implements ActionListener{
 					
 					tools.revalidate();
 					tools.repaint();
-					
+					//System.out.println(ai.alphabeta(4, Integer.MAX_VALUE, Integer.MIN_VALUE, chessBoard, BLACK, ""));
 				}
 				
 			}
