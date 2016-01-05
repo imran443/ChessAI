@@ -55,7 +55,7 @@ public class AiAlgorithm {
 				int newValue = Integer.valueOf(returnValue.substring(8));
 				value = Math.max(value, newValue);
 				alpha = Math.max(alpha,value);
-				if(depth == 2){
+				if(depth == 4){
 					move = returnValue.substring(0, 7);
 				}
 				// revert back
@@ -103,7 +103,7 @@ public class AiAlgorithm {
 				value = Math.min(value, newValue);
 				beta = Math.min(beta, value);
 				// revert back
-				if(depth == 2){
+				if(depth == 4){
 					move = returnValue.substring(0, 7);
 				}
 				
