@@ -104,20 +104,17 @@ public class ValidateMoves {
 	}
 	
 	
-	public void addSources(ArrayList<String> tempList, int sourceX, int sourceY){
-		for (int i = 0; i < moves.size(); i++) {
-			String temp = sourceX + " " + sourceY + " " + moves.get(i);
-			tempList.set(i, temp);
-		}
-	}
-	
+
 	public void copyArrayList(ArrayList<String> list, ArrayList<String> tempList, int sourceX, int sourceY){
-		//Remove addSources
+		ArrayList<String> newList = new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
-			String temp = sourceX + " " + sourceY + " " + list.get(i);
-			list.set(i, temp);
 			String s = list.get(i);
-			tempList.add(s);
+			newList.add(s);
+		}
+		for (int i = 0; i < newList.size(); i++) {
+			String temp = sourceX + " " + sourceY + " " + newList.get(i);
+			tempList.add(temp);
+			tempList.set(i, temp);
 		}
 	}
 	

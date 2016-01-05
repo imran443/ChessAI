@@ -23,6 +23,7 @@ public class AiAlgorithm {
 			// score + " " + move
 			//return  move + ":"+ evaluateScore ;
 			System.out.println("depth= 0 move");
+			System.out.println(move + ":" + evaluateScore);
 			return move + ":" +evaluateScore;
 		}
 		//Black
@@ -58,10 +59,12 @@ public class AiAlgorithm {
 					move = returnValue.substring(0, 7);
 				}
 				// revert back
-				revert(temp);
+				
 				if(movePlusPiece.length() > 7){
 					revertCapturePiece(movePlusPiece);
 				}
+				System.out.println();
+				System.out.println("B revert board: ");
 				print(board);
 				// cut off points if beta is still less then alpha
 				if(beta <= alpha){
@@ -69,6 +72,7 @@ public class AiAlgorithm {
 				}
 			}
 			System.out.println("black move");
+			System.out.println(move + ":" + value);
 			return move + ":" +value;
 		}else{
 			//White 
@@ -83,7 +87,7 @@ public class AiAlgorithm {
 			for (int i = 0; i <list.size(); i++) {
 				String s = list.get(i);
 				
-				System.out.println("black moves");
+				System.out.println("white moves");
 				System.out.println(s);
 				// apply the move
 				String movePlusPiece = makeMove(s);
@@ -105,11 +109,9 @@ public class AiAlgorithm {
 				
 				if(movePlusPiece.length() > 7){
 					revertCapturePiece(movePlusPiece);
-				}else{
-					revert(temp);
 				}
 				System.out.println();
-				System.out.println("revert board: ");
+				System.out.println("W revert board: ");
 				print(board);
 				// cut off points if beta is still less then alpha
 				if(beta <= alpha){
@@ -123,6 +125,7 @@ public class AiAlgorithm {
 				
 			}
 			System.out.println("white move: ");
+			System.out.println(move + ":" + value);
 			return move+":"+value;
 		}
 	}
@@ -131,14 +134,18 @@ public class AiAlgorithm {
 	// x1 y1 x2 y2
 	// 1 1 2 2
 	public String makeMove(String move){
-		String piece = "";
+		char piece = 0;
 		String movePlusPiece = "";
 		if(move.length() != 0 ){
 			if(board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] == " "){
 				board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] = board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))];
 				board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))] = " ";
 			}else{
-				piece = board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))];
+				if(Character.isLowerCase(board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))].charAt(0)) || 
+						Character.isUpperCase(board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))].charAt(0))
+						){
+					piece = board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))].charAt(0);
+				}
 				board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] = board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))];
 				board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))] = " ";
 			}

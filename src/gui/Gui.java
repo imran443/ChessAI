@@ -133,10 +133,6 @@ public class Gui extends JPanel implements ActionListener{
 			 board[7][i].setIcon(icon);
 		 }
 		 
-		 if(computerPlayer == true){
-			 computerPlayer = false;
-			 humanPlayer = true;
-
 				
 			tools.remove(white_turn);
 			tools.add(black_turn);
@@ -148,8 +144,7 @@ public class Gui extends JPanel implements ActionListener{
 			
 			
 
-			System.out.println(ai.alphabeta(2, Integer.MIN_VALUE, Integer.MAX_VALUE, BLACK, ""));
-		 }
+			System.out.println(ai.alphabeta(4, Integer.MIN_VALUE, Integer.MAX_VALUE, BLACK, ""));
 	}
 	
 	private final void createImages() {
