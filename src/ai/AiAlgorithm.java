@@ -22,7 +22,8 @@ public class AiAlgorithm {
 			int evaluateScore = evalutionBoard(board);
 			// score + " " + move
 			//return  move + ":"+ evaluateScore ;
-			System.out.println("if depth 0 move");
+			System.out.println("depth= 0 move");
+			System.out.println(move + ":" + evaluateScore);
 			return move + ":" +evaluateScore;
 		}
 		//Black
@@ -37,9 +38,12 @@ public class AiAlgorithm {
 			for (int i = 0; i <list.size(); i++) {
 				//Get the item from the list 
 				String s = list.get(i);
+				System.out.println("black moves");
 				System.out.println(s);
 				// apply the move 
-				makeMove(s);
+				
+				String movePlusPiece = makeMove(s);
+				
 
 				//Holds move for revert when recursion back up
 				String temp = s;
@@ -51,8 +55,16 @@ public class AiAlgorithm {
 				int newValue = Integer.valueOf(returnValue.substring(8));
 				value = Math.max(value, newValue);
 				alpha = Math.max(alpha,value);
+				if(depth == 3){
+					move = returnValue.substring(0, 7);
+				}
 				// revert back
-				revert(temp);
+				
+				if(movePlusPiece.length() > 7){
+					revertCapturePiece(movePlusPiece);
+				}
+				System.out.println();
+				System.out.println("B revert board: ");
 				print(board);
 				// cut off points if beta is still less then alpha
 				if(beta <= alpha){
@@ -60,6 +72,7 @@ public class AiAlgorithm {
 				}
 			}
 			System.out.println("black move");
+			System.out.println(move + ":" + value);
 			return move + ":" +value;
 		}else{
 			//White 
@@ -73,13 +86,16 @@ public class AiAlgorithm {
 			int value = Integer.MAX_VALUE;
 			for (int i = 0; i <list.size(); i++) {
 				String s = list.get(i);
+				
+				System.out.println("white moves");
 				System.out.println(s);
 				// apply the move
-				makeMove(s);
+				String movePlusPiece = makeMove(s);
 				String temp = s;
 				
 				list.clear();
 				// do the min( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value
+				System.out.println();
 				print(board);
 				String returnValue = alphabeta(depth-1,  alpha, beta, 1-player, s);
 				// 1 2 3 4:value
@@ -87,7 +103,15 @@ public class AiAlgorithm {
 				value = Math.min(value, newValue);
 				beta = Math.min(beta, value);
 				// revert back
-				revert(temp);
+				if(depth == 3){
+					move = returnValue.substring(0, 7);
+				}
+				
+				if(movePlusPiece.length() > 7){
+					revertCapturePiece(movePlusPiece);
+				}
+				System.out.println();
+				System.out.println("W revert board: ");
 				print(board);
 				// cut off points if beta is still less then alpha
 				if(beta <= alpha){
@@ -100,7 +124,8 @@ public class AiAlgorithm {
 				}
 				
 			}
-			System.out.println("white move4");
+			System.out.println("white move: ");
+			System.out.println(move + ":" + value);
 			return move+":"+value;
 		}
 	}
@@ -108,11 +133,25 @@ public class AiAlgorithm {
 	// going to send coordinates to move on the board x,y of prev and x,y of new coords with space between it
 	// x1 y1 x2 y2
 	// 1 1 2 2
-	public void makeMove(String move){
+	public String makeMove(String move){
+		char piece = 0;
+		String movePlusPiece = "";
 		if(move.length() != 0 ){
-			board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] = board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))];
-			board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))] = " ";
+			if(board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] == " "){
+				board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] = board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))];
+				board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))] = " ";
+			}else{
+				if(Character.isLowerCase(board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))].charAt(0)) || 
+						Character.isUpperCase(board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))].charAt(0))
+						){
+					piece = board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))].charAt(0);
+				}
+				board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] = board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))];
+				board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))] = " ";
+			}
 		}
+		movePlusPiece = move +":" + piece;
+		return movePlusPiece;
 	}
 		
 	// put the board back into original position after finishing up the move
@@ -122,6 +161,14 @@ public class AiAlgorithm {
 			board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] = " ";
 		}
 	}
+	
+	public void revertCapturePiece(String move){
+		if(move.length() != 0){
+			board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))] = board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))];
+			board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] = move.substring(8);
+		}
+	}
+	
 	
 	//Used to load the list with all moves
 	public void getAllMoves(){

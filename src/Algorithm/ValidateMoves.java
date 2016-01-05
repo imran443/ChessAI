@@ -116,8 +116,6 @@ public class ValidateMoves {
 			tempList.add(temp);
 			tempList.set(i, temp);
 		}
-			
-		
 	}
 	
 	public ArrayList<String> possibleWhiteMoves(){
