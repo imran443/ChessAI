@@ -398,7 +398,7 @@ public class KingSafety {
 		
 		// sourceX and Y get updated after returnKingCoords is done
 		moves = validateMoves.permittedMoves(sourceX, sourceY, chessBoard);
-		
+		//Checks all the directions around the king
 		for(int i = 0; i < moves.size(); i++){
 			String possibleMoves = moves.get(i);
 			newX = possibleMoves.substring(0, 1);

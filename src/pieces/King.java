@@ -6,10 +6,11 @@ import Algorithm.Piece;
 import gui.Gui;
 
 public class King extends Piece {
-	ArrayList<String> moves = new ArrayList<String>();
+	
 
 	@Override
 	public ArrayList<String> possibleMoves(int sourceX, int sourceY, int pieceColor, String[][] chessBoard) {
+		ArrayList<String> moves = new ArrayList<String>();
 		// The possible moves
 		String pMove = "";
 		// The new X coordinate for the piece
