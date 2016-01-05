@@ -148,7 +148,7 @@ public class Gui extends JPanel implements ActionListener{
 			
 			
 
-			System.out.println(ai.alphabeta(1, Integer.MIN_VALUE, Integer.MAX_VALUE, BLACK, ""));
+			System.out.println(ai.alphabeta(2, Integer.MIN_VALUE, Integer.MAX_VALUE, BLACK, ""));
 		 }
 	}
 	
