@@ -16,81 +16,92 @@ public class AiAlgorithm {
 	
 	// doMove for getting evalutionBoard score
 	
-	public int alphabeta(int depth, int alpha, int beta, String[][] board, int player, String move){
-		//Gets the moves loaded in the possibleWhiteMoves and possibleBlackMoves
-		getAllMoves();
-		
+	public String alphabeta(int depth, int alpha, int beta, int player, String move){
+	
 		if(depth == 0){
 			int evaluateScore = evalutionBoard(board);
 			// score + " " + move
 			//return  move + ":"+ evaluateScore ;
-			return evaluateScore;
+			System.out.println("if depth 0 move");
+			return move + ":" +evaluateScore;
 		}
-		
+		//Black
 		if(player == 0){
-			// black maxs
+			//Gets the moves loaded in the possibleWhiteMoves and possibleBlackMoves
+			getAllMoves();
+
 			list = possibleMoves.possibleBlackMoves();
 			// for every possible move
-			int newAlpha = Integer.MIN_VALUE;
-			for(String s : list){
+			int value = Integer.MIN_VALUE;
+			
+			for (int i = 0; i <list.size(); i++) {
+				//Get the item from the list 
+				String s = list.get(i);
 				System.out.println(s);
 				// apply the move 
 				makeMove(s);
+
+				//Holds move for revert when recursion back up
+				String temp = s;
 				list.clear();
 				// do the max( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
 				// x1 y1 x2 y2
 				print(board);
-				String[][] newBoard = board;
-				//String returnString = alphabeta(depth-1, beta, alpha, board, 1-player, s);
-				//newValue = Math.max(newValue, Integer.valueOf(returnString.substring(8)));
-				//if(returnString.length() >9){
-				newAlpha = Math.max(newAlpha, alphabeta(depth-1, alpha, beta, newBoard, 1-player, s));
-				alpha = Math.max(alpha, newAlpha);
-				System.out.println(newAlpha + " : real: " + alpha);
-				//}
-					
-
+				String returnValue = alphabeta(depth-1, alpha, beta, 1-player, s);
+				int newValue = Integer.valueOf(returnValue.substring(8));
+				value = Math.max(value, newValue);
+				alpha = Math.max(alpha,value);
 				// revert back
-				revert(s);
+				revert(temp);
+				print(board);
 				// cut off points if beta is still less then alpha
-				if(beta <= newAlpha){
+				if(beta <= alpha){
 					break; 
 				}
 			}
-			//return move+":"+alpha;
-			return newAlpha;
+			System.out.println("black move");
+			return move + ":" +value;
 		}else{
-			//white mini
+			//White 
 			list = possibleMoves.possibleWhiteMoves();
-			// for every possible move
-			int newBeta = Integer.MAX_VALUE;
-			for(String s : list){
+			if(list.isEmpty()){
+				//Gets the moves loaded in the possibleWhiteMoves and possibleBlackMoves
+				getAllMoves();
+			}
+			
+			//Value at minimizer node in the beginning
+			int value = Integer.MAX_VALUE;
+			for (int i = 0; i <list.size(); i++) {
+				String s = list.get(i);
 				System.out.println(s);
 				// apply the move
 				makeMove(s);
+				String temp = s;
+				
 				list.clear();
 				// do the min( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value
-				//String returnString = alphabeta(depth-1, beta, alpha, board, 1-player, s);
 				print(board);
-				String[][] newBoard = board;
-//				if(returnString.length() > 9){
-//					beta = Math.min(beta, Integer.valueOf(returnString.substring(8)));
-//					System.out.println(beta);
-//				}
-				newBeta = Math.min(newBeta, alphabeta(depth-1,  alpha, beta, newBoard, 1-player, s));
-				beta = Math.min(beta, newBeta);
-				System.out.println(newBeta + " : real: " + beta);
-				//System.out.println(alphabeta(depth-1,  alpha, beta, board, 1-player, s));
+				String returnValue = alphabeta(depth-1,  alpha, beta, 1-player, s);
+				// 1 2 3 4:value
+				int newValue = Integer.valueOf(returnValue.substring(8));
+				value = Math.min(value, newValue);
+				beta = Math.min(beta, value);
 				// revert back
-				revert(s);
+				revert(temp);
+				print(board);
 				// cut off points if beta is still less then alpha
-				if(newBeta <= alpha){
+				if(beta <= alpha){
 					break; 
+				}
+				if(list.isEmpty()){
+					//Gets the moves loaded in the possibleWhiteMoves and possibleBlackMoves
+					getAllMoves();
+					list = possibleMoves.possibleWhiteMoves(); 
 				}
 				
 			}
-			//return move+":"+beta;
-			return newBeta;
+			System.out.println("white move4");
+			return move+":"+value;
 		}
 	}
 	
@@ -101,9 +112,6 @@ public class AiAlgorithm {
 		if(move.length() != 0 ){
 			board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] = board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))];
 			board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))] = " ";
-			print(board);
-		}else{
-			System.out.println("Stop a Douchbag");
 		}
 	}
 		
