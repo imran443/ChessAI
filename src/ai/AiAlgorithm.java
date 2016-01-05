@@ -29,13 +29,14 @@ public class AiAlgorithm {
 		
 		if(player == 0){
 			// black maxs
-			list = possibleMoves.possibleWhiteMoves();
+			list = possibleMoves.possibleBlackMoves();
 			// for every possible move
 			int newAlpha = Integer.MIN_VALUE;
 			for(String s : list){
 				System.out.println(s);
 				// apply the move 
 				makeMove(s);
+				list.clear();
 				// do the max( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
 				// x1 y1 x2 y2
 				print(board);
@@ -60,13 +61,14 @@ public class AiAlgorithm {
 			return newAlpha;
 		}else{
 			//white mini
-			list = possibleMoves.possibleBlackMoves();
+			list = possibleMoves.possibleWhiteMoves();
 			// for every possible move
 			int newBeta = Integer.MAX_VALUE;
 			for(String s : list){
 				System.out.println(s);
 				// apply the move
 				makeMove(s);
+				list.clear();
 				// do the min( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value
 				//String returnString = alphabeta(depth-1, beta, alpha, board, 1-player, s);
 				print(board);

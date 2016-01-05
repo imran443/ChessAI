@@ -147,7 +147,7 @@ public class Gui extends JPanel implements ActionListener{
 			ai = new AiAlgorithm(chessBoard);
 			System.out.println(ai.evalutionBoard(chessBoard));
 			
-			System.out.println(ai.alphabeta(4, Integer.MAX_VALUE, Integer.MIN_VALUE, chessBoard, BLACK, ""));
+			System.out.println(ai.alphabeta(4, Integer.MIN_VALUE, Integer.MAX_VALUE, chessBoard, BLACK, ""));
 		 }
 	}
 	
