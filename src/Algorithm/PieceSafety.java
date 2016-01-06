@@ -66,6 +66,8 @@ public class PieceSafety {
 						if (checkPiece(sourceX + i, sourceY, pieceColor, chessBoard, 2) == true) {
 							pieceMove = validateMoves.permittedMoves(sourceX + i, sourceY, chessBoard);
 							if (pieceMove.contains(pieceCoords)) {
+								attackingPieceX = sourceX + i;
+								attackingPieceY = sourceY;
 								setAllEnemySearchTrue();
 								return true;
 							}
@@ -83,6 +85,8 @@ public class PieceSafety {
 						if (checkPiece(sourceX, sourceY - i, pieceColor, chessBoard, 3) == true) {
 							pieceMove = validateMoves.permittedMoves(sourceX, sourceY - i, chessBoard);
 							if (pieceMove.contains(pieceCoords)) {
+								attackingPieceX = sourceX;
+								attackingPieceY = sourceY - i;
 								setAllEnemySearchTrue();
 								return true;
 							}
@@ -100,6 +104,8 @@ public class PieceSafety {
 						if (checkPiece(sourceX, sourceY + i, pieceColor, chessBoard, 4) == true) {
 							pieceMove = validateMoves.permittedMoves(sourceX, sourceY + i, chessBoard);
 							if (pieceMove.contains(pieceCoords)) {
+								attackingPieceX = sourceX;
+								attackingPieceY = sourceY + i;
 								setAllEnemySearchTrue();
 								return true;
 							}
@@ -118,6 +124,8 @@ public class PieceSafety {
 						if (checkPiece(sourceX - i, sourceY + i, pieceColor, chessBoard, 5)) {
 							pieceMove = validateMoves.permittedMoves(sourceX - i, sourceY + i, chessBoard);
 							if (pieceMove.contains(pieceCoords)) {
+								attackingPieceX = sourceX - i;
+								attackingPieceY = sourceY + i;
 								setAllEnemySearchTrue();
 								return true;
 							}
@@ -135,6 +143,8 @@ public class PieceSafety {
 						if (checkPiece(sourceX - i, sourceY - i, pieceColor, chessBoard, 6)) {
 							pieceMove = validateMoves.permittedMoves(sourceX - i, sourceY - i, chessBoard);
 							if (pieceMove.contains(pieceCoords)) {
+								attackingPieceX = sourceX - i;
+								attackingPieceY = sourceY - i;
 								setAllEnemySearchTrue();
 								return true;
 							}
@@ -152,6 +162,8 @@ public class PieceSafety {
 						if (checkPiece(sourceX + i, sourceY - i, pieceColor, chessBoard, 7)) {
 							pieceMove = validateMoves.permittedMoves(sourceX + i, sourceY - i, chessBoard);
 							if (pieceMove.contains(pieceCoords)) {
+								attackingPieceX = sourceX + i;
+								attackingPieceY = sourceY - i;
 								setAllEnemySearchTrue();
 								return true;
 							}
@@ -171,6 +183,8 @@ public class PieceSafety {
 						if (checkPiece(sourceX + i, sourceY + i, pieceColor, chessBoard, 8)) {
 							pieceMove = validateMoves.permittedMoves(sourceX + i, sourceY + i, chessBoard);
 							if (pieceMove.contains(pieceCoords)) {
+								attackingPieceX = sourceX + i;
+								attackingPieceY = sourceY + i;
 								setAllEnemySearchTrue();
 								return true;
 							}
@@ -191,6 +205,8 @@ public class PieceSafety {
 				if (checkPiece(sourceX + 2, sourceY + 1, pieceColor, chessBoard, 0)) {
 					pieceMove = validateMoves.permittedMoves(sourceX + 2, sourceY + 1, chessBoard);
 					if (pieceMove.contains(pieceCoords)) {
+						attackingPieceX = sourceX + 2;
+						attackingPieceY = sourceY + 1;
 						setAllEnemySearchTrue();
 						return true;
 					}
@@ -202,6 +218,8 @@ public class PieceSafety {
 				if (checkPiece(sourceX + 2, sourceY - 1, pieceColor, chessBoard, 0)) {
 					pieceMove = validateMoves.permittedMoves(sourceX + 2, sourceY - 1, chessBoard);
 					if (pieceMove.contains(pieceCoords)) {
+						attackingPieceX = sourceX + 2;
+						attackingPieceY = sourceY - 1;
 						setAllEnemySearchTrue();
 						return true;
 					}
@@ -215,6 +233,8 @@ public class PieceSafety {
 				if (checkPiece(sourceX - 2, sourceY + 1, pieceColor, chessBoard, 0)) {
 					pieceMove = validateMoves.permittedMoves(sourceX - 2, sourceY + 1, chessBoard);
 					if (pieceMove.contains(pieceCoords)) {
+						attackingPieceX = sourceX - 2;
+						attackingPieceY = sourceY + 1;
 						setAllEnemySearchTrue();
 						return true;
 					}
@@ -225,6 +245,8 @@ public class PieceSafety {
 					if (checkPiece(sourceX - 2, sourceY - 1, pieceColor, chessBoard, 0)) {
 						pieceMove = validateMoves.permittedMoves(sourceX - 2, sourceY - 1, chessBoard);
 						if (pieceMove.contains(pieceCoords)) {
+							attackingPieceX = sourceX - 2;
+							attackingPieceY = sourceY - 1;
 							setAllEnemySearchTrue();
 							return true;
 						}
@@ -240,6 +262,8 @@ public class PieceSafety {
 				if (checkPiece(sourceX + 1, sourceY + 2, pieceColor, chessBoard, 0)) {
 					pieceMove = validateMoves.permittedMoves(sourceX + 1, sourceY + 2, chessBoard);
 					if (pieceMove.contains(pieceCoords)) {
+						attackingPieceX = sourceX + 1;
+						attackingPieceY = sourceY + 2;
 						setAllEnemySearchTrue();
 						return true;
 					}
@@ -251,6 +275,8 @@ public class PieceSafety {
 				if (checkPiece(sourceX - 1, sourceY + 2, pieceColor, chessBoard, 0)) {
 					pieceMove = validateMoves.permittedMoves(sourceX - 1, sourceY + 2, chessBoard);
 					if (pieceMove.contains(pieceCoords)) {
+						attackingPieceX = sourceX - 1;
+						attackingPieceY = sourceY + 2;
 						setAllEnemySearchTrue();
 						return true;
 					}
@@ -265,6 +291,8 @@ public class PieceSafety {
 				if (checkPiece(sourceX + 1, sourceY - 2, pieceColor, chessBoard, 0)) {
 					pieceMove = validateMoves.permittedMoves(sourceX + 1, sourceY - 2, chessBoard);
 					if (pieceMove.contains(pieceCoords)) {
+						attackingPieceX = sourceX + 1;
+						attackingPieceY = sourceY - 2;
 						setAllEnemySearchTrue();
 						return true;
 					}
@@ -276,6 +304,8 @@ public class PieceSafety {
 				if (checkPiece(sourceX - 1, sourceY - 2, pieceColor, chessBoard, 0)) {
 					pieceMove = validateMoves.permittedMoves(sourceX - 1, sourceY - 2, chessBoard);
 					if (pieceMove.contains(pieceCoords)) {
+						attackingPieceX = sourceX - 1;
+						attackingPieceY = sourceY - 2;
 						setAllEnemySearchTrue();
 						return true;
 					}

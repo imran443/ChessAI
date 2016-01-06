@@ -15,6 +15,9 @@ public class ValidateMoves {
 	
 	ArrayList<String> whiteMoves = new ArrayList<String>();
 	ArrayList<String> blackMoves = new ArrayList<String>();
+	//Used for the king safety 
+	ArrayList<String> whiteMovesKing = new ArrayList<>();
+	ArrayList<String> blackMovesKing = new ArrayList<>();
 	
 	Pawn pawn;
 	King king;
@@ -40,50 +43,62 @@ public class ValidateMoves {
 			case "P":
 				moves = pawn.possibleMoves(sourceX, sourceY,Gui.WHITE,chessBoard);
 				copyArrayList(moves, whiteMoves, sourceX, sourceY);
+				copyArrayListKing(moves, whiteMovesKing);
 				break;
 			case "R":
 				moves = rook.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
 				copyArrayList(moves, whiteMoves, sourceX, sourceY);
+				copyArrayListKing(moves, whiteMovesKing);
 				break;
 			case "K":
 				moves = knight.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
 				copyArrayList(moves, whiteMoves, sourceX, sourceY);
+				copyArrayListKing(moves, whiteMovesKing);
 				break;
 			case "B":
 				moves = bishop.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
 				copyArrayList(moves, whiteMoves, sourceX, sourceY);
+				copyArrayListKing(moves, whiteMovesKing);
 				break;
 			case "Q":
 				moves = queen.possibleMoves(sourceX, sourceY, Gui.WHITE, chessBoard);
 				copyArrayList(moves, whiteMoves, sourceX, sourceY);
+				copyArrayListKing(moves, whiteMovesKing);
 				break;
 			case "A":
 				moves = king.possibleMoves(sourceX,sourceY, Gui.WHITE, chessBoard);
 				copyArrayList(moves, whiteMoves, sourceX, sourceY);
+				copyArrayListKing(moves, whiteMovesKing);
 				break;
 			case "p":
 				moves = pawn.possibleMoves(sourceX, sourceY,Gui.BLACK,chessBoard);
 				copyArrayList(moves, blackMoves, sourceX, sourceY);
+				copyArrayListKing(moves, blackMovesKing);
 				break;
 			case "r":
 				moves = rook.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
 				copyArrayList(moves, blackMoves, sourceX, sourceY);
+				copyArrayListKing(moves, blackMovesKing);
 				break;
 			case "k":
 				moves = knight.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
 				copyArrayList(moves, blackMoves, sourceX, sourceY);
+				copyArrayListKing(moves, blackMovesKing);
 				break;
 			case "b":
 				moves = bishop.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
 				copyArrayList(moves, blackMoves, sourceX, sourceY);
+				copyArrayListKing(moves, blackMovesKing);
 				break;
 			case "q":
 				moves = queen.possibleMoves(sourceX, sourceY, Gui.BLACK, chessBoard);
 				copyArrayList(moves, blackMoves, sourceX, sourceY);
+				copyArrayListKing(moves, blackMovesKing);
 				break;
 			case "a":
 				moves = king.possibleMoves(sourceX,sourceY, Gui.BLACK, chessBoard);
 				copyArrayList(moves, blackMoves, sourceX, sourceY);
+				copyArrayListKing(moves, blackMovesKing);
 				break;
 			default:
 				break;
@@ -117,6 +132,18 @@ public class ValidateMoves {
 			tempList.add(temp);
 		}
 	}
+	//Used for the king check mate func
+	public void copyArrayListKing(ArrayList<String> list, ArrayList<String> tempList){
+		ArrayList<String> newList = new ArrayList<>();
+		for (int i = 0; i < list.size(); i++) {
+			String s = list.get(i);
+			newList.add(s);
+		}
+		for (int i = 0; i < newList.size(); i++) {
+			String temp = newList.get(i);
+			tempList.add(temp);
+		}
+	}
 	
 	public ArrayList<String> possibleWhiteMoves(){
 		return whiteMoves;
@@ -124,6 +151,14 @@ public class ValidateMoves {
 	
 	public ArrayList<String> possibleBlackMoves(){
 		return blackMoves;
+	}
+	
+	public ArrayList<String> possibleWhiteMovesKing(){
+		return whiteMovesKing;
+	}
+	
+	public ArrayList<String> possibleBlackMovesking(){
+		return blackMovesKing;
 	}
 	
 	

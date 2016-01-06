@@ -33,9 +33,9 @@ public class AiAlgorithm {
 		
 		if(depth == 0){
 			int evaluateScore = evalutionBoard(board);
-			// score + " " + move
-			//return  move + ":"+ evaluateScore ;
+			
 			System.out.println("depth= 0 move");
+
 			return move + ":" +evaluateScore;
 		}
 		//Black
@@ -48,9 +48,11 @@ public class AiAlgorithm {
 			ArrayList<String> Blist = new ArrayList<String>();
 			
 			//Gets the moves loaded in the possibleWhiteMoves and possibleBlackMoves
+
 			Blist = vm.possibleBlackMoves();
 				
 			Collections.sort(Blist);
+
 			for (int i = 0; i <Blist.size(); i++) {
 				if(originalValue > b){
 					if(originalMove.substring(0, 2).equals(Blist.get(i).substring(0, 2)))
@@ -65,7 +67,7 @@ public class AiAlgorithm {
 				String[][] copyb = copyBoard(board);
 				String movePlusPiece = makeMoveAI(s, copyb);
 				
-				// do the max( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
+				// do the max(alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
 				// x1 y1 x2 y2
 				String returnValue = alphabeta(depth-1, a, b, 1-player,s, copyb);
 				int newValue = Integer.valueOf(returnValue.substring(8));
