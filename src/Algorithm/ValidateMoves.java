@@ -12,7 +12,7 @@ import pieces.Rook;
 
 public class ValidateMoves {
 	
-	ArrayList<String> moves = new ArrayList<String>();
+	
 	ArrayList<String> whiteMoves = new ArrayList<String>();
 	ArrayList<String> blackMoves = new ArrayList<String>();
 	
@@ -32,8 +32,9 @@ public class ValidateMoves {
 		rook = new Rook();
 	}
 	
-	//Used to check what piece is grabbed by mouse
+	//Used to check what piece is grabbed by mouse 
 	public ArrayList<String> permittedMoves(int sourceX, int sourceY, String[][] chessBoard){
+		ArrayList<String> moves = new ArrayList<String>();
 		//Gets the current chess board
 		switch (chessBoard[sourceX][sourceY]) {
 			case "P":

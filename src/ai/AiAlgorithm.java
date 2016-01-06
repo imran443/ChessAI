@@ -1,6 +1,7 @@
 package ai;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import Algorithm.ValidateMoves;
 import gui.Gui;
@@ -9,6 +10,10 @@ public class AiAlgorithm {
 
 	ValidateMoves possibleMoves = new ValidateMoves();
 	String[][] board;
+	
+	// Compared for minimax algo
+	
+	String secondMove = null;
 	
 	int globalDepth;
 	
@@ -19,156 +24,172 @@ public class AiAlgorithm {
 	
 	// doMove for getting evalutionBoard score
 	
-	public String alphabeta(int depth, int alpha, int beta, int player, String move){
-	
+	public String alphabeta(int depth, int alpha, int beta, int player, String move, String[][] board){
+		Integer originalValue ;
+		String originalMove = null;
+		int a = alpha;
+		int b = beta;
+		
+		
 		if(depth == 0){
 			int evaluateScore = evalutionBoard(board);
 			// score + " " + move
 			//return  move + ":"+ evaluateScore ;
 			System.out.println("depth= 0 move");
-			System.out.println(move + ":" + evaluateScore*(player*2-1));
-			return move + ":" +evaluateScore*(player*2-1);
+			return move + ":" +evaluateScore;
 		}
 		//Black
 		if(player == 0){
+			ValidateMoves vm = new ValidateMoves();
+			getAllMovesAi(player, board, vm);
+			
+			originalValue = Integer.MIN_VALUE;
+			
 			ArrayList<String> Blist = new ArrayList<String>();
 			
 			//Gets the moves loaded in the possibleWhiteMoves and possibleBlackMoves
-			Blist = possibleMoves.possibleBlackMoves();
-			if(Blist.isEmpty()){
-				getAllMoves(player); 	
-			}	
-			
-
+			Blist = vm.possibleBlackMoves();
 				
-			// for every possible move
-			int value = Integer.MIN_VALUE;
-			
+			Collections.sort(Blist);
 			for (int i = 0; i <Blist.size(); i++) {
-				//Get the item from the list 
+				if(originalValue > b){
+					if(originalMove.substring(0, 2).equals(Blist.get(i).substring(0, 2)))
+					continue;
+				}
+				//Get the item from the list
+				
 				String s = Blist.get(i);
 				System.out.println("black moves");
 				System.out.println(s);
 				// apply the move 
-				Blist.clear();
-				String movePlusPiece = makeMove(s);
+				String[][] copyb = copyBoard(board);
+				String movePlusPiece = makeMoveAI(s, copyb);
 				
 				// do the max( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
 				// x1 y1 x2 y2
-				print(board);
-				String returnValue = alphabeta(depth-1, alpha, beta, 1-player, s);
+				String returnValue = alphabeta(depth-1, a, b, 1-player,s, copyb);
 				int newValue = Integer.valueOf(returnValue.substring(8));
 				
-				if(!Blist.isEmpty()){
-					Blist.clear();
+				if(newValue > originalValue){
+					originalValue = newValue;
+					originalMove = s;
 				}
+			
 				
-				// revert back
-				revertCapturePiece(movePlusPiece);
-				System.out.println();
-				System.out.println("B revert board: ");
-				print(board);
-				
-				
-				
-				value = Math.max(value, newValue);
-				alpha = Math.max(alpha,value);
-				
-				if(depth == globalDepth){
-					move = returnValue.substring(0, 7);
+				if(originalValue > a){
+					a = originalValue;
 				}
+		
+				
 				
 				// cut off points if beta is still less then alpha
-				if(beta <= alpha){
-					Blist.clear();
-					break; 
-				}
+//				
 				
-				if(Blist.isEmpty()){
-					getAllMoves(player); 	
-					Blist = possibleMoves.possibleBlackMoves();
-				}
+//				if(Blist.isEmpty()){
+//					getAllMoves(player); 	
+//					Blist = possibleMoves.possibleBlackMoves();
+//				}
 				
 			}
 			// r is for return value
 			System.out.println("BLACK R move: ");
-			System.out.println(move + ":" + value);
-			return move + ":" +value;
+			System.out.println(move + ":" + a);
+			return originalMove + ":" +a;
 		}else{
+			ValidateMoves vm = new ValidateMoves();
+			getAllMovesAi(player, board, vm);
+			
+			originalValue = Integer.MAX_VALUE;
+			
 			ArrayList<String> Wlist = new ArrayList<String>();
 			//Gets the moves loaded in the possibleWhiteMoves and possibleBlackMoves
-			Wlist = possibleMoves.possibleWhiteMoves();
-			if(Wlist.isEmpty()){
-				getAllMoves(player);
-			}
+			Wlist = vm.possibleWhiteMoves();
 			
+			Collections.sort(Wlist);
 			
-			
-			//Value at minimizer node in the beginning
-			int value = Integer.MAX_VALUE;
 			for (int i = 0; i <Wlist.size(); i++) {
+				if(originalValue < a){
+					if(originalMove.substring(0, 2).equals(Wlist.get(i).substring(0, 2)))
+					continue;
+				}
 				String s = Wlist.get(i);
 				
 				System.out.println("white moves");
 				System.out.println(s);
 				// apply the move
-				String movePlusPiece = makeMove(s);
-				Wlist.clear();
+				String[][] copyb = copyBoard(board);
+				String movePlusPiece = makeMoveAI(s, copyb);
+				//Wlist.clear();
 				// do the min( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value
 				System.out.println();
-				print(board);
-				String returnValue = alphabeta(depth-1,  alpha, beta, 1-player, s);
+				
+				String returnValue = alphabeta(depth-1,  a, b, 1-player, s, copyb);
 				// 1 2 3 4:value
 				int newValue = Integer.valueOf(returnValue.substring(8));
-				
-				if(!Wlist.isEmpty()){
-					Wlist.clear();
+
+			
+				if(newValue < originalValue){
+					originalValue = newValue;
+					originalMove = s;
 				}
 				
-				
-				revertCapturePiece(movePlusPiece);
-				System.out.println();
-				System.out.println("W revert board: ");
-				print(board);
-				
-				
-				
-				
-				value = Math.min(value, newValue);
-				beta = Math.min(beta, value);
-				
-				if(depth == globalDepth){
-					move = returnValue.substring(0, 7);
+				if(originalValue < b){
+					b = originalValue;
 				}
+
 				
 				
-				// cut off points if beta is still less then alpha
-				if(beta <= alpha){
-					Wlist.clear();
-					break; 
-				}
-				if(Wlist.isEmpty()){
-					getAllMoves(player);
-					Wlist = possibleMoves.possibleWhiteMoves();
-				}
+				
+	
+//				if(Wlist.isEmpty()){
+//					getAllMoves(player);
+//					Wlist = possibleMoves.possibleWhiteMoves();
+//				}
 				
 				
 				
 			}
 			
 			System.out.println("WHITE R move: ");
-			System.out.println(move + ":" + value);
-			return move+":"+value;
+			System.out.println(move + ":" + b);
+			return originalMove+":"+b;
 		}
 	}
 	
 	// going to send coordinates to move on the board x,y of prev and x,y of new coords with space between it
 	// x1 y1 x2 y2
 	// 1 1 2 2
+	public String makeMoveAI(String move, String[][] board){
+		char piece = 0;
+		String movePlusPiece = "";
+		if(move.length() != 0 ){
+			
+			if(board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] == " "){
+				board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] = board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))];
+				board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))] = " ";
+			}else{
+				if(Character.isLowerCase(board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))].charAt(0)) || 
+						Character.isUpperCase(board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))].charAt(0))
+						){
+					piece = board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))].charAt(0);
+				}
+				board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] = board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))];
+				board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))] = " ";
+			}
+		}
+		if(piece == 0){
+			movePlusPiece = move +":" + " ";
+		}else{
+			movePlusPiece = move +":" + piece;
+		}
+		return movePlusPiece;
+	}
+	
 	public String makeMove(String move){
 		char piece = 0;
 		String movePlusPiece = "";
 		if(move.length() != 0 ){
+			
 			if(board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] == " "){
 				board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] = board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))];
 				board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))] = " ";
@@ -191,6 +212,17 @@ public class AiAlgorithm {
 	}
 	
 	
+	
+	public String[][] copyBoard(String[][] board){
+		String[][] newBoard = new String[8][8];
+		for(int i = 0; i< newBoard.length;i++){
+			for (int j = 0; j < newBoard.length; j++) {
+				newBoard[i][j] = board[i][j];
+			}
+		}
+		return newBoard;
+	}
+	
 	// if move is actually vaild
 	
 		
@@ -210,12 +242,26 @@ public class AiAlgorithm {
 				if(pieceColor == Gui.BLACK){
 					if(Character.isLowerCase(board[i][j].charAt(0))){
 						ArrayList<String> tempList = possibleMoves.permittedMoves(i, j, board);
-						tempList.clear();
 					}
 				}else{
 					if(Character.isUpperCase(board[i][j].charAt(0))){
 						ArrayList<String> tempList = possibleMoves.permittedMoves(i, j, board);
-						tempList.clear();
+					}
+				}
+			}
+		}
+	}
+	
+	public void getAllMovesAi(int pieceColor, String[][] board, ValidateMoves possibleMoves){
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board.length; j++) {
+				if(pieceColor == Gui.BLACK){
+					if(Character.isLowerCase(board[i][j].charAt(0))){
+						ArrayList<String> tempList = possibleMoves.permittedMoves(i, j, board);
+					}
+				}else{
+					if(Character.isUpperCase(board[i][j].charAt(0))){
+						ArrayList<String> tempList = possibleMoves.permittedMoves(i, j, board);
 					}
 				}
 			}
@@ -230,27 +276,27 @@ public class AiAlgorithm {
 		for(int i=0; i<board.length; i++){
 			for(int j=0; j<board.length; j++){
 				if(Character.isLowerCase(board[i][j].charAt(0))){ // case when piece is black
-					if(board[i][j] == "p"){
+					if(board[i][j].equals("p")){
 						blackScore += 1;
-					}else if(board[i][j] == "b" || board[i][j] == "k"){
+					}else if(board[i][j].equals("b") || board[i][j].equals("k")){
 						blackScore += 3;
-					}else if(board[i][j] == "r"){
+					}else if(board[i][j].equals("r")){
 						blackScore += 5;
-					}else if(board[i][j] == "q"){
+					}else if(board[i][j].equals("q")){
 						blackScore += 9;
-					}else if(board[i][j] == "a"){
+					}else if(board[i][j].equals("a")){
 						blackScore += 10000;
 					}
 				}else if(Character.isUpperCase(board[i][j].charAt(0))){ // cases when the piece is white
-					if(board[i][j] == "P"){
+					if(board[i][j].equals("P")){
 						whiteScore += 1;
-					}else if(board[i][j] == "B" || board[i][j] == "K"){
+					}else if(board[i][j].equals("B") || board[i][j].equals("K")){
 						whiteScore += 3;
-					}else if(board[i][j] == "R"){
+					}else if(board[i][j].equals("R")){
 						whiteScore += 5;
-					}else if(board[i][j] == "Q"){
+					}else if(board[i][j].equals("Q")){
 						whiteScore += 9;
-					}else if(board[i][j] == "A"){
+					}else if(board[i][j].equals("A")){
 						whiteScore += 10000;
 					}
 				

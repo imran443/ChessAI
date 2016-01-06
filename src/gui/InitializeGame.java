@@ -84,6 +84,7 @@ public class InitializeGame {
 				if(ply_num.length() != 0){
 					Gui(ply_num, secondPlayer);
 					frame.dispose();
+					
 				}
 			}
 			

@@ -224,6 +224,16 @@ public class Gui extends JPanel implements ActionListener{
 		}
 	}
 	
+	public String[][] copyBoard(String[][] board){
+		String[][] newBoard = new String[8][8];
+		for(int i = 0; i< newBoard.length;i++){
+			for (int j = 0; j < newBoard.length; j++) {
+				newBoard[i][j] = board[i][j];
+			}
+		}
+		return newBoard;
+	}
+	
 	
 	
 	//This is a nested class
@@ -368,7 +378,6 @@ public class Gui extends JPanel implements ActionListener{
 			
 			JButton clickButton = (JButton)e.getSource();
 			// turn systems, white always goes first. 
-			
 			if(computerPlayer == true){
 				
 				if(selectingPiece(clickButton)){
@@ -380,7 +389,7 @@ public class Gui extends JPanel implements ActionListener{
 					tools.revalidate();
 					tools.repaint();
 					
-					System.out.println(ai.alphabeta(ply, Integer.MIN_VALUE, Integer.MAX_VALUE, BLACK, ""));
+					System.out.println(ai.alphabeta(ply, Integer.MIN_VALUE, Integer.MAX_VALUE, BLACK, "", copyBoard(chessBoard)));
 					System.out.println("Ai chess board");
 					print(aiChessBoard);
 				}
