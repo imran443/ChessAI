@@ -2,6 +2,7 @@ package Algorithm;
 
 import java.util.ArrayList;
 
+
 import gui.Gui;
 import pieces.Bishop;
 import pieces.King;

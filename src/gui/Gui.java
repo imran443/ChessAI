@@ -14,6 +14,7 @@ import Algorithm.KingSafety;
 import Algorithm.ValidateMoves;
 import ai.AiAlgorithm;
 
+@SuppressWarnings("serial")
 public class Gui extends JPanel implements ActionListener{
 	//Lower case letter are Black and Upper case are White
 	public static String chessBoard[][]={
@@ -34,10 +35,6 @@ public class Gui extends JPanel implements ActionListener{
 
 	public JToolBar tools;
 	
-	JButton new_game = new JButton("New Game");
-	JButton save = new JButton("Save");
-	JButton reset = new JButton("Reset");
-	JButton reset2 = new JButton("Reset");
 	JLabel white_turn= new JLabel("WHITE's Turn");
 	JLabel black_turn = new JLabel("BLACK's Turn");
 	private Image[][] chessPieceImages = new Image[2][6];
@@ -64,7 +61,7 @@ public class Gui extends JPanel implements ActionListener{
 	
 	//Used to see if the king is safe and not in check or checkmate
 	KingSafety kingSafety = new KingSafety();
-
+	
 
 	public Gui(String Ply, String Player){
 		this.ply = Integer.parseInt(Ply);
@@ -82,11 +79,6 @@ public class Gui extends JPanel implements ActionListener{
 		// menu bar
 		setBorder(new EmptyBorder(15,15,15,15));
 		tools.setFloatable(false);
-		tools.add(new_game);
-		tools.addSeparator();
-		tools.add(save);
-		tools.addSeparator();
-		tools.add(reset);
 		tools.addSeparator();
 		tools.add(white_turn);
 		
@@ -235,6 +227,29 @@ public class Gui extends JPanel implements ActionListener{
 		return newBoard;
 	}
 	
+	/**
+	 * Places the move from ai on the board
+	 * @param move
+	 */
+	public void aiPlacing(String move){
+		String sub = move.substring(0, 7);
+		System.out.println(sub);
+		
+		int x1 = Integer.parseInt(sub.substring(0, 1));
+		int y1 = Integer.parseInt(sub.substring(2,3));
+		
+		int x2 = Integer.parseInt(sub.substring(4, 5));
+		int y2 = Integer.parseInt(sub.substring(6,7));
+		
+		ImageIcon icon =  (ImageIcon) board[x1][y1].getIcon();
+		board[x2][y2].setIcon((Icon) icon);
+		board[x1][y1].setIcon(null);
+		
+		storeSource(x1,y1);
+		UpdateChessBoard(x2, y2, chessBoard);
+	}
+	
+	
 	
 	
 	//This is a nested class
@@ -263,11 +278,6 @@ public class Gui extends JPanel implements ActionListener{
 			}
 			//Do the move for the copy chessBoard 
 			updateChessBoardCopy(row, column, chessBoardCopy);
-			if(pieceColor == WHITE){
-				kingSafety.kingCheckMate(chessBoardCopy, BLACK);
-			}else {
-				kingSafety.kingCheckMate(chessBoardCopy, WHITE);
-			}
 			//Check on the copy chess board if king is in check, if it is then don't do move on real chessBoard
 			if(kingSafety.kingInCheck(chessBoardCopy, pieceColor)==false){
 				// updates the icon on the board
@@ -284,6 +294,11 @@ public class Gui extends JPanel implements ActionListener{
 				//Return if board is updated successfully and piece has been placed.
 				return true;
 			}else{
+				if(pieceColor == WHITE){
+					kingSafety.kingCheckMate(chessBoardCopy, BLACK);
+				}else {
+					kingSafety.kingCheckMate(chessBoardCopy, WHITE);
+				}
 				print(chessBoard);
 				//Failed to make move 
 				return false;
@@ -336,8 +351,6 @@ public class Gui extends JPanel implements ActionListener{
 					storeSource(row, column);
 					list = moves.permittedMoves(row, column,chessBoard);
 				}
-				
-
 			}
 			else{
 				//Checks in the array list if the move that is being made is valid 
@@ -383,27 +396,20 @@ public class Gui extends JPanel implements ActionListener{
 				if(selectingPiece(clickButton)){
 					computerPlayer = true;
 					//Puts up the count when turn is finished
-					turnCount++;
 					tools.remove(white_turn);
 					tools.add(black_turn);
 					
 					tools.revalidate();
 					tools.repaint();
 					
-
-					System.out.println(ai.alphabeta(ply, Integer.MIN_VALUE, Integer.MAX_VALUE, BLACK, "", copyBoard(chessBoard)));
-					System.out.println("Ai chess board");
-					print(aiChessBoard);
-
 				}
 				
 				//Black
-			}else if(computerPlayer==true){
+			}if(computerPlayer==true && playerId.equals("human")){
 		
 				if(selectingPiece(clickButton)){
 					humanPlayer = true;
-					//Puts up the count when turn is finished
-					turnCount++;
+					
 					tools.remove(black_turn);
 					tools.add(white_turn);
 					
@@ -411,8 +417,25 @@ public class Gui extends JPanel implements ActionListener{
 					tools.repaint();
 				}
 				
+			}if(computerPlayer == true && playerId.equals("computer")){
+				humanPlayer = true;
+				
+				tools.remove(black_turn);
+				tools.add(white_turn);
+				
+				tools.revalidate();
+				tools.repaint();
+				// minimax is coming back
+				print(chessBoard);
+				
+				String[][] copyb = copyBoard(chessBoard);
+				print(copyb);
+				String move = ai.alphabeta(ply, Integer.MIN_VALUE, Integer.MAX_VALUE, BLACK, "", copyb);
+				aiPlacing(move);
+				print(chessBoard);
+				computerPlayer = false;
+				
 			}
-			
 			System.out.println("index in the array: " + row + " : " + column);
 		}
 

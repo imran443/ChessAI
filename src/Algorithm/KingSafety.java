@@ -2,8 +2,6 @@ package Algorithm;
 
 import java.util.ArrayList;
 
-import javax.swing.text.MaskFormatter;
-
 import gui.Gui;
 
 public class KingSafety {
@@ -396,7 +394,9 @@ public class KingSafety {
 		String kingCoords = returnKingCoords(pieceColor, chessBoard);
 		String newKingX = kingCoords.substring(0, 1);
 		String newKingY = kingCoords.substring(2);
+		@SuppressWarnings("unused")
 		int kingX = Integer.parseInt(newKingX);
+		@SuppressWarnings("unused")
 		int kingY = Integer.parseInt(newKingY);
 		
 		int spaceCheckCount = 0;

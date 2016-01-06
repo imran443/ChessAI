@@ -65,6 +65,7 @@ public class AiAlgorithm {
 				System.out.println(s);
 				// apply the move 
 				String[][] copyb = copyBoard(board);
+				@SuppressWarnings("unused")
 				String movePlusPiece = makeMoveAI(s, copyb);
 				
 				// do the max(alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
@@ -83,16 +84,8 @@ public class AiAlgorithm {
 				}
 		
 				
-				
-				// cut off points if beta is still less then alpha
-//				
-				
-//				if(Blist.isEmpty()){
-//					getAllMoves(player); 	
-//					Blist = possibleMoves.possibleBlackMoves();
-//				}
-				
 			}
+			
 			// r is for return value
 			System.out.println("BLACK R move: ");
 			System.out.println(move + ":" + a);
@@ -120,6 +113,7 @@ public class AiAlgorithm {
 				System.out.println(s);
 				// apply the move
 				String[][] copyb = copyBoard(board);
+				@SuppressWarnings("unused")
 				String movePlusPiece = makeMoveAI(s, copyb);
 				//Wlist.clear();
 				// do the min( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value
@@ -137,18 +131,7 @@ public class AiAlgorithm {
 				
 				if(originalValue < b){
 					b = originalValue;
-				}
-
-				
-				
-				
-	
-//				if(Wlist.isEmpty()){
-//					getAllMoves(player);
-//					Wlist = possibleMoves.possibleWhiteMoves();
-//				}
-				
-				
+				}				
 				
 			}
 			
@@ -162,32 +145,6 @@ public class AiAlgorithm {
 	// x1 y1 x2 y2
 	// 1 1 2 2
 	public String makeMoveAI(String move, String[][] board){
-		char piece = 0;
-		String movePlusPiece = "";
-		if(move.length() != 0 ){
-			
-			if(board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] == " "){
-				board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] = board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))];
-				board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))] = " ";
-			}else{
-				if(Character.isLowerCase(board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))].charAt(0)) || 
-						Character.isUpperCase(board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))].charAt(0))
-						){
-					piece = board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))].charAt(0);
-				}
-				board[Character.getNumericValue(move.charAt(4))][Character.getNumericValue(move.charAt(6))] = board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))];
-				board[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(2))] = " ";
-			}
-		}
-		if(piece == 0){
-			movePlusPiece = move +":" + " ";
-		}else{
-			movePlusPiece = move +":" + piece;
-		}
-		return movePlusPiece;
-	}
-	
-	public String makeMove(String move){
 		char piece = 0;
 		String movePlusPiece = "";
 		if(move.length() != 0 ){
@@ -237,32 +194,17 @@ public class AiAlgorithm {
 	}
 	
 	
-	//Used to load the list with all moves
-	public void getAllMoves(int pieceColor){
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board.length; j++) {
-				if(pieceColor == Gui.BLACK){
-					if(Character.isLowerCase(board[i][j].charAt(0))){
-						ArrayList<String> tempList = possibleMoves.permittedMoves(i, j, board);
-					}
-				}else{
-					if(Character.isUpperCase(board[i][j].charAt(0))){
-						ArrayList<String> tempList = possibleMoves.permittedMoves(i, j, board);
-					}
-				}
-			}
-		}
-	}
-	
 	public void getAllMovesAi(int pieceColor, String[][] board, ValidateMoves possibleMoves){
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board.length; j++) {
 				if(pieceColor == Gui.BLACK){
 					if(Character.isLowerCase(board[i][j].charAt(0))){
+						@SuppressWarnings("unused")
 						ArrayList<String> tempList = possibleMoves.permittedMoves(i, j, board);
 					}
 				}else{
 					if(Character.isUpperCase(board[i][j].charAt(0))){
+						@SuppressWarnings("unused")
 						ArrayList<String> tempList = possibleMoves.permittedMoves(i, j, board);
 					}
 				}
