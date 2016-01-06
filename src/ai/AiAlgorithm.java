@@ -23,11 +23,10 @@ public class AiAlgorithm {
 	
 		if(depth == 0){
 			int evaluateScore = evalutionBoard(board);
-			// score + " " + move
-			//return  move + ":"+ evaluateScore ;
+			
 			System.out.println("depth= 0 move");
-			System.out.println(move + ":" + evaluateScore*(player*2-1));
-			return move + ":" +evaluateScore*(player*2-1);
+			System.out.println(move + ":" + evaluateScore);
+			return move + ":" +evaluateScore;
 		}
 		//Black
 		if(player == 0){
@@ -38,9 +37,6 @@ public class AiAlgorithm {
 			if(Blist.isEmpty()){
 				getAllMoves(player); 	
 			}	
-			
-
-				
 			// for every possible move
 			int value = Integer.MIN_VALUE;
 			
@@ -53,7 +49,7 @@ public class AiAlgorithm {
 				Blist.clear();
 				String movePlusPiece = makeMove(s);
 				
-				// do the max( alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
+				// do the max(alphatbeta(depth-1, beta, alpha, board, 1-player)) for alpha and find the best value 
 				// x1 y1 x2 y2
 				print(board);
 				String returnValue = alphabeta(depth-1, alpha, beta, 1-player, s);

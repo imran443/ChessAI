@@ -49,14 +49,15 @@ public class Gui extends JPanel implements ActionListener{
 	public static final int[] STARTING_ROW = { ROOK, KNIGHT, BISHOP, KING, QUEEN, BISHOP, KNIGHT, ROOK};
 	
 	int ply;
+	int turnCount = 0;
 	String playerId;
 	int[][] buttonGrid = new int[8][8];
 	//Used to validate moves
 	ValidateMoves moves = new ValidateMoves();
 	
 	// checks for who turn it is 
-	boolean humanPlayer = false;
-	boolean computerPlayer = true;
+	boolean computerPlayer = false;
+	boolean humanPlayer = true;
 	
 	// AI
 	AiAlgorithm ai ;
@@ -144,7 +145,7 @@ public class Gui extends JPanel implements ActionListener{
 		 }
 		 
 		copyAiArray();
-		 ai = new AiAlgorithm(aiChessBoard, ply);
+		ai = new AiAlgorithm(aiChessBoard, ply);
 
 	}
 	
@@ -252,6 +253,11 @@ public class Gui extends JPanel implements ActionListener{
 			}
 			//Do the move for the copy chessBoard 
 			updateChessBoardCopy(row, column, chessBoardCopy);
+			if(pieceColor == WHITE){
+				kingSafety.kingCheckMate(chessBoardCopy, BLACK);
+			}else {
+				kingSafety.kingCheckMate(chessBoardCopy, WHITE);
+			}
 			//Check on the copy chess board if king is in check, if it is then don't do move on real chessBoard
 			if(kingSafety.kingInCheck(chessBoardCopy, pieceColor)==false){
 				// updates the icon on the board
@@ -260,22 +266,14 @@ public class Gui extends JPanel implements ActionListener{
 				firstClick.setIcon(null);
 				firstClick = null;
 				list.clear();
+				
 				// this method is used for updating chessBoard
 				UpdateChessBoard(row, column, chessBoard);
-				//Verifies if the other king is in a check mate and will say it
-				if(pieceColor == WHITE){
-					pieceColor = BLACK;
-					kingSafety.kingCheckMate(chessBoard, pieceColor);
-				}else{
-					pieceColor = WHITE;
-					kingSafety.kingCheckMate(chessBoard, pieceColor);
-				}
 				copyAiArray();
 				print(chessBoard);
 				//Return if board is updated successfully and piece has been placed.
 				return true;
 			}else{
-
 				print(chessBoard);
 				//Failed to make move 
 				return false;
@@ -298,19 +296,19 @@ public class Gui extends JPanel implements ActionListener{
 				if(moves.isValid(row, column, list)==true){
 					// checks whose turn it is
 					// computer players turn
-					if(mc.getDescription().equals(String.valueOf(1)) && computerPlayer == true){
+					if(mc.getDescription().equals(String.valueOf(1)) && humanPlayer == true){
 						//If placing piece is done then end turn and return true, else false
 						if(placingPiece(clickButton)){
-							computerPlayer = false;
+							humanPlayer = false;
 							return true;
 						}else {
 							System.out.println("In Check");
 							return false;
 						}
 						// human player turn
-					}else if(mc.getDescription().equals(String.valueOf(0)) && humanPlayer == true){
+					}else if(mc.getDescription().equals(String.valueOf(0)) && computerPlayer == true){
 						if(placingPiece(clickButton)){
-							humanPlayer = false;
+							computerPlayer = false;
 							return true;
 						}else{
 							System.out.println("In Check");
@@ -337,18 +335,18 @@ public class Gui extends JPanel implements ActionListener{
 					if(clickButton.getIcon() == null){
 						// checks whose turn it is
 						// if computer player turns
-						if(mc.getDescription().equals(String.valueOf(1)) && computerPlayer == true){
+						if(mc.getDescription().equals(String.valueOf(1)) && humanPlayer == true){
 							if(placingPiece(clickButton)){
-								computerPlayer = false;
+								humanPlayer = false;
 								return true;
 							}else {
 								System.out.println("In Check");
 								return false;
 							}
 							// human players turn
-						}else if(mc.getDescription().equals(String.valueOf(0)) && humanPlayer == true){
+						}else if(mc.getDescription().equals(String.valueOf(0)) && computerPlayer == true){
 							if(placingPiece(clickButton)){
-								humanPlayer = false;
+								computerPlayer = false;
 								return true;
 							}else{
 								System.out.println("In Check");
@@ -368,35 +366,35 @@ public class Gui extends JPanel implements ActionListener{
 			
 			JButton clickButton = (JButton)e.getSource();
 			// turn systems, white always goes first. 
-			
-			if(computerPlayer == true){
-				
+			//Human player is white and goes first
+			if(humanPlayer == true){
 				if(selectingPiece(clickButton)){
-					humanPlayer = true;
-					
+					computerPlayer = true;
+					//Puts up the count when turn is finished
+					turnCount++;
 					tools.remove(white_turn);
 					tools.add(black_turn);
 					
 					tools.revalidate();
 					tools.repaint();
 					
-					System.out.println(ai.alphabeta(ply, Integer.MIN_VALUE, Integer.MAX_VALUE, BLACK, ""));
-					System.out.println("Ai chess board");
-					print(aiChessBoard);
+					//System.out.println(ai.alphabeta(ply, Integer.MIN_VALUE, Integer.MAX_VALUE, BLACK, ""));
+					//System.out.println("Ai chess board");
+					//print(aiChessBoard);
 				}
-			// human player is black or (golden in this case)
-			}else if(humanPlayer==true){
 				
+				//Black
+			}else if(computerPlayer==true){
+		
 				if(selectingPiece(clickButton)){
-					
-					computerPlayer = true;
-					
+					humanPlayer = true;
+					//Puts up the count when turn is finished
+					turnCount++;
 					tools.remove(black_turn);
 					tools.add(white_turn);
 					
 					tools.revalidate();
 					tools.repaint();
-					//System.out.println(ai.alphabeta(4, Integer.MAX_VALUE, Integer.MIN_VALUE, chessBoard, BLACK, ""));
 				}
 				
 			}

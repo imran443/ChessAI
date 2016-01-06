@@ -2,6 +2,8 @@ package Algorithm;
 
 import java.util.ArrayList;
 
+import javax.swing.text.MaskFormatter;
+
 import gui.Gui;
 
 public class KingSafety {
@@ -392,33 +394,71 @@ public class KingSafety {
 	public boolean kingCheckMate(String[][] chessBoard, int pieceColor) {
 		ArrayList<String> moves = new ArrayList<>();
 		String kingCoords = returnKingCoords(pieceColor, chessBoard);
+		String newKingX = kingCoords.substring(0, 1);
+		String newKingY = kingCoords.substring(2);
+		int kingX = Integer.parseInt(newKingX);
+		int kingY = Integer.parseInt(newKingY);
+		
 		int spaceCheckCount = 0;
 		String newX;
 		String newY;
 		
 		// sourceX and Y get updated after returnKingCoords is done
 		moves = validateMoves.permittedMoves(sourceX, sourceY, chessBoard);
-		//Checks all the directions around the king
-		for(int i = 0; i < moves.size(); i++){
-			String possibleMoves = moves.get(i);
-			newX = possibleMoves.substring(0, 1);
-			newY = possibleMoves.substring(2);
-			int x = Integer.parseInt(newX);
-			int y = Integer.parseInt(newY);
-			if(pieceSafety.pieceInDanger(chessBoard, pieceColor, x, y) == false){
-				spaceCheckCount++;
-			}else {
-				if(pieceSafety.pieceInDanger(chessBoard, pieceColor, pieceSafety.getAttackingPieceX(), pieceSafety.getAttackingPieceY()) == true){
+		//If no moves then it mean it is surrounded by its own pieces so not in check mate
+		if(!moves.isEmpty()){
+			//Checks all the directions around the king
+			for(int i = 0; i < moves.size(); i++){
+				String possibleMoves = moves.get(i);
+				newX = possibleMoves.substring(0, 1);
+				newY = possibleMoves.substring(2);
+				int x = Integer.parseInt(newX);
+				int y = Integer.parseInt(newY);
+				//Checks around for check mate if is in check
+				if(pieceSafety.pieceInDanger(chessBoard, pieceColor, x, y) == false){
 					spaceCheckCount++;
+				}else{
+					if(pieceSafety.pieceInDanger(chessBoard, pieceColor, pieceSafety.getAttackingPieceX(), pieceSafety.getAttackingPieceY()) == true){
+						spaceCheckCount++;
+					}
+					//Gets all the moves of the pieces on the board to see if any can block this check
+					getAllMoves(pieceColor, chessBoard);
+					ArrayList<String> temp = new ArrayList<>();
+					ArrayList<String> enemyMoves = new ArrayList<>();
+					
+					//Sets the proper move list
+					if(pieceColor == Gui.WHITE){
+						temp = validateMoves.whiteMovesKing;
+						temp.removeAll(moves);
+					}else {
+						temp = validateMoves.blackMovesKing;
+						temp.removeAll(moves);
+					}
+					//Gets the possible paths of the enemy piece that is attacking to see if they can be blocked by piece
+					enemyMoves = validateMoves.permittedMoves(pieceSafety.attackingPieceX, pieceSafety.attackingPieceY, chessBoard);
+					//Checks the temp list which has all possible moves of the current board
+					for (int j = 0; j < enemyMoves.size(); j++) {
+						if(temp.contains(enemyMoves.get(i))){
+							spaceCheckCount++;
+							return false;
+						}
+					}
+					//Clean the list as they are globals in the other class
+					temp.clear();
 				}
 			}
 		}
-		if(spaceCheckCount!=0){
+		if(kingInCheck(chessBoard, pieceColor)){
+			if(spaceCheckCount!=0){
+				return false;
+			}else {
+				System.out.println("King is in check mate!!!");
+				return true;
+			}
+		}else{
 			return false;
-		}else {
-			System.out.println("King is in checkamte!!!");
-			return true;
 		}
+		
 	}
 
 	// Used to find a certain kings coordinates based on color
@@ -445,4 +485,25 @@ public class KingSafety {
 		}
 		return kingCoords;
 	}
+	
+	//Used to load the list with all moves
+	public void getAllMoves(int pieceColor, String[][] board){
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board.length; j++) {
+				if(pieceColor == Gui.BLACK){
+					if(Character.isLowerCase(board[i][j].charAt(0))){
+						ArrayList<String> tempList = validateMoves.permittedMoves(i, j, board);
+						tempList.clear();
+					}
+				}else{
+					if(Character.isUpperCase(board[i][j].charAt(0))){
+						ArrayList<String> tempList = validateMoves.permittedMoves(i, j, board);
+						tempList.clear();
+					}
+				}
+			}
+		}
+	}
+	
+	
 }
