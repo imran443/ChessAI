@@ -7,6 +7,9 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+/*
+ * This class prompts for ply number and player ID
+ */
 public class InitializeGame {
 	
 	// gui class
@@ -81,7 +84,7 @@ public class InitializeGame {
 				ply_num = plyInput.getText();
 				secondPlayer = horcInput.getText();
 				
-				if(ply_num.length() != 0){
+				if(ply_num.length() != 0 && secondPlayer.length() != 0){
 					Gui(ply_num, secondPlayer);
 					frame.dispose();
 					
