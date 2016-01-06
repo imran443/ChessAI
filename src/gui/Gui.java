@@ -217,6 +217,11 @@ public class Gui extends JPanel implements ActionListener{
 		}
 	}
 	
+	/**
+	 * Deep copy the board
+	 * @param board
+	 * @return
+	 */
 	public String[][] copyBoard(String[][] board){
 		String[][] newBoard = new String[8][8];
 		for(int i = 0; i< newBoard.length;i++){
@@ -228,7 +233,7 @@ public class Gui extends JPanel implements ActionListener{
 	}
 	
 	/**
-	 * Places the move from ai on the board
+	 * Places the move from AI on the GUI
 	 * @param move
 	 */
 	public void aiPlacing(String move){
@@ -256,7 +261,11 @@ public class Gui extends JPanel implements ActionListener{
 	JButton firstClick = null;
 	ImageIcon mc = null;
 	ArrayList<String> list = new ArrayList<>();
-	
+	/**
+	 * Class to listen for events on the board
+	 * @author Abu
+	 *
+	 */
 	public class ChessListener implements ActionListener {
 		//Remembers its own position
 		int row, column;
@@ -395,7 +404,8 @@ public class Gui extends JPanel implements ActionListener{
 
 				if(selectingPiece(clickButton)){
 					computerPlayer = true;
-					//Puts up the count when turn is finished
+					
+					// to tell whos turn it is
 					tools.remove(white_turn);
 					tools.add(black_turn);
 					
@@ -405,7 +415,7 @@ public class Gui extends JPanel implements ActionListener{
 				}
 				
 				//Black
-			}if(computerPlayer==true && playerId.equals("human")){
+			}if(computerPlayer==true && playerId.equals("Human")){
 		
 				if(selectingPiece(clickButton)){
 					humanPlayer = true;
@@ -416,8 +426,8 @@ public class Gui extends JPanel implements ActionListener{
 					tools.revalidate();
 					tools.repaint();
 				}
-				
-			}if(computerPlayer == true && playerId.equals("computer")){
+				// if its playing against computer 
+			}if(computerPlayer == true && playerId.equals("Computer")){
 				humanPlayer = true;
 				
 				tools.remove(black_turn);
@@ -428,9 +438,11 @@ public class Gui extends JPanel implements ActionListener{
 				// minimax is coming back
 				print(chessBoard);
 				
+				// updates the board and board thats been send it
 				String[][] copyb = copyBoard(chessBoard);
 				print(copyb);
 				String move = ai.alphabeta(ply, Integer.MIN_VALUE, Integer.MAX_VALUE, BLACK, "", copyb);
+				// places the ai moves on the GUI
 				aiPlacing(move);
 				print(chessBoard);
 				computerPlayer = false;
